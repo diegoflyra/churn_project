@@ -1,0 +1,20 @@
+# Ambientes virtuais
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Dados e credenciais do Kaggle
+*.csv
+kaggle.json
+
+# Sistema e editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
