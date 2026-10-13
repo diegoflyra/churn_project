@@ -16,15 +16,20 @@ Dataset [Customers churned in telecom services](https://www.kaggle.com/datasets/
 4. **Outliers:** nenhum pelo critério IQR em `tenure`, `MonthlyCharges` e `TotalCharges`.
 5. **Variáveis criadas:** `total_addons` (número de serviços opcionais assinados) e `PaymentMethod_Automatic`.
 6. **Divisão treino/teste:** 75% / 25%, estratificada por `Churn`.
-7. **K-fold com normalização e balanceamento:** 5 dobras estratificadas sobre o treino original.
+7. **K-fold com normalização e balanceamento (50% treino / 25% validação / 25% teste):** 3 dobras estratificadas sobre o pool de 75%, garantindo que cada dobra possua exatamente 50% de treino e 25% de validação do total de cada classe, com oversampling (`RandomOverSampler`) aplicado exclusivamente na porção de treino da dobra.
 
-## Sobre o k-fold
+## Sobre o k-fold (50% Treino / 25% Validação / 25% Teste)
 
-O k-fold é feito antes do `StandardScaler` e do `RandomOverSampler`. Em cada dobra, o scaler é ajustado só na parte de treino e o oversampling só duplica essa parte. A validação da dobra continua com um cliente por linha e só recebe o `transform`.
+Com o conjunto de teste isolado com 25% do total (estratificado), o pool de desenvolvimento restante corresponde a 75%. Ao utilizar `StratifiedKFold(n_splits=3)`:
+- Em cada dobra, a validação fica com 1/3 de 75% = **25% do total de dados** (e 25% de cada classe);
+- O treino da dobra fica com 2/3 de 75% = **50% do total de dados** (e 50% de cada classe);
+- O teste permanece intocado com **25% do total de dados** (e 25% de cada classe).
 
-Balancear e padronizar o treino inteiro antes do k-fold espalharia as cópias de um mesmo cliente entre o treino e a validação da dobra, e a métrica subiria sem refletir clientes novos.
+Em cada dobra, o `StandardScaler` é ajustado somente na parte de treino e o `RandomOverSampler` só duplica a classe minoritária dessa parte de treino. A validação da dobra e o teste continuam com a distribuição real dos clientes e recebem apenas o `transform`.
 
-A lista `folds` guarda, para cada dobra, `(X_fold_train, y_fold_train, X_fold_val, y_fold_val)`. O teste fica sem escala e sem balanceamento; `preparar(X_train, y_train, X_test)` gera o treino final e o teste padronizado quando for a hora de usá-lo.
+Balancear e padronizar os dados antes do k-fold espalharia cópias de um mesmo cliente entre treino e validação, inflando artificialmente as métricas de avaliação.
+
+A lista `folds` guarda, para cada dobra, `(X_fold_train, y_fold_train, X_fold_val, y_fold_val)`. O teste fica sem escala e sem balanceamento até a avaliação final.
 
 ## Como rodar
 
