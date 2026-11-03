@@ -10,6 +10,8 @@ DATASET = "kapturovalexander/customers-churned-in-telecom-services"
 
 def achar_csv(caminho=""):
     """Ordem: caminho dado -> CHURN_CSV -> dados/telco_ibm.csv -> Input do Kaggle -> download via kagglehub."""
+    if caminho and not os.path.isfile(caminho):
+        raise FileNotFoundError(f"CSV_PATH nao encontrado: {caminho}")
     raiz = os.path.dirname(os.path.abspath(__file__))
     for c in (caminho, os.environ.get("CHURN_CSV", ""), os.path.join(raiz, "dados", "telco_ibm.csv")):
         if c and os.path.isfile(c):
