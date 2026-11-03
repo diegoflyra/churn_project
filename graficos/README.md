@@ -4,7 +4,6 @@
 
 - `graficos.py` — as funções. Autocontido, não importa `comum.py`.
 - `_exemplo_graficos.py` — mocks + geração de todos os PNGs. Descartável.
-- `LEIA-ME-graficos.md` — este arquivo.
 
 ## O que cada modelo deve salvar em `resultados/<modelo>.json`
 
