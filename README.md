@@ -2,7 +2,25 @@
 
 Previsão de churn (cancelamento) de clientes de telecomunicações. Projeto da disciplina IF702.
 
-Por enquanto o repositório tem só o pré-processamento dos dados, no notebook `if702-preprocessamento.ipynb`.
+O pré-processamento dos dados está no notebook `if702-preprocessamento.ipynb`, e cada algoritmo tem uma pasta própria em `experimentos/`.
+
+## Estrutura
+
+```
+├── comum.py        dados, dobras, métricas, estudo Optuna e avaliação final
+├── resultados/     JSONs de todos os modelos
+└── experimentos/
+    ├── stab/       stab.ipynb, modelo.py, avaliar.py
+    ├── tabkan/     tabkan.ipynb, modelo.py, avaliar.py
+    └── kan/, mlp/, mitra/, tabpfn_v2/, gradient_boosting/
+```
+
+Em cada pasta, `modelo.py` tem o modelo, o treino e o espaço de busca, e `avaliar.py` tem só o que é específico daquele modelo na avaliação. Para rodar, a partir de qualquer diretório:
+
+```
+python experimentos/stab/modelo.py 40    # estudo Optuna com 40 trials
+python experimentos/stab/avaliar.py 3    # avaliação final com 3 sementes
+```
 
 ## Dados
 
