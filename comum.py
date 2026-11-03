@@ -16,7 +16,8 @@ from imblearn.over_sampling import RandomOverSampler
 
 # Kaggle: "/kaggle/input/datasets/kapturovalexander/customers-churned-in-telecom-services/customer_churn_telecom_services.csv"
 CAMINHO_CSV = os.environ.get("CHURN_CSV", os.path.join(os.path.dirname(__file__), "dados", "telco_ibm.csv"))
-RESULTADOS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resultados")
+# Kaggle: CHURN_RESULTADOS=/kaggle/working/resultados
+RESULTADOS = os.environ.get("CHURN_RESULTADOS", os.path.join(os.path.dirname(os.path.abspath(__file__)), "resultados"))
 SEMENTE = 42
 NUMERIC_COLS = ["tenure", "MonthlyCharges", "TotalCharges"]
 
@@ -58,10 +59,23 @@ def preparar(X_tr, y_tr, X_aval):
     return X_b, y_b, X_av_s
 
 
+def dividir(df):
+    """Divisao treino/teste oficial (75/25 estratificada)."""
+    X, y = df.drop(columns=["Churn"]), df["Churn"]
+    return train_test_split(X, y, test_size=0.25, random_state=SEMENTE, stratify=y)
+
+
+def indices_dobras(path=CAMINHO_CSV):
+    """Posicao no CSV dos clientes de validacao de cada dobra e do teste (para cruzar previsoes entre modelos)."""
+    X_train, X_test, y_train, _ = dividir(carregar_df(path))
+    skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=SEMENTE)
+    return [X_train.index[v].tolist() for _, v in skf.split(X_train, y_train)], X_test.index.tolist()
+
+
 def carregar_dobras(path=CAMINHO_CSV):
     df = carregar_df(path)
-    X, y = df.drop(columns=["Churn"]), df["Churn"]
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=SEMENTE, stratify=y)
+    X = df.drop(columns=["Churn"])
+    X_train, X_test, y_train, y_test = dividir(df)
     skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=SEMENTE)
     folds = []
     for idx_tr, idx_val in skf.split(X_train, y_train):
@@ -122,7 +136,7 @@ def objetivo(hp_fn, fit, folds):
         t0 = time.time(); kss = []
         for i, f_ in enumerate(folds):
             Xv, yv = f_[2], f_[3]
-            (pv,), _ = fit(hp, f_, [Xv], 42 + i)
+            (pv,), *_ = fit(hp, f_, [Xv], 42 + i)
             kss.append(ks(yv, pv))
             trial.report(float(np.mean(kss)), i)
             if i == 1 and trial.should_prune():       # depois da segunda dobra
@@ -133,7 +147,7 @@ def objetivo(hp_fn, fit, folds):
     return f
 
 
-def estudo(modelo, n_trials, hp_fn, fit, padrao, pasta=RESULTADOS):
+def estudo(modelo, n_trials, hp_fn, fit, padrao, pasta=RESULTADOS, timeout=None, callbacks=None):
     os.makedirs(pasta, exist_ok=True)
     folds, _, _ = carregar_dobras()
     st = optuna.create_study(study_name=modelo, storage=f"sqlite:///{pasta}/{modelo}.db", load_if_exists=True,
@@ -144,7 +158,7 @@ def estudo(modelo, n_trials, hp_fn, fit, padrao, pasta=RESULTADOS):
     restantes = n_trials - len([t for t in st.trials if t.state.is_finished()])
     t0 = time.time()
     if restantes > 0:
-        st.optimize(objetivo(hp_fn, fit, folds), n_trials=restantes, show_progress_bar=False)
+        st.optimize(objetivo(hp_fn, fit, folds), n_trials=restantes, timeout=timeout, callbacks=callbacks, show_progress_bar=False)
     st.set_user_attr("tempo_parede_s", st.user_attrs.get("tempo_parede_s", 0) + time.time() - t0)
     return st
 
@@ -178,7 +192,9 @@ def sumario_estudo(st):
                 convergencia=[float(max([t.value for t in ok[:i + 1]])) for i in range(len(ok))])
 
 
-def avaliar(modelo, hp_from_params, fit, n_seeds):
+def avaliar(modelo, hp_from_params, fit, n_seeds, fit_final=None, salvar_oof=False):
+    """fit_final(hp, final, infos, seed) -> prob. do teste: treina no treino inteiro em vez do comite das dobras.
+    infos = terceiro valor devolvido por fit em cada dobra (ex.: melhor epoca)."""
     optuna.logging.set_verbosity(optuna.logging.WARNING)
     st = optuna.load_study(study_name=modelo, storage=f"sqlite:///{RESULTADOS}/{modelo}.db")
     folds, final, _ = carregar_dobras()
@@ -188,11 +204,13 @@ def avaliar(modelo, hp_from_params, fit, n_seeds):
     ctrl = {}
     for perda in ("ce", "mse"):
         hp = dict(hp0, perda=perda)
-        R = dict(val=[], tr_ce=[], tr_mse=[], teste_prob=[], oof=[])
+        R = dict(val=[], tr_ce=[], tr_mse=[], teste_prob=[], oof=[], oof_prob=[])
         for s in range(n_seeds):
-            pte_folds, oof_p, oof_y, fold_rows = [], [], [], []
+            pte_folds, oof_p, oof_y, fold_rows, infos = [], [], [], [], []
             for i, f in enumerate(folds):
-                (pv, pte), ptr = fit(hp, f, [f[2], Xte], 1000 * s + 42 + i)
+                res = fit(hp, f, [f[2], Xte], 1000 * s + 42 + i)
+                (pv, pte), ptr = res[:2]
+                if len(res) > 2: infos.append(res[2])
                 yv = f[3]
                 fold_rows.append(dict(seed=s, fold=i, ks=ks(yv, pv), auroc=metricas(yv, pv, .5)["auroc"],
                                       ce_raw=ce(yv, pv), mse_raw=mse(yv, pv),
@@ -202,13 +220,15 @@ def avaliar(modelo, hp_from_params, fit, n_seeds):
                 print(modelo, perda, "semente", s, "dobra", i, "KS %.4f" % fold_rows[-1]["ks"], flush=True)
             R["val"] += fold_rows
             thr = limiar_ks(np.concatenate(oof_y), np.concatenate(oof_p))      # limiar escolhido so na validacao
-            R["teste_prob"].append(np.mean(pte_folds, 0)); R["oof"].append(thr)
+            R["teste_prob"].append(fit_final(hp, final, infos, 1000 * s + 42) if fit_final else np.mean(pte_folds, 0)); R["oof"].append(thr)
+            R["oof_prob"].append(np.concatenate(oof_p))
         ptest = np.mean(R["teste_prob"], 0); thr = float(np.mean(R["oof"]))
         m_teste = metricas(yte, ptest, thr)
         m_teste["ce_corr"] = ce(yte, corrige_prior(ptest)); m_teste["mse_corr"] = mse(yte, corrige_prior(ptest))
         m_teste["ks_ic95"] = bootstrap_ks(yte, ptest)
         per_seed = [ks(yte, p) for p in R["teste_prob"]]
-        ctrl[perda] = dict(val=R["val"], teste=m_teste, ks_teste_por_semente=per_seed, prob_teste=ptest.tolist())
+        ctrl[perda] = dict(val=R["val"], teste=m_teste, ks_teste_por_semente=per_seed, prob_teste=ptest.tolist(),
+                           oof_prob=np.mean(R["oof_prob"], 0), oof_y=np.concatenate(oof_y))
     # comparacao pareada CE x MSE (mesmas dobras, mesmas sementes)
     ce_v = np.array([r["ks"] for r in ctrl["ce"]["val"]]); ms_v = np.array([r["ks"] for r in ctrl["mse"]["val"]])
     d = ce_v - ms_v
@@ -233,6 +253,11 @@ def avaliar(modelo, hp_from_params, fit, n_seeds):
     esc = hp0["perda"]
     out["teste"] = ctrl[esc]["teste"]; out["probabilidades_teste"] = ctrl[esc]["prob_teste"]
     out["y_teste"] = [int(v) for v in yte]
+    if salvar_oof:
+        ind_val, ind_teste = indices_dobras()
+        out["oof"] = dict(indice=sum(ind_val, []), y=[int(v) for v in ctrl[esc]["oof_y"]], prob=ctrl[esc]["oof_prob"].tolist())
+        out["indice_teste"] = ind_teste
+    os.makedirs(RESULTADOS, exist_ok=True)
     json.dump(out, open(f"{RESULTADOS}/{modelo}.json", "w"), indent=1)
     print("OK", modelo)
 
