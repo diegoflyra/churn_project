@@ -1,0 +1,60 @@
+{
+ "nome": "b07_preco_por_servico",
+ "pergunta": "O pre\u00e7o por servi\u00e7o assinado ajuda?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": 0.0019139670543347532,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5505664128218702,
+   "delta": 0.0,
+   "dp_delta": 0.0,
+   "ganhou": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "preco_por_servico",
+   "ks": 0.5497792284026646,
+   "delta": -0.0007871844192055999,
+   "dp_delta": 0.0016214427842934428,
+   "ganhou": "2/5",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "tempo_s": 129.91840243339539
+}

@@ -1,0 +1,54 @@
+{
+ "nome": "b01_busca",
+ "pergunta": "O melhor trial supera o MLP padr\u00e3o em divis\u00f5es novas?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": []
+ },
+ "regua": 0.0027719904192369917,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5399553614012651,
+   "delta": 0.0,
+   "dp_delta": 0.0,
+   "ganhou": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "melhor do Optuna",
+   "ks": 0.5397098517287826,
+   "delta": -0.00024550967248255785,
+   "dp_delta": 0.003343053067666219,
+   "ganhou": "1/5",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": []
+ },
+ "tempo_s": 167.1006145477295
+}

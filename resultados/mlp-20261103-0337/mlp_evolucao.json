@@ -1,0 +1,74 @@
+[
+ {
+  "modelo": "mlp",
+  "variante": "codificacao",
+  "ks": 0.43983516685097923,
+  "dp_ks": 0.045425087750748196,
+  "delta": NaN,
+  "dp_delta": NaN,
+  "ganhou": ""
+ },
+ {
+  "modelo": "mlp",
+  "variante": "+ variaveis criadas",
+  "ks": 0.4601582240997071,
+  "dp_ks": 0.03471467411121453,
+  "delta": 0.02032305724872775,
+  "dp_delta": 0.07021659043251659,
+  "ganhou": "3/5"
+ },
+ {
+  "modelo": "mlp",
+  "variante": "+ StandardScaler",
+  "ks": 0.543983134083512,
+  "dp_ks": 0.002355824152433184,
+  "delta": 0.08382490998380493,
+  "dp_delta": 0.035344904482162307,
+  "ganhou": "5/5"
+ },
+ {
+  "modelo": "mlp",
+  "variante": "+ oversampling (oficial)",
+  "ks": 0.5407548938935738,
+  "dp_ks": 0.00409361650895545,
+  "delta": -0.003228240189938103,
+  "dp_delta": 0.003018680108435801,
+  "ganhou": "0/5"
+ },
+ {
+  "modelo": "xgboost",
+  "variante": "codificacao",
+  "ks": 0.5380880193292417,
+  "dp_ks": 0.0036184599906457027,
+  "delta": NaN,
+  "dp_delta": NaN,
+  "ganhou": ""
+ },
+ {
+  "modelo": "xgboost",
+  "variante": "+ variaveis criadas",
+  "ks": 0.5364289749946278,
+  "dp_ks": 0.002521087032099575,
+  "delta": -0.0016590443346138795,
+  "dp_delta": 0.002571219865373725,
+  "ganhou": "1/5"
+ },
+ {
+  "modelo": "xgboost",
+  "variante": "+ StandardScaler",
+  "ks": 0.5364289749946278,
+  "dp_ks": 0.002521087032099575,
+  "delta": 0.0,
+  "dp_delta": 0.0,
+  "ganhou": "0/5"
+ },
+ {
+  "modelo": "xgboost",
+  "variante": "+ oversampling (oficial)",
+  "ks": 0.5320553199964361,
+  "dp_ks": 0.005915407936935939,
+  "delta": -0.004373654998191756,
+  "dp_delta": 0.004481498329640108,
+  "ganhou": "0/5"
+ }
+]

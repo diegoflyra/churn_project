@@ -27,3 +27,5 @@ catboost_info/
 Thumbs.db
 .vscode/
 .idea/
+#ref do claude
+outputs/

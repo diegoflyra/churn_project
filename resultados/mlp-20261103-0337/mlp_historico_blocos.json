@@ -1,0 +1,58 @@
+[
+ {
+  "bloco": "b01_busca",
+  "pergunta": "O melhor trial supera o MLP padr\u00e3o em divis\u00f5es novas?",
+  "ks_base": 0.5399553614012651,
+  "regua": 0.0027719904192369917,
+  "aceita": "-",
+  "delta": 0.0
+ },
+ {
+  "bloco": "b02_oversampling",
+  "pergunta": "Tirar o oversampling melhora o KS?",
+  "ks_base": 0.5399553614012651,
+  "regua": 0.0027719904192369917,
+  "aceita": "-",
+  "delta": 0.0
+ },
+ {
+  "bloco": "b03_variaveis_criadas",
+  "pergunta": "As vari\u00e1veis criadas no pr\u00e9-processamento ajudam, agora com os dados na escala certa?",
+  "ks_base": 0.5399553614012651,
+  "regua": 0.0027719904192369917,
+  "aceita": "-",
+  "delta": 0.0
+ },
+ {
+  "bloco": "b04_cliente_novo",
+  "pergunta": "Marcar clientes novos (at\u00e9 6 meses) ajuda?",
+  "ks_base": 0.5399553614012651,
+  "regua": 0.0027719904192369917,
+  "aceita": "cliente_novo",
+  "delta": 0.009170142401165694
+ },
+ {
+  "bloco": "b05_delta_preco",
+  "pergunta": "A diferen\u00e7a entre o pre\u00e7o atual e a m\u00e9dia j\u00e1 paga ajuda?",
+  "ks_base": 0.5491255038024307,
+  "regua": 0.0009338623368046583,
+  "aceita": "delta_preco",
+  "delta": 0.0014409090194393403
+ },
+ {
+  "bloco": "b06_mtm_fibra",
+  "pergunta": "A intera\u00e7\u00e3o entre contrato mensal e fibra ajuda?",
+  "ks_base": 0.5505664128218702,
+  "regua": 0.0019139670543347532,
+  "aceita": "-",
+  "delta": 0.0
+ },
+ {
+  "bloco": "b07_preco_por_servico",
+  "pergunta": "O pre\u00e7o por servi\u00e7o assinado ajuda?",
+  "ks_base": 0.5505664128218702,
+  "regua": 0.0019139670543347532,
+  "aceita": "-",
+  "delta": 0.0
+ }
+]
