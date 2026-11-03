@@ -3,7 +3,7 @@
 Reproduz exatamente o pre-processamento de if702-preprocessamento.ipynb.
 A unica diferenca e a leitura do CSV: aqui via CAMINHO_CSV (ver abaixo).
 """
-import os, json, time
+import os, json, time, hashlib
 import numpy as np
 import pandas as pd
 import optuna
@@ -70,6 +70,12 @@ def indices_dobras(path=CAMINHO_CSV):
     X_train, X_test, y_train, _ = dividir(carregar_df(path))
     skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=SEMENTE)
     return [X_train.index[v].tolist() for _, v in skf.split(X_train, y_train)], X_test.index.tolist()
+
+
+def assinatura_teste(path=CAMINHO_CSV):
+    """Identifica os clientes do teste. Precisa ser igual em todos os pre-processamentos, para o teste ser comparavel."""
+    _, ind_teste = indices_dobras(path)
+    return hashlib.sha256(json.dumps(sorted(ind_teste)).encode()).hexdigest()[:16]
 
 
 def carregar_dobras(path=CAMINHO_CSV):

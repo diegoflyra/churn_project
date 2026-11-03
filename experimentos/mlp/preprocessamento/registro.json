@@ -1,0 +1,150 @@
+{
+ "modelo": "mlp",
+ "responsavel": "Diego",
+ "atual": "b05_delta_preco",
+ "assinatura_teste": "e90ba6fab761f037",
+ "versoes": [
+  {
+   "id": "v0",
+   "parte_de": null,
+   "mudanca": "Pre-processamento base do grupo",
+   "motivo": "Ponto de partida comum",
+   "altera": {
+    "divisao_validacao": "5 dobras oficiais",
+    "variaveis_criadas": true,
+    "scaler": true,
+    "oversampling": true
+   },
+   "codigo": "if702-preprocessamento.ipynb e comum.py",
+   "decisao": "base",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5399553614012651,
+    "regua": 0.0027719904192369917
+   },
+   "evidencia": "resultados/mlp-20261103-0337/blocos/b02_oversampling.json"
+  },
+  {
+   "id": "b02_sem_oversampling",
+   "parte_de": "v0",
+   "mudanca": "Remove o oversampling",
+   "motivo": "Sondagem inicial em dados de treino",
+   "altera": {
+    "oversampling": false
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5413077374619363,
+    "delta": 0.0013523760606711567,
+    "ganhou": "4/5",
+    "regua": 0.0027719904192369917
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-20261103-0337/blocos/b02_oversampling.json"
+  },
+  {
+   "id": "b03_sem_criadas",
+   "parte_de": "v0",
+   "mudanca": "Remove total_addons e PaymentMethod_Automatic",
+   "motivo": "Testar se as variaveis do pre-processamento base ajudam",
+   "altera": {
+    "variaveis_criadas": false
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.538349006022044,
+    "delta": -0.0016063553792210693,
+    "ganhou": "1/5",
+    "regua": 0.0027719904192369917
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-20261103-0337/blocos/b03_variaveis_criadas.json"
+  },
+  {
+   "id": "b04_cliente_novo",
+   "parte_de": "v0",
+   "mudanca": "Adiciona cliente_novo (tenure <= 6)",
+   "motivo": "Sondagem inicial em dados de treino; o corte de 6 meses foi escolhido a mao",
+   "altera": {
+    "extras": [
+     "cliente_novo"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5491255038024307,
+    "delta": 0.009170142401165694,
+    "ganhou": "5/5",
+    "regua": 0.0027719904192369917
+   },
+   "decisao": "aceita",
+   "evidencia": "resultados/mlp-20261103-0337/blocos/b04_cliente_novo.json"
+  },
+  {
+   "id": "b05_delta_preco",
+   "parte_de": "b04_cliente_novo",
+   "mudanca": "Adiciona delta_preco (preco atual menos media paga)",
+   "motivo": "Sondagem inicial em dados de treino; aceita por pouco, com regua baixa: confirmar",
+   "altera": {
+    "extras": [
+     "delta_preco"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5505664128218702,
+    "delta": 0.0014409090194393403,
+    "ganhou": "4/5",
+    "regua": 0.0009338623368046583
+   },
+   "decisao": "aceita",
+   "evidencia": "resultados/mlp-20261103-0337/blocos/b05_delta_preco.json"
+  },
+  {
+   "id": "b06_mtm_fibra",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona contrato mensal x fibra",
+   "motivo": "Sondagem inicial em dados de treino",
+   "altera": {
+    "extras": [
+     "mtm_fibra"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5509851152259707,
+    "delta": 0.0004187024041005571,
+    "ganhou": "4/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-20261103-0337/blocos/b06_mtm_fibra.json"
+  },
+  {
+   "id": "b07_preco_por_servico",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona preco por servico",
+   "motivo": "Sondagem inicial em dados de treino",
+   "altera": {
+    "extras": [
+     "preco_por_servico"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5497792284026646,
+    "delta": -0.0007871844192055999,
+    "ganhou": "2/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-20261103-0337/blocos/b07_preco_por_servico.json"
+  }
+ ]
+}

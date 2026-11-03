@@ -2,7 +2,7 @@
 
 Previsão de churn (cancelamento) de clientes de telecomunicações. Projeto da disciplina IF702.
 
-O pré-processamento dos dados está no notebook `if702-preprocessamento.ipynb`, e cada algoritmo tem uma pasta própria em `experimentos/`.
+O pré-processamento base está no notebook `if702-preprocessamento.ipynb`, e cada algoritmo tem uma pasta própria em `experimentos/`. Cada modelo pode evoluir o próprio pré-processamento e registra essa evolução em `experimentos/<modelo>/preprocessamento/`: veja as regras em `experimentos/README.md` e a comparação em `experimentos/PREPROCESSAMENTOS.md`.
 
 ## Estrutura
 

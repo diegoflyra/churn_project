@@ -1,0 +1,22 @@
+{
+ "modelo": "gradient_boosting",
+ "responsavel": "Rafael",
+ "atual": "v0",
+ "assinatura_teste": "e90ba6fab761f037",
+ "versoes": [
+  {
+   "id": "v0",
+   "parte_de": null,
+   "mudanca": "Pre-processamento base do grupo",
+   "motivo": "Ponto de partida comum",
+   "altera": {
+    "divisao_validacao": "5 dobras oficiais",
+    "variaveis_criadas": true,
+    "scaler": true,
+    "oversampling": true
+   },
+   "codigo": "if702-preprocessamento.ipynb e comum.py",
+   "decisao": "base"
+  }
+ ]
+}
