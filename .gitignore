@@ -1,7 +1,9 @@
 # Ambientes virtuais
 .venv/
 venv/
-
+#ref do experimento
+Kaggle_LSTM.ipynb
+Kaggle_MLP.ipynb
 # Python
 __pycache__/
 *.py[cod]
@@ -12,9 +14,18 @@ __pycache__/
 # Dados e credenciais do Kaggle
 *.csv
 kaggle.json
+.env
+
+# Execucoes locais dos notebooks
+execucoes/
+dados/
+wandb/
+catboost_info/
 
 # Sistema e editor
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
+#ref do claude
+outputs/
