@@ -1,0 +1,56 @@
+{
+ "nome": "b04_cliente_novo",
+ "pergunta": "Marcar clientes novos (at\u00e9 6 meses) ajuda?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": []
+ },
+ "regua": 0.0027719904192369917,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5399553614012651,
+   "delta": 0.0,
+   "dp_delta": 0.0,
+   "ganhou": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "cliente_novo",
+   "ks": 0.5491255038024307,
+   "delta": 0.009170142401165694,
+   "dp_delta": 0.0036018202941085443,
+   "ganhou": "5/5",
+   "decisao": "ACEITA"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo"
+  ]
+ },
+ "tempo_s": 128.63264751434326
+}
