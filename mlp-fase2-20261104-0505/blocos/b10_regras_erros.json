@@ -1,0 +1,76 @@
+{
+ "nome": "b10_regras_erros",
+ "pergunta": "As regras da \u00e1rvore sobre clientes do mesmo lado ajudam?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": 0.0019139670543347532,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5505664128218702,
+   "delta": 0.0,
+   "dp_delta": 0.0,
+   "ganhou": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "novo_sem_fibra_caro",
+   "ks": 0.5498422895298194,
+   "delta": -0.0007241232920508711,
+   "dp_delta": 0.003450566069304892,
+   "ganhou": "3/5",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "fibra_recem_chegado",
+   "ks": 0.550039764359352,
+   "delta": -0.0005266484625181978,
+   "dp_delta": 0.0015790840722811911,
+   "ganhou": "2/5",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "antigo_sem_automatico",
+   "ks": 0.5495782158187412,
+   "delta": -0.0009881970031290655,
+   "dp_delta": 0.0023335865823103357,
+   "ganhou": "2/5",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "tempo_s": 266.97285056114197
+}
