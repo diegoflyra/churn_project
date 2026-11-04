@@ -1,0 +1,76 @@
+{
+ "nome": "b08_formas_tenure",
+ "pergunta": "Outras formas de tenure ajudam, al\u00e9m do corte de 6 meses?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": 0.0019139670543347532,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5505664128218702,
+   "delta": 0.0,
+   "dp_delta": 0.0,
+   "ganhou": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "tenure_ate_3",
+   "ks": 0.5526137872840005,
+   "delta": 0.002047374462130236,
+   "dp_delta": 0.002802106586324537,
+   "ganhou": "3/5",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "tenure_ate_12",
+   "ks": 0.5489213465479379,
+   "delta": -0.0016450662739323275,
+   "dp_delta": 0.0021812007750961642,
+   "ganhou": "2/5",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "log_tenure",
+   "ks": 0.5505451286432319,
+   "delta": -2.1284178638358854e-05,
+   "dp_delta": 0.0025167361515225244,
+   "ganhou": "3/5",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "tempo_s": 267.341037273407
+}

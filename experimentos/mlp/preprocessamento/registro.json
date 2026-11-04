@@ -145,6 +145,237 @@
    },
    "decisao": "rejeitada",
    "evidencia": "resultados/mlp-20261103-0337/blocos/b07_preco_por_servico.json"
+  },
+  {
+   "id": "b08_tenure_ate_3",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona tenure_ate_3 (tenure <= 3)",
+   "motivo": "Fase 2: o corte de 6 meses foi escolhido a mao; testar outro corte",
+   "altera": {
+    "extras": [
+     "tenure_ate_3"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5526137872840005,
+    "delta": 0.002047374462130236,
+    "ganhou": "3/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b08_formas_tenure.json"
+  },
+  {
+   "id": "b08_tenure_ate_12",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona tenure_ate_12 (tenure <= 12)",
+   "motivo": "Fase 2: o corte de 6 meses foi escolhido a mao; testar outro corte",
+   "altera": {
+    "extras": [
+     "tenure_ate_12"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5489213465479379,
+    "delta": -0.0016450662739323275,
+    "ganhou": "2/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b08_formas_tenure.json"
+  },
+  {
+   "id": "b08_log_tenure",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona log_tenure (log1p de tenure)",
+   "motivo": "Fase 2: cliente_novo foi o maior ganho; testar uma forma continua de tenure",
+   "altera": {
+    "extras": [
+     "log_tenure"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5505451286432319,
+    "delta": -2.1284178638358854e-05,
+    "ganhou": "3/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b08_formas_tenure.json"
+  },
+  {
+   "id": "b09_log_total",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona log_total (log1p de TotalCharges)",
+   "motivo": "Fase 2: testar as cobrancas em escala logaritmica",
+   "altera": {
+    "extras": [
+     "log_total"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5495784411867988,
+    "delta": -0.000987971635071494,
+    "ganhou": "1/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b09_formas_cobranca.json"
+  },
+  {
+   "id": "b09_log_mensal",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona log_mensal (log1p de MonthlyCharges)",
+   "motivo": "Fase 2: testar as cobrancas em escala logaritmica",
+   "altera": {
+    "extras": [
+     "log_mensal"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5502172495662976,
+    "delta": -0.0003491632555726598,
+    "ganhou": "2/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b09_formas_cobranca.json"
+  },
+  {
+   "id": "b10_novo_sem_fibra_caro",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona regra: tenure <= 10, sem fibra, MonthlyCharges > 55",
+   "motivo": "Fase 2: regra da arvore que separa clientes do mesmo lado do escore",
+   "altera": {
+    "extras": [
+     "novo_sem_fibra_caro"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5498422895298194,
+    "delta": -0.0007241232920508711,
+    "ganhou": "3/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b10_regras_erros.json"
+  },
+  {
+   "id": "b10_fibra_recem_chegado",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona regra: fibra e TotalCharges <= 120",
+   "motivo": "Fase 2: regra da arvore que separa clientes do mesmo lado do escore",
+   "altera": {
+    "extras": [
+     "fibra_recem_chegado"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.550039764359352,
+    "delta": -0.0005266484625181978,
+    "ganhou": "2/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b10_regras_erros.json"
+  },
+  {
+   "id": "b10_antigo_sem_automatico",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona regra: tenure > 29, sem pagamento automatico",
+   "motivo": "Fase 2: regra da arvore que separa clientes do mesmo lado do escore",
+   "altera": {
+    "extras": [
+     "antigo_sem_automatico"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5495782158187412,
+    "delta": -0.0009881970031290655,
+    "ganhou": "2/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b10_regras_erros.json"
+  },
+  {
+   "id": "b11_sem_gender",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Retira gender",
+   "motivo": "Fase 2: variavel de pouco sinal",
+   "altera": {
+    "extras": [
+     "sem_gender"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5514933044722456,
+    "delta": 0.0009268916503753832,
+    "ganhou": "3/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b11_retirar_variaveis.json"
+  },
+  {
+   "id": "b11_sem_streaming",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Retira StreamingTV e StreamingMovies",
+   "motivo": "Fase 2: variaveis de pouco sinal",
+   "altera": {
+    "extras": [
+     "sem_streaming"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5503317365394997,
+    "delta": -0.0002346762823704607,
+    "ganhou": "3/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b11_retirar_variaveis.json"
+  },
+  {
+   "id": "b11_sem_total_charges",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Retira TotalCharges",
+   "motivo": "Fase 2: variavel redundante com tenure e MonthlyCharges",
+   "altera": {
+    "extras": [
+     "sem_total_charges"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5506134728169434,
+    "delta": 4.705999507326197e-05,
+    "ganhou": "3/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b11_retirar_variaveis.json"
   }
  ]
 }
