@@ -11,12 +11,26 @@ import comum, modelo as M, evolucao as EV
 
 # Aceita se ganhar em pelo menos esta fracao das divisoes E o ganho medio superar a regua de ruido.
 MIN_VITORIAS = 0.8
-N_RUIDO = 2
+N_RUIDO = 5
 CANDIDATAS = {
     "cliente_novo": lambda d: d.assign(cliente_novo=(d.tenure <= 6).astype(int)),
     "delta_preco": lambda d: d.assign(delta_preco=d.MonthlyCharges - d.TotalCharges / (d.tenure + 1)),
     "mtm_fibra": lambda d: d.assign(mtm_fibra=d["Contract_Month-to-month"] * d["InternetService_Fiber optic"]),
     "preco_por_servico": lambda d: d.assign(preco_por_servico=d.MonthlyCharges / (d.total_addons + 1)),
+    # Fase 2: outras formas de tenure e das cobrancas
+    "tenure_ate_3": lambda d: d.assign(tenure_ate_3=(d.tenure <= 3).astype(int)),
+    "tenure_ate_12": lambda d: d.assign(tenure_ate_12=(d.tenure <= 12).astype(int)),
+    "log_tenure": lambda d: d.assign(log_tenure=np.log1p(d.tenure)),
+    "log_total": lambda d: d.assign(log_total=np.log1p(d.TotalCharges)),
+    "log_mensal": lambda d: d.assign(log_mensal=np.log1p(d.MonthlyCharges)),
+    # Fase 2: regras da arvore que separa clientes do mesmo lado
+    "novo_sem_fibra_caro": lambda d: d.assign(novo_sem_fibra_caro=((d.tenure <= 10) & (d["InternetService_Fiber optic"] == 0) & (d.MonthlyCharges > 55)).astype(int)),
+    "fibra_recem_chegado": lambda d: d.assign(fibra_recem_chegado=((d["InternetService_Fiber optic"] == 1) & (d.TotalCharges <= 120)).astype(int)),
+    "antigo_sem_automatico": lambda d: d.assign(antigo_sem_automatico=((d.tenure > 29) & (d.PaymentMethod_Automatic == 0)).astype(int)),
+    # Fase 2: retirada de variaveis
+    "sem_gender": lambda d: d.drop(columns=["gender"]),
+    "sem_streaming": lambda d: d.drop(columns=["StreamingTV", "StreamingMovies"]),
+    "sem_total_charges": lambda d: d.drop(columns=["TotalCharges"]),
 }
 _cfg = dict(pasta=None, repeticoes=5, apos=None)
 

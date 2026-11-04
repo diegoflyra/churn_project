@@ -29,7 +29,7 @@ def _prep(Xa, ya, Xb, criadas=True, escala=True, over=True, extra=None):
     if not criadas:
         Xa, Xb = Xa.drop(columns=CRIADAS), Xb.drop(columns=CRIADAS)
     if escala:
-        cols = comum.NUMERIC_COLS + [c for c in novas if Xa[c].nunique() > 2]
+        cols = [c for c in comum.NUMERIC_COLS if c in Xa] + [c for c in novas if Xa[c].nunique() > 2]
         sc = StandardScaler().fit(Xa[cols])
         Xa[cols], Xb[cols] = sc.transform(Xa[cols]), sc.transform(Xb[cols])
     if over:
