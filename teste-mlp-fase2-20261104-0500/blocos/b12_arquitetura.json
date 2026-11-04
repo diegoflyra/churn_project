@@ -1,0 +1,84 @@
+{
+ "nome": "b12_arquitetura",
+ "pergunta": "Com as features fechadas, outra arquitetura supera o campe\u00e3o?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": 0.003452206248460432,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5450949428456124,
+   "delta": 0.0,
+   "dp_delta": 0.0,
+   "ganhou": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "1 camada, 5",
+   "ks": 0.5344509667241442,
+   "delta": -0.010643976121468168,
+   "dp_delta": 0.008744377330120592,
+   "ganhou": "0/2",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "1 camada, 32",
+   "ks": 0.5466979255656477,
+   "delta": 0.0016029827200352287,
+   "dp_delta": 0.002464824834330542,
+   "ganhou": "1/2",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "2 camadas, 10",
+   "ks": 0.544025885879905,
+   "delta": -0.00106905696570736,
+   "dp_delta": 0.010863485173885284,
+   "ganhou": "1/2",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "2 camadas, 32",
+   "ks": 0.5512480804406732,
+   "delta": 0.006153137595060754,
+   "dp_delta": 0.011172808951744306,
+   "ganhou": "1/2",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "tempo_s": 11.807924270629883
+}
