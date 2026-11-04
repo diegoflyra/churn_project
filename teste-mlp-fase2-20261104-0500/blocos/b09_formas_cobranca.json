@@ -1,0 +1,68 @@
+{
+ "nome": "b09_formas_cobranca",
+ "pergunta": "Colocar as cobran\u00e7as em escala logar\u00edtmica ajuda?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": 0.003452206248460432,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5450949428456124,
+   "delta": 0.0,
+   "dp_delta": 0.0,
+   "ganhou": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "log_total",
+   "ks": 0.5465069523425174,
+   "delta": 0.00141200949690512,
+   "dp_delta": 0.00782869148535413,
+   "ganhou": "1/2",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "log_mensal",
+   "ks": 0.5416689552880256,
+   "delta": -0.0034259875575867182,
+   "dp_delta": 0.008258146219413981,
+   "ganhou": "1/2",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "tempo_s": 7.549032688140869
+}
