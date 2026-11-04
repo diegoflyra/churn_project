@@ -1,0 +1,59 @@
+{
+ "nome": "b05_delta_preco",
+ "pergunta": "A diferen\u00e7a entre o pre\u00e7o atual e a m\u00e9dia j\u00e1 paga ajuda?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo"
+  ]
+ },
+ "regua": 0.0009338623368046583,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5491255038024307,
+   "delta": 0.0,
+   "dp_delta": 0.0,
+   "ganhou": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "delta_preco",
+   "ks": 0.5505664128218702,
+   "delta": 0.0014409090194393403,
+   "dp_delta": 0.0022239589796340243,
+   "ganhou": "4/5",
+   "decisao": "ACEITA"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "tempo_s": 126.49218773841858
+}
