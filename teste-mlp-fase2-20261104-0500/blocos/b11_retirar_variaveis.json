@@ -1,0 +1,76 @@
+{
+ "nome": "b11_retirar_variaveis",
+ "pergunta": "Retirar vari\u00e1veis de pouco sinal ou redundantes melhora?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": 0.003452206248460432,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5450949428456124,
+   "delta": 0.0,
+   "dp_delta": 0.0,
+   "ganhou": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "sem_gender",
+   "ks": 0.5418566397098517,
+   "delta": -0.0032383031357606784,
+   "dp_delta": 0.006887471095216098,
+   "ganhou": "1/2",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem_streaming",
+   "ks": 0.5411608944491324,
+   "delta": -0.003934048396479983,
+   "dp_delta": 0.0006726258798603215,
+   "ganhou": "0/2",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem_total_charges",
+   "ks": 0.5463683116787823,
+   "delta": 0.0012733688331699744,
+   "dp_delta": 0.00836519489039542,
+   "ganhou": "1/2",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "tempo_s": 9.455195903778076
+}
