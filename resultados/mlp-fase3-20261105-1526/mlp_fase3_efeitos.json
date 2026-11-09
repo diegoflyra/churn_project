@@ -1,0 +1,170 @@
+{
+ "padroes": [
+  {
+   "termo": "64 unidades",
+   "efeito_val": -0.005832269080725489,
+   "ep_val": 0.00017473854482998386,
+   "t_val": -33.377118290644674,
+   "efeito_teste": -0.00010222881205423169,
+   "ep_teste": 0.00020288453428198767,
+   "t_teste": -0.5038768106007757,
+   "concorda": true,
+   "forte_nos_dois": false
+  },
+  {
+   "termo": "Dropout na camada 1",
+   "efeito_val": 0.004718495285323472,
+   "ep_val": 0.00017473854482998388,
+   "t_val": 27.00317374117111,
+   "efeito_teste": 0.003860035390927289,
+   "ep_teste": 0.00020288453428198767,
+   "t_teste": 19.025774461262067,
+   "concorda": true,
+   "forte_nos_dois": true
+  },
+  {
+   "termo": "BN na camada 4",
+   "efeito_val": -0.005095999114143362,
+   "ep_val": 0.0002126849837089107,
+   "t_val": -23.96031457076421,
+   "efeito_teste": -0.0036061426211283143,
+   "ep_teste": 0.00024694319110038835,
+   "t_teste": -14.603126350879343,
+   "concorda": true,
+   "forte_nos_dois": true
+  },
+  {
+   "termo": "BN na camada 3",
+   "efeito_val": -0.00435039666525172,
+   "ep_val": 0.00018419059889539615,
+   "t_val": -23.6189940818986,
+   "efeito_teste": -0.0029884563739688472,
+   "ep_teste": 0.0002138590767845316,
+   "t_teste": -13.97395153341933,
+   "concorda": true,
+   "forte_nos_dois": true
+  },
+  {
+   "termo": "BN na camada 2",
+   "efeito_val": -0.003717112393856087,
+   "ep_val": 0.00017696460329623864,
+   "t_val": -21.004835569481898,
+   "efeito_teste": -0.0026029076859959773,
+   "ep_teste": 0.00020546915483980448,
+   "t_teste": -12.668118910720946,
+   "concorda": true,
+   "forte_nos_dois": true
+  },
+  {
+   "termo": "BN na camada 1",
+   "efeito_val": -0.0035960582573517515,
+   "ep_val": 0.00017473854482998383,
+   "t_val": -20.579650934203585,
+   "efeito_teste": -0.0012218111851365328,
+   "ep_teste": 0.00020288453428198762,
+   "t_teste": -6.022199717985142,
+   "concorda": true,
+   "forte_nos_dois": true
+  },
+  {
+   "termo": "gelu",
+   "efeito_val": 0.0026925846702551,
+   "ep_val": 0.0001747385448299838,
+   "t_val": 15.409219945575929,
+   "efeito_teste": 0.0030224740111666165,
+   "ep_teste": 0.0002028845342819876,
+   "t_teste": 14.897508190376424,
+   "concorda": true,
+   "forte_nos_dois": true
+  },
+  {
+   "termo": "Dropout na camada 2",
+   "efeito_val": 0.002285921235200235,
+   "ep_val": 0.0001769646032962387,
+   "t_val": 12.917392476356435,
+   "efeito_teste": 0.0015606755365945783,
+   "ep_teste": 0.00020546915483980453,
+   "t_teste": 7.5956682540081015,
+   "concorda": true,
+   "forte_nos_dois": true
+  },
+  {
+   "termo": "32 unidades",
+   "efeito_val": -0.001982325837661696,
+   "ep_val": 0.00017473854482998383,
+   "t_val": -11.344525271115476,
+   "efeito_teste": 0.00030979656468224474,
+   "ep_teste": 0.00020288453428198762,
+   "t_teste": 1.5269599813441714,
+   "concorda": false,
+   "forte_nos_dois": false
+  },
+  {
+   "termo": "leaky_relu",
+   "efeito_val": 0.0015731060347973884,
+   "ep_val": 0.00017473854482998388,
+   "t_val": 9.002627533198128,
+   "efeito_teste": 0.001437738959549182,
+   "ep_teste": 0.00020288453428198767,
+   "t_teste": 7.086488699778759,
+   "concorda": true,
+   "forte_nos_dois": true
+  },
+  {
+   "termo": "3 camadas",
+   "efeito_val": -0.004252223521128284,
+   "ep_val": 0.0004979177247866526,
+   "t_val": -8.540012354350859,
+   "efeito_teste": -5.638366961045523e-05,
+   "ep_teste": 0.0005781197605964763,
+   "t_teste": -0.09752939348117293,
+   "concorda": true,
+   "forte_nos_dois": false
+  },
+  {
+   "termo": "4 camadas",
+   "efeito_val": -0.0039041491131327276,
+   "ep_val": 0.0004979177247866527,
+   "t_val": -7.840952267376248,
+   "efeito_teste": -0.0007082572914428014,
+   "ep_teste": 0.0005781197605964765,
+   "t_teste": -1.2251047961274584,
+   "concorda": true,
+   "forte_nos_dois": false
+  },
+  {
+   "termo": "2 camadas",
+   "efeito_val": -0.003648898001265862,
+   "ep_val": 0.0005308938098887208,
+   "t_val": -6.873122144766949,
+   "efeito_teste": 0.00026175066541453027,
+   "ep_teste": 0.0006164074645194192,
+   "t_teste": 0.42463902610037935,
+   "concorda": false,
+   "forte_nos_dois": false
+  },
+  {
+   "termo": "Dropout na camada 3",
+   "efeito_val": 0.0006864140088860605,
+   "ep_val": 0.00018419059889539618,
+   "t_val": 3.7266506162775572,
+   "efeito_teste": 0.00041984896340680074,
+   "ep_teste": 0.00021385907678453161,
+   "t_teste": 1.9632038523658695,
+   "concorda": true,
+   "forte_nos_dois": false
+  },
+  {
+   "termo": "Dropout na camada 4",
+   "efeito_val": 0.00018288749432016917,
+   "ep_val": 0.0002126849837089107,
+   "t_val": 0.8598984805174418,
+   "efeito_teste": -0.00011854587808841761,
+   "ep_teste": 0.00024694319110038835,
+   "t_teste": -0.4800532363746197,
+   "concorda": false,
+   "forte_nos_dois": false
+  }
+ ],
+ "correlacao_val_teste": 0.7567930823966408
+}

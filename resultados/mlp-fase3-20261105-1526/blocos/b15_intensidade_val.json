@@ -1,0 +1,119 @@
+{
+ "nome": "b15_intensidade",
+ "linhagem": "val",
+ "pergunta": "Mais L2 ou outra taxa de Dropout ajudam?",
+ "base": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": {
+  "val": 0.00039661240362895975,
+  "teste": 0.000491893072623134
+ },
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "val": 0.5483392667152345,
+   "delta_val": 0.0,
+   "ganhou_val": "",
+   "teste": 0.5497780068774014,
+   "delta_teste": 0.0,
+   "ganhou_teste": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "l2 0.0001",
+   "val": 0.5492119049366087,
+   "delta_val": 0.0008726382213743,
+   "ganhou_val": "10/20",
+   "teste": 0.5500863812225095,
+   "delta_teste": 0.0003083743451078924,
+   "ganhou_teste": "10/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "l2 0.001",
+   "val": 0.5492090642508608,
+   "delta_val": 0.0008697975356264986,
+   "ganhou_val": "15/20",
+   "teste": 0.5490349959788052,
+   "delta_teste": -0.0007430108985963634,
+   "ganhou_teste": "9/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "l2 0.01",
+   "val": 0.5391776974722089,
+   "delta_val": -0.009161569243025408,
+   "ganhou_val": "12/20",
+   "teste": 0.551639257452449,
+   "delta_teste": 0.0018612505750474073,
+   "ganhou_teste": "15/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "dropout 0.1",
+   "val": 0.5490320664678535,
+   "delta_val": 0.0006927997526192553,
+   "ganhou_val": "12/20",
+   "teste": 0.5511198117485082,
+   "delta_teste": 0.00134180487110665,
+   "ganhou_teste": "10/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "dropout 0.3",
+   "val": 0.5486997088559165,
+   "delta_val": 0.00036044214068208235,
+   "ganhou_val": "14/20",
+   "teste": 0.5500824924126838,
+   "delta_teste": 0.0003044855352822673,
+   "ganhou_teste": "10/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "dropout 0.5",
+   "val": 0.5497545257050613,
+   "delta_val": 0.001415258989826984,
+   "ganhou_val": "13/20",
+   "teste": 0.551298779741121,
+   "delta_teste": 0.0015207728637195606,
+   "ganhou_teste": "13/20",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}

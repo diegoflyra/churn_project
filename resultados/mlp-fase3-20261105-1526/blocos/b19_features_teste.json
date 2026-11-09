@@ -1,0 +1,115 @@
+{
+ "nome": "b19_features",
+ "linhagem": "teste",
+ "pergunta": "Com mais divis\u00f5es, as features no limite da r\u00e9gua ajudam?",
+ "base": {
+  "hp": {
+   "camadas": 2,
+   "unidades": 47,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.0001564570789442291,
+   "dropout": 0.3215897831163661,
+   "l2": 1.1107958156042701e-06,
+   "perda": "mse",
+   "paciencia": 10,
+   "plano": "DD",
+   "peso_pos": 1.5,
+   "funil": true,
+   "suav": 0.0898753403823129,
+   "pen_logit": 0.0,
+   "lote": 512,
+   "parada": "perda"
+  },
+  "dados": {
+   "over": false
+  },
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": {
+  "val": 0.0009944339330918595,
+  "teste": 0.0009418366435103243
+ },
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "val": 0.5484402093302375,
+   "delta_val": 0.0,
+   "ganhou_val": "",
+   "teste": 0.5557868799830548,
+   "delta_teste": 0.0,
+   "ganhou_teste": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "com tenure_ate_3",
+   "val": 0.5510776943275383,
+   "delta_val": 0.0026374849973007874,
+   "ganhou_val": "17/20",
+   "teste": 0.5578098057580864,
+   "delta_teste": 0.0020229257750315256,
+   "ganhou_teste": "12/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem gender",
+   "val": 0.5498354053218308,
+   "delta_val": 0.0013951959915931955,
+   "ganhou_val": "14/20",
+   "teste": 0.5565763911182893,
+   "delta_teste": 0.0007895111352346163,
+   "ganhou_teste": "9/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem delta_preco",
+   "val": 0.5444869129293132,
+   "delta_val": -0.003953296400924583,
+   "ganhou_val": "1/20",
+   "teste": 0.5561496976657212,
+   "delta_teste": 0.0003628176826664997,
+   "ganhou_teste": "12/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem cliente_novo",
+   "val": 0.5467427685679693,
+   "delta_val": -0.0016974407622681819,
+   "ganhou_val": "8/20",
+   "teste": 0.5513406465022225,
+   "delta_teste": -0.00444623348083229,
+   "ganhou_teste": "7/20",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 2,
+   "unidades": 47,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.0001564570789442291,
+   "dropout": 0.3215897831163661,
+   "l2": 1.1107958156042701e-06,
+   "perda": "mse",
+   "paciencia": 10,
+   "plano": "DD",
+   "peso_pos": 1.5,
+   "funil": true,
+   "suav": 0.0898753403823129,
+   "pen_logit": 0.0,
+   "lote": 512,
+   "parada": "perda"
+  },
+  "dados": {
+   "over": false
+  },
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}

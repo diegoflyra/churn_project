@@ -285,6 +285,8 @@ def _treino_fixo(redes, pilha, treino, lote, g, disp, K):
 def _treino_com_parada(redes, pilha, treino, lote, g, disp, K):
     """A regra de M.treinar, rede a rede: guarda o melhor momento, para depois de `paciencia` epocas sem melhora ou ao divergir."""
     val = _Banco([r["Xb"] for r in redes], [r["yb"] for r in redes], disp)
+    # Opcional (fase 4): um terceiro conjunto, previsto com os pesos do melhor momento da validacao
+    extra = _Banco([r["Xt"] for r in redes], [None] * K, disp) if "Xt" in redes[0] else None
     hps = [r["hp"] for r in redes]
     paciencia = torch.tensor([h.get("paciencia", M.PACIENCIA) for h in hps], device=disp)
     pelo_ks = torch.tensor([h.get("parada") == "ks" for h in hps], device=disp)
@@ -293,6 +295,9 @@ def _treino_com_parada(redes, pilha, treino, lote, g, disp, K):
     melhor = torch.full((K,), math.inf, dtype=torch.float64, device=disp)
     melhor_ep, esp, passos = torch.zeros(K, dtype=torch.long, device=disp), torch.zeros(K, dtype=torch.long, device=disp), torch.zeros(K, dtype=torch.long, device=disp)
     z_melhor = torch.zeros(K, yv.shape[1], device=disp)     # sem momento bom, logit 0 vira probabilidade 0,5
+    if extra is not None:
+        xt, _, _ = extra.fixo(ids)
+        zt_melhor = torch.zeros(K, xt.shape[1], device=disp)
     vivo = torch.ones(K, dtype=torch.bool, device=disp)      # alinhado com ids: quem parou espera a proxima compactacao
     for ep in range(1, M.MAX_EPOCAS + 1):
         for x, y, m in _lotes(treino, ids, lote, g):
@@ -308,6 +313,9 @@ def _treino_com_parada(redes, pilha, treino, lote, g, disp, K):
             i_m = ids[melhorou]
             melhor[i_m], melhor_ep[i_m], esp[i_m] = crit[melhorou], ep, 0
             z_melhor[i_m, :z.shape[1]] = z[melhorou]
+            if extra is not None and bool(melhorou.any()):
+                zt = pilha.recorte(melhorou.nonzero().ravel()).frente(xt[melhorou])
+                zt_melhor[i_m, :zt.shape[1]] = zt
             parados = vivo & ~melhorou
             esp[ids[parados]] += 1
             para = vivo & (~finito | (esp[ids] >= paciencia[ids]))
@@ -320,9 +328,16 @@ def _treino_com_parada(redes, pilha, treino, lote, g, disp, K):
             pilha.manter(vivo.nonzero().ravel())
             ids = ids[vivo]
             xv, yv, mv = val.fixo(ids)
+            if extra is not None:
+                xt, _, _ = extra.fixo(ids)
             vivo = torch.ones(len(ids), dtype=torch.bool, device=disp)
     p = torch.sigmoid(z_melhor).cpu().numpy()
-    return [dict(p=np.nan_to_num(p[i][:int(val.n[i])], nan=0.5), epoca=int(melhor_ep[i]), passos=int(passos[i])) for i in range(K)]
+    saida = [dict(p=np.nan_to_num(p[i][:int(val.n[i])], nan=0.5), epoca=int(melhor_ep[i]), passos=int(passos[i])) for i in range(K)]
+    if extra is not None:
+        pt = torch.sigmoid(zt_melhor).cpu().numpy()
+        for i, s in enumerate(saida):
+            s["p_t"] = np.nan_to_num(pt[i][:int(extra.n[i])], nan=0.5)
+    return saida
 
 
 def agrupar(redes, max_redes=MAX_REDES):
@@ -338,7 +353,7 @@ def dispositivos_disponiveis():
     return [f"cuda:{i}" for i in range(n)] or ["cpu"]
 
 
-def _executar(redes, dispositivos, max_redes):
+def executar(redes, dispositivos, max_redes=MAX_REDES):
     """Cada dispositivo pega a proxima pilha da fila. O PyTorch solta o GIL durante as contas, entao threads bastam e os dados ficam compartilhados."""
     fila, saida = queue.Queue(), [None] * len(redes)
     for g in sorted(agrupar(redes, max_redes), key=len, reverse=True):
@@ -398,7 +413,7 @@ def medir_pilha(tarefas, dados, dispositivos=None, max_redes=MAX_REDES):
         for i in range(5):
             Xa, ya, Xb, yb = preparar(c, rep, i)
             redes.append(dict(hp=c["hp"], Xa=Xa, ya=ya, Xb=Xb, yb=yb, semente=s0 + i))
-    res = _executar(redes, dispositivos, max_redes)
+    res = executar(redes, dispositivos, max_redes)
     kss, eps = [], []
     for j in range(len(tarefas)):
         kss.append(float(np.mean([comum.ks(redes[j * 5 + i]["yb"], res[j * 5 + i]["p"]) for i in range(5)])))
@@ -408,5 +423,5 @@ def medir_pilha(tarefas, dados, dispositivos=None, max_redes=MAX_REDES):
     for (c, rep, sem), e in zip(tarefas, eps):
         Xa, ya, Xt = preparar(c, rep, None)[:3]       # o teste entra aqui, so para prever depois do treino
         finais.append(dict(hp=c["hp"], Xa=Xa, ya=ya, Xt=Xt, epocas=max(1, int(np.median(e))), semente=42 + 1000 * rep + 100000 * sem))
-    res_f = _executar(finais, dispositivos, max_redes)
+    res_f = executar(finais, dispositivos, max_redes)
     return [dict(val=v, teste=comum.ks(y_t, r["p"]), epocas=float(np.median(e)), prob=r["p"]) for v, e, r in zip(kss, eps, res_f)]

@@ -11,6 +11,7 @@ import comum, modelo as M, evolucao as EV
 
 # Aceita se ganhar em pelo menos esta fracao das divisoes E o ganho medio superar a regua de ruido.
 MIN_VITORIAS = 0.8
+PROTECAO = ["OnlineSecurity", "OnlineBackup", "DeviceProtection", "TechSupport"]
 N_RUIDO = 5
 CANDIDATAS = {
     "cliente_novo": lambda d: d.assign(cliente_novo=(d.tenure <= 6).astype(int)),
@@ -31,6 +32,14 @@ CANDIDATAS = {
     "sem_gender": lambda d: d.drop(columns=["gender"]),
     "sem_streaming": lambda d: d.drop(columns=["StreamingTV", "StreamingMovies"]),
     "sem_total_charges": lambda d: d.drop(columns=["TotalCharges"]),
+    # Fase 4: o que ainda separa os clientes ambiguos (o estudo dos logits da fase 3 e o tenure dentro da faixa do meio)
+    "tenure_1": lambda d: d.assign(tenure_1=(d.tenure <= 1).astype(int)),
+    "novo_mes_a_mes": lambda d: d.assign(novo_mes_a_mes=((d.tenure <= 6) & (d["Contract_Month-to-month"] == 1)).astype(int)),
+    "n_protecao": lambda d: d.assign(n_protecao=d[PROTECAO].sum(axis=1)),
+    "n_streaming": lambda d: d.assign(n_streaming=d.StreamingTV + d.StreamingMovies),
+    "fibra_sem_protecao": lambda d: d.assign(fibra_sem_protecao=((d["InternetService_Fiber optic"] == 1) & (d[PROTECAO].sum(axis=1) == 0)).astype(int)),
+    "atrito_pagamento": lambda d: d.assign(atrito_pagamento=((d["PaymentMethod_Electronic check"] == 1) & (d.PaperlessBilling == 1) & (d["Contract_Month-to-month"] == 1)).astype(int)),
+    "sozinho": lambda d: d.assign(sozinho=((d.Partner == 0) & (d.Dependents == 0)).astype(int)),
 }
 _cfg = dict(pasta=None, repeticoes=5, apos=None)
 

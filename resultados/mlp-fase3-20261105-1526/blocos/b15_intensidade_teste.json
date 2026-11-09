@@ -1,0 +1,119 @@
+{
+ "nome": "b15_intensidade",
+ "linhagem": "teste",
+ "pergunta": "Mais L2 ou outra taxa de Dropout ajudam?",
+ "base": {
+  "hp": {
+   "camadas": 4,
+   "unidades": 16,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DNDD"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": {
+  "val": 0.0016248198365819255,
+  "teste": 0.0033053228705043347
+ },
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "val": 0.5473988739458803,
+   "delta_val": 0.0,
+   "ganhou_val": "",
+   "teste": 0.5497435867734131,
+   "delta_teste": 0.0,
+   "ganhou_teste": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "l2 0.0001",
+   "val": 0.5477506865864076,
+   "delta_val": 0.0003518126405274824,
+   "ganhou_val": "12/20",
+   "teste": 0.5519992619535394,
+   "delta_teste": 0.002255675180126393,
+   "ganhou_teste": "13/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "l2 0.001",
+   "val": 0.5481617421999065,
+   "delta_val": 0.0007628682540264886,
+   "ganhou_val": "13/20",
+   "teste": 0.5521184084673456,
+   "delta_teste": 0.0023748216939324775,
+   "ganhou_teste": "14/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "l2 0.01",
+   "val": 0.47555149398057645,
+   "delta_val": -0.07184737996530378,
+   "ganhou_val": "4/20",
+   "teste": 0.3663065242645185,
+   "delta_teste": -0.18343706250889463,
+   "ganhou_teste": "12/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "dropout 0.1",
+   "val": 0.5464677684369413,
+   "delta_val": -0.0009311055089387011,
+   "ganhou_val": "9/20",
+   "teste": 0.5519823828640836,
+   "delta_teste": 0.0022387960906705305,
+   "ganhou_teste": "13/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "dropout 0.3",
+   "val": 0.5478894150388629,
+   "delta_val": 0.0004905410929826826,
+   "ganhou_val": "10/20",
+   "teste": 0.550394838308252,
+   "delta_teste": 0.0006512515348387982,
+   "ganhou_teste": "12/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "dropout 0.5",
+   "val": 0.5485728187778761,
+   "delta_val": 0.0011739448319959933,
+   "ganhou_val": "13/20",
+   "teste": 0.5504157716888026,
+   "delta_teste": 0.000672184915389451,
+   "ganhou_teste": "9/20",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 4,
+   "unidades": 16,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DNDD"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}

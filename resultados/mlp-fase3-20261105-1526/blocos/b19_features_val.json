@@ -1,0 +1,101 @@
+{
+ "nome": "b19_features",
+ "linhagem": "val",
+ "pergunta": "Com mais divis\u00f5es, as features no limite da r\u00e9gua ajudam?",
+ "base": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND",
+   "parada": "ks"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": {
+  "val": 0.0010487030854459622,
+  "teste": 0.0010794343188294752
+ },
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "val": 0.557169154450495,
+   "delta_val": 0.0,
+   "ganhou_val": "",
+   "teste": 0.5495536970170346,
+   "delta_teste": 0.0,
+   "ganhou_teste": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "com tenure_ate_3",
+   "val": 0.5598587125718689,
+   "delta_val": 0.0026895581213738306,
+   "ganhou_val": "15/20",
+   "teste": 0.5489934601802423,
+   "delta_teste": -0.0005602368367924382,
+   "ganhou_teste": "7/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem gender",
+   "val": 0.5575691840628096,
+   "delta_val": 0.00040002961231455083,
+   "ganhou_val": "11/20",
+   "teste": 0.5501597721653886,
+   "delta_teste": 0.000606075148353985,
+   "ganhou_teste": "12/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem delta_preco",
+   "val": 0.5551669820072432,
+   "delta_val": -0.0020021724432517873,
+   "ganhou_val": "4/20",
+   "teste": 0.553412720214199,
+   "delta_teste": 0.0038590231971643183,
+   "ganhou_teste": "18/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem cliente_novo",
+   "val": 0.5553614510558231,
+   "delta_val": -0.0018077033946718557,
+   "ganhou_val": "8/20",
+   "teste": 0.547554683285399,
+   "delta_teste": -0.001999013731635707,
+   "ganhou_teste": "10/20",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND",
+   "parada": "ks"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}

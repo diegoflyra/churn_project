@@ -1,0 +1,140 @@
+{
+ "nome": "b16_treino",
+ "linhagem": "val",
+ "pergunta": "Outro lote, lr, otimizador, paci\u00eancia ou crit\u00e9rio de parada ajudam?",
+ "base": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": {
+  "val": 0.00039661240362895975,
+  "teste": 0.000491893072623134
+ },
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "val": 0.5483392667152345,
+   "delta_val": 0.0,
+   "ganhou_val": "",
+   "teste": 0.5497780068774014,
+   "delta_teste": 0.0,
+   "ganhou_teste": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "lote 64",
+   "val": 0.5484197729023736,
+   "delta_val": 8.050618713932867e-05,
+   "ganhou_val": "9/20",
+   "teste": 0.5500210161211853,
+   "delta_teste": 0.0002430092437836928,
+   "ganhou_teste": "11/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "lote 128",
+   "val": 0.546902512591785,
+   "delta_val": -0.0014367541234492688,
+   "ganhou_val": "7/20",
+   "teste": 0.5502818973420399,
+   "delta_teste": 0.0005038904646383236,
+   "ganhou_teste": "12/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "lote 512",
+   "val": 0.5495913081305458,
+   "delta_val": 0.0012520414153114113,
+   "ganhou_val": "14/20",
+   "teste": 0.5507247252183525,
+   "delta_teste": 0.0009467183409509972,
+   "ganhou_teste": "12/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "AdamW",
+   "val": 0.5494381954307938,
+   "delta_val": 0.0010989287155592942,
+   "ganhou_val": "13/20",
+   "teste": 0.5498312091054414,
+   "delta_teste": 5.320222803981145e-05,
+   "ganhou_teste": "12/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "lr 0,0003",
+   "val": 0.5495198677666026,
+   "delta_val": 0.0011806010513681852,
+   "ganhou_val": "13/20",
+   "teste": 0.5515033145898215,
+   "delta_teste": 0.0017253077124200322,
+   "ganhou_teste": "12/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "lr 0,003",
+   "val": 0.5458477088454343,
+   "delta_val": -0.0024915578698001704,
+   "ganhou_val": "7/20",
+   "teste": 0.5498247553359434,
+   "delta_teste": 4.674845854196752e-05,
+   "ganhou_teste": "10/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "paciencia 30",
+   "val": 0.5467392950172695,
+   "delta_val": -0.0015999716979648803,
+   "ganhou_val": "7/20",
+   "teste": 0.5488022465737104,
+   "delta_teste": -0.0009757603036912088,
+   "ganhou_teste": "5/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "parada pelo KS",
+   "val": 0.5577077631434126,
+   "delta_val": 0.00936849642817834,
+   "ganhou_val": "20/20",
+   "teste": 0.5508336118934697,
+   "delta_teste": 0.001055605016068234,
+   "ganhou_teste": "10/20",
+   "decisao": "ACEITA"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND",
+   "parada": "ks"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}

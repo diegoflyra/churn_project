@@ -354,3 +354,14 @@ def test_optuna_fica_na_cpu_mesmo_com_a_pilha_ligada(tmp_path, monkeypatch):
     finally:
         F3.usar_pilha(None)
     assert len([t for t in st.trials if t.state.name == "COMPLETE"]) == 2
+
+
+@pytest.mark.parametrize("disp", DISPOSITIVOS)
+def test_parada_tambem_preve_um_terceiro_conjunto_no_melhor_momento(disp):
+    """Fase 4: a rede para pela validacao interna e preve a dobra externa com os pesos do melhor momento."""
+    Xt, _ = dados(33, semente=77)
+    redes = [dict(_rede({**HP, "lote": 4096, **v}, n=120 + j, m=40 + j, sem=j + 1), Xt=Xt) for j, v in enumerate(({}, dict(paciencia=2), dict(parada="ks")))]
+    for r, x in zip(P.treinar_redes(redes, disp, semente=0), redes):
+        m, ep = M.treinar(x["Xa"], x["ya"], x["hp"], x["semente"], x["Xb"], x["yb"])
+        assert r["epoca"] == ep
+        perto(r["p_t"], M.prever(m, Xt), 1e-4)

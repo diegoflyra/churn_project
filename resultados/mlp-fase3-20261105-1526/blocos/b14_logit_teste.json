@@ -1,0 +1,119 @@
+{
+ "nome": "b14_logit",
+ "linhagem": "teste",
+ "pergunta": "Atacar a confian\u00e7a direto no logit ajuda?",
+ "base": {
+  "hp": {
+   "camadas": 4,
+   "unidades": 16,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DNDD"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": {
+  "val": 0.0016248198365819255,
+  "teste": 0.0033053228705043347
+ },
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "val": 0.5473988739458803,
+   "delta_val": 0.0,
+   "ganhou_val": "",
+   "teste": 0.5497435867734131,
+   "delta_teste": 0.0,
+   "ganhou_teste": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "suavizacao 0.05",
+   "val": 0.5470904145199923,
+   "delta_val": -0.00030845942588794695,
+   "ganhou_val": "9/20",
+   "teste": 0.5495398793310585,
+   "delta_teste": -0.00020370744235457817,
+   "ganhou_teste": "11/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "suavizacao 0.1",
+   "val": 0.5465678541292145,
+   "delta_val": -0.0008310198166656902,
+   "ganhou_val": "7/20",
+   "teste": 0.5515153947224714,
+   "delta_teste": 0.0017718079490582684,
+   "ganhou_teste": "11/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "suavizacao 0.2",
+   "val": 0.5453401616360674,
+   "delta_val": -0.002058712309812932,
+   "ganhou_val": "5/20",
+   "teste": 0.5510871291978462,
+   "delta_teste": 0.0013435424244329919,
+   "ganhou_teste": "10/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "penalidade no logit 0.001",
+   "val": 0.5458657055330478,
+   "delta_val": -0.001533168412832342,
+   "ganhou_val": "9/20",
+   "teste": 0.5513432114618946,
+   "delta_teste": 0.0015996246884815324,
+   "ganhou_teste": "15/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "penalidade no logit 0.01",
+   "val": 0.5475155897043485,
+   "delta_val": 0.00011671575846833871,
+   "ganhou_val": "10/20",
+   "teste": 0.5517529430843724,
+   "delta_teste": 0.0020093563109591815,
+   "ganhou_teste": "14/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "penalidade no logit 0.1",
+   "val": 0.5455394826492802,
+   "delta_val": -0.0018593912966000437,
+   "ganhou_val": "7/20",
+   "teste": 0.5513093705423483,
+   "delta_teste": 0.0015657837689351973,
+   "ganhou_teste": "11/20",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 4,
+   "unidades": 16,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DNDD"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}

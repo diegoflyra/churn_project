@@ -1,0 +1,71 @@
+{
+ "nome": "b18_optuna",
+ "linhagem": "val",
+ "pergunta": "O melhor trial supera o campe\u00e3o em divis\u00f5es novas?",
+ "base": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND",
+   "parada": "ks"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": {
+  "val": 0.00015103066577915047,
+  "teste": 0.0015076171028201412
+ },
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "val": 0.5557947565238812,
+   "delta_val": 0.0,
+   "ganhou_val": "",
+   "teste": 0.5510484893214936,
+   "delta_teste": 0.0,
+   "ganhou_teste": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "melhor trial",
+   "val": 0.5573683444357675,
+   "delta_val": 0.001573587911886326,
+   "ganhou_val": "14/20",
+   "teste": 0.5511322228436963,
+   "delta_teste": 8.373352220262808e-05,
+   "ganhou_teste": "11/20",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND",
+   "parada": "ks"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}
