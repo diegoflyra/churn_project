@@ -1,0 +1,346 @@
+{
+ "limiar": 0.49322596192359924,
+ "clientes_na_banda": 1585,
+ "churn_na_banda": 0.27129337539432175,
+ "fracao": 0.3,
+ "variaveis": [
+  {
+   "variavel": "Contract_Month-to-month",
+   "ks_na_banda": 0.06946541830262754,
+   "ks_fora_da_banda": 0.6205855702797599,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.288961038961039,
+   "churn_baixo": 0.2096317280453258
+  },
+  {
+   "variavel": "tenure",
+   "ks_na_banda": 0.06860968488875463,
+   "ks_fora_da_banda": 0.47780420583682565,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.25253807106598986,
+   "churn_baixo": 0.28983688833124216
+  },
+  {
+   "variavel": "PaymentMethod_Automatic",
+   "ks_na_banda": 0.06724051142655796,
+   "ks_fora_da_banda": 0.32083776947181636,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.23882896764252695,
+   "churn_baixo": 0.2938034188034188
+  },
+  {
+   "variavel": "TotalCharges",
+   "ks_na_banda": 0.05829054666263972,
+   "ks_fora_da_banda": 0.29824215652961833,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.25757575757575757,
+   "churn_baixo": 0.2849936948297604
+  },
+  {
+   "variavel": "total_addons",
+   "ks_na_banda": 0.05825027685492801,
+   "ks_fora_da_banda": 0.1490195190093253,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.24774193548387097,
+   "churn_baixo": 0.2938271604938272
+  },
+  {
+   "variavel": "Contract_One year",
+   "ks_na_banda": 0.05680056377730791,
+   "ks_fora_da_banda": 0.21358591006909045,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.2175226586102719,
+   "churn_baixo": 0.28548644338118023
+  },
+  {
+   "variavel": "PaymentMethod_Bank transfer (automatic)",
+   "ks_na_banda": 0.05182724252491688,
+   "ks_fora_da_banda": 0.14443953637633555,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.2235294117647059,
+   "churn_baixo": 0.28433734939759037
+  },
+  {
+   "variavel": "PaymentMethod_Electronic check",
+   "ks_na_banda": 0.04561562468539215,
+   "ks_fora_da_banda": 0.4451402574848038,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.29572649572649573,
+   "churn_baixo": 0.257
+  },
+  {
+   "variavel": "MultipleLines",
+   "ks_na_banda": 0.043984697473069545,
+   "ks_fora_da_banda": 0.08956771246271755,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.2503793626707132,
+   "churn_baixo": 0.2861771058315335
+  },
+  {
+   "variavel": "OnlineBackup",
+   "ks_na_banda": 0.04326990838618738,
+   "ks_fora_da_banda": 0.11051761241363689,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.2496,
+   "churn_baixo": 0.28541666666666665
+  },
+  {
+   "variavel": "StreamingMovies",
+   "ks_na_banda": 0.039212725259236914,
+   "ks_fora_da_banda": 0.11993506248348246,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.2516025641025641,
+   "churn_baixo": 0.28407908428720086
+  },
+  {
+   "variavel": "MonthlyCharges",
+   "ks_na_banda": 0.03738044900835602,
+   "ks_fora_da_banda": 0.36378638577415334,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.26641414141414144,
+   "churn_baixo": 0.27616645649432536
+  },
+  {
+   "variavel": "TechSupport",
+   "ks_na_banda": 0.029407027081445714,
+   "ks_fora_da_banda": 0.23432853852833468,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.2494061757719715,
+   "churn_baixo": 0.27920962199312716
+  },
+  {
+   "variavel": "PaperlessBilling",
+   "ks_na_banda": 0.029125138427464003,
+   "ks_fora_da_banda": 0.3094680409257372,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.28007699711260825,
+   "churn_baixo": 0.25457875457875456
+  },
+  {
+   "variavel": "DeviceProtection",
+   "ks_na_banda": 0.026598207993556833,
+   "ks_fora_da_banda": 0.08626533771284028,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.2571912013536379,
+   "churn_baixo": 0.2796780684104628
+  },
+  {
+   "variavel": "InternetService_Fiber optic",
+   "ks_na_banda": 0.026557938185845176,
+   "ks_fora_da_banda": 0.4888919092384944,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.28176100628930817,
+   "churn_baixo": 0.2607594936708861
+  },
+  {
+   "variavel": "InternetService_DSL",
+   "ks_na_banda": 0.022440350347327165,
+   "ks_fora_da_banda": 0.18501151508287084,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.25980392156862747,
+   "churn_baixo": 0.27852004110996914
+  },
+  {
+   "variavel": "PaymentMethod_Mailed check",
+   "ks_na_banda": 0.021624886741165833,
+   "ks_fora_da_banda": 0.12430248801298749,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.2905982905982906,
+   "churn_baixo": 0.26580226904376014
+  },
+  {
+   "variavel": "Partner",
+   "ks_na_banda": 0.018352964864592702,
+   "ks_fora_da_banda": 0.22879639068222152,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.26284875183553597,
+   "churn_baixo": 0.2776548672566372
+  },
+  {
+   "variavel": "PaymentMethod_Credit card (automatic)",
+   "ks_na_banda": 0.015413268901641075,
+   "ks_fora_da_banda": 0.17639823309548086,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.255663430420712,
+   "churn_baixo": 0.27507836990595613
+  },
+  {
+   "variavel": "OnlineSecurity",
+   "ks_na_banda": 0.013943420920165095,
+   "ks_fora_da_banda": 0.2501404462566542,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.26136363636363635,
+   "churn_baixo": 0.27510917030567683
+  },
+  {
+   "variavel": "Dependents",
+   "ks_na_banda": 0.013601127554615955,
+   "ks_fora_da_banda": 0.2407769849360064,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.2603092783505155,
+   "churn_baixo": 0.27485380116959063
+  },
+  {
+   "variavel": "Contract_Two year",
+   "ks_na_banda": 0.012664854525319624,
+   "ks_fora_da_banda": 0.40699966021066936,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.09090909090909091,
+   "churn_baixo": 0.27383237364043506
+  },
+  {
+   "variavel": "gender",
+   "ks_na_banda": 0.012231954092419228,
+   "ks_fora_da_banda": 0.0020183486238531945,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.2665847665847666,
+   "churn_baixo": 0.27626459143968873
+  },
+  {
+   "variavel": "PhoneService",
+   "ks_na_banda": 0.011990335246149203,
+   "ks_fora_da_banda": 0.02773436025219911,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.2685589519650655,
+   "churn_baixo": 0.2890995260663507
+  },
+  {
+   "variavel": "StreamingTV",
+   "ks_na_banda": 0.009674821302728287,
+   "ks_fora_da_banda": 0.10339562804394609,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.2759146341463415,
+   "churn_baixo": 0.2680301399354144
+  },
+  {
+   "variavel": "InternetService_No",
+   "ks_na_banda": 0.004117587838518122,
+   "ks_fora_da_banda": 0.3038803941556235,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.2640449438202247,
+   "churn_baixo": 0.27221037668798864
+  },
+  {
+   "variavel": "SeniorCitizen",
+   "ks_na_banda": 0.0022047719722138037,
+   "ks_fora_da_banda": 0.1776792388718994,
+   "churn_na_banda": 0.27129337539432175,
+   "churn_alto": 0.26881720430107525,
+   "churn_baixo": 0.27182235834609497
+  }
+ ],
+ "regras": [
+  {
+   "regra": "Contract_Month-to-month <= 0.5 e MonthlyCharges <= 99.97",
+   "aparece_em": 2,
+   "clientes": 75,
+   "churn": 0.18666666666666668,
+   "lift": 0.688062015503876
+  },
+  {
+   "regra": "tenure <= 3.5 e MonthlyCharges > 20.48",
+   "aparece_em": 2,
+   "clientes": 49,
+   "churn": 0.32653061224489793,
+   "lift": 1.2036070242050307
+  },
+  {
+   "regra": "Contract_Month-to-month <= 0.5 e MonthlyCharges > 99.97",
+   "aparece_em": 2,
+   "clientes": 66,
+   "churn": 0.2878787878787879,
+   "lift": 1.0611346018322765
+  },
+  {
+   "regra": "tenure <= 3.5 e MonthlyCharges <= 20.48",
+   "aparece_em": 2,
+   "clientes": 49,
+   "churn": 0.2653061224489796,
+   "lift": 0.9779307071665877
+  },
+  {
+   "regra": "PaymentMethod_Automatic > 0.5 e MonthlyCharges > 99.45",
+   "aparece_em": 1,
+   "clientes": 25,
+   "churn": 0.16,
+   "lift": 0.5897674418604651
+  },
+  {
+   "regra": "tenure > 3.5 e MonthlyCharges <= 39.25",
+   "aparece_em": 1,
+   "clientes": 22,
+   "churn": 0.18181818181818182,
+   "lift": 0.6701902748414377
+  },
+  {
+   "regra": "PaymentMethod_Automatic <= 0.5 e tenure <= 1.5",
+   "aparece_em": 1,
+   "clientes": 26,
+   "churn": 0.3076923076923077,
+   "lift": 1.1341681574239715
+  },
+  {
+   "regra": "Contract_Month-to-month > 0.5 e MonthlyCharges > 99.42",
+   "aparece_em": 1,
+   "clientes": 25,
+   "churn": 0.24,
+   "lift": 0.8846511627906977
+  },
+  {
+   "regra": "tenure > 3.5 e PaymentMethod_Electronic check > 0.5",
+   "aparece_em": 1,
+   "clientes": 100,
+   "churn": 0.3,
+   "lift": 1.1058139534883722
+  },
+  {
+   "regra": "PaymentMethod_Automatic > 0.5 e MonthlyCharges <= 99.45",
+   "aparece_em": 1,
+   "clientes": 107,
+   "churn": 0.29906542056074764,
+   "lift": 1.102369050206477
+  },
+  {
+   "regra": "Contract_Month-to-month > 0.5 e PaymentMethod_Electronic check <= 0.5",
+   "aparece_em": 1,
+   "clientes": 152,
+   "churn": 0.2894736842105263,
+   "lift": 1.067013463892289
+  },
+  {
+   "regra": "tenure > 3.5 e PaymentMethod_Electronic check <= 0.5",
+   "aparece_em": 1,
+   "clientes": 165,
+   "churn": 0.2545454545454545,
+   "lift": 0.9382663847780126
+  },
+  {
+   "regra": "Contract_Month-to-month > 0.5 e MonthlyCharges <= 99.42",
+   "aparece_em": 1,
+   "clientes": 221,
+   "churn": 0.2850678733031674,
+   "lift": 1.0507734399663264
+  },
+  {
+   "regra": "PaymentMethod_Automatic <= 0.5 e tenure > 1.5",
+   "aparece_em": 1,
+   "clientes": 159,
+   "churn": 0.2641509433962264,
+   "lift": 0.9736726634488811
+  },
+  {
+   "regra": "Contract_Month-to-month > 0.5 e PaymentMethod_Electronic check > 0.5",
+   "aparece_em": 1,
+   "clientes": 95,
+   "churn": 0.2736842105263158,
+   "lift": 1.0088127294981641
+  },
+  {
+   "regra": "tenure > 3.5 e MonthlyCharges > 39.25",
+   "aparece_em": 1,
+   "clientes": 249,
+   "churn": 0.26907630522088355,
+   "lift": 0.9918277762211638
+  }
+ ]
+}
