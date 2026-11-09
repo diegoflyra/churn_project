@@ -1,0 +1,353 @@
+{
+ "limiar": 0.5461091995239258,
+ "clientes_na_banda": 1585,
+ "churn_na_banda": 0.31041009463722397,
+ "fracao": 0.3,
+ "variaveis": [
+  {
+   "variavel": "Contract_Month-to-month",
+   "ks_na_banda": 0.058489352048140875,
+   "ks_fora_da_banda": 0.6123469641230674,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.3253193087903832,
+   "churn_baixo": 0.23228346456692914
+  },
+  {
+   "variavel": "tenure",
+   "ks_na_banda": 0.05808024457188765,
+   "ks_fora_da_banda": 0.4898504437793997,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.28697850821744625,
+   "churn_baixo": 0.3337531486146096
+  },
+  {
+   "variavel": "InternetService_Fiber optic",
+   "ks_na_banda": 0.05766927751619688,
+   "ks_fora_da_banda": 0.48209386594747194,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.33373063170441003,
+   "churn_baixo": 0.28418230563002683
+  },
+  {
+   "variavel": "Contract_One year",
+   "ks_na_banda": 0.05228765462403018,
+   "ks_fora_da_banda": 0.2149008150084577,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.23770491803278687,
+   "churn_baixo": 0.32363907531692765
+  },
+  {
+   "variavel": "PaymentMethod_Automatic",
+   "ks_na_banda": 0.05011938499988844,
+   "ks_fora_da_banda": 0.3326062527354239,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.28187919463087246,
+   "churn_baixo": 0.3276036400404449
+  },
+  {
+   "variavel": "total_addons",
+   "ks_na_banda": 0.049840448084261246,
+   "ks_fora_da_banda": 0.15585311710177163,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.2872777017783858,
+   "churn_baixo": 0.33021077283372363
+  },
+  {
+   "variavel": "PaymentMethod_Electronic check",
+   "ks_na_banda": 0.04622542565773324,
+   "ks_fora_da_banda": 0.4546848200238943,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.3354632587859425,
+   "churn_baixo": 0.2940563086548488
+  },
+  {
+   "variavel": "MonthlyCharges",
+   "ks_na_banda": 0.04354391210883746,
+   "ks_fora_da_banda": 0.35527862879854266,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.31645569620253167,
+   "churn_baixo": 0.30440251572327043
+  },
+  {
+   "variavel": "PaperlessBilling",
+   "ks_na_banda": 0.04035101421462517,
+   "ks_fora_da_banda": 0.3076244888946718,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.3234732824427481,
+   "churn_baixo": 0.2849162011173184
+  },
+  {
+   "variavel": "OnlineBackup",
+   "ks_na_banda": 0.03903629155230248,
+   "ks_fora_da_banda": 0.11678081516617578,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.287215411558669,
+   "churn_baixo": 0.3234714003944773
+  },
+  {
+   "variavel": "TechSupport",
+   "ks_na_banda": 0.03808232730085759,
+   "ks_fora_da_banda": 0.23057287169235496,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.27520435967302453,
+   "churn_baixo": 0.32101806239737274
+  },
+  {
+   "variavel": "TotalCharges",
+   "ks_na_banda": 0.03779781164691798,
+   "ks_fora_da_banda": 0.3194774009628692,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.30176767676767674,
+   "churn_baixo": 0.31904161412358134
+  },
+  {
+   "variavel": "InternetService_No",
+   "ks_na_banda": 0.03276207053012892,
+   "ks_fora_da_banda": 0.29016233138945735,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.25,
+   "churn_baixo": 0.31834403997144894
+  },
+  {
+   "variavel": "PaymentMethod_Credit card (automatic)",
+   "ks_na_banda": 0.02627585745207861,
+   "ks_fora_da_banda": 0.17305346250448517,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.2785714285714286,
+   "churn_baixo": 0.31724137931034485
+  },
+  {
+   "variavel": "InternetService_DSL",
+   "ks_na_banda": 0.024907206986068076,
+   "ks_fora_da_banda": 0.1919315345580147,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.29537366548042704,
+   "churn_baixo": 0.31867057673509286
+  },
+  {
+   "variavel": "StreamingMovies",
+   "ks_na_banda": 0.023899314930935223,
+   "ks_fora_da_banda": 0.12042449835775992,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.297029702970297,
+   "churn_baixo": 0.31869254341164455
+  },
+  {
+   "variavel": "PaymentMethod_Bank transfer (automatic)",
+   "ks_na_banda": 0.023843527547809718,
+   "ks_fora_da_banda": 0.1595527902309387,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.2848101265822785,
+   "churn_baixo": 0.31678486997635935
+  },
+  {
+   "variavel": "SeniorCitizen",
+   "ks_na_banda": 0.018543726150893725,
+   "ks_fora_da_banda": 0.1726445782419948,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.33217993079584773,
+   "churn_baixo": 0.3055555555555556
+  },
+  {
+   "variavel": "DeviceProtection",
+   "ks_na_banda": 0.016470295078065078,
+   "ks_fora_da_banda": 0.09413012534648701,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.30035971223021585,
+   "churn_baixo": 0.31584062196307094
+  },
+  {
+   "variavel": "Partner",
+   "ks_na_banda": 0.015732042041371908,
+   "ks_fora_da_banda": 0.24482743664659706,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.31875,
+   "churn_baixo": 0.3047619047619048
+  },
+  {
+   "variavel": "StreamingTV",
+   "ks_na_banda": 0.015123959565304712,
+   "ks_fora_da_banda": 0.10425484096097659,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.3185419968304279,
+   "churn_baixo": 0.3050314465408805
+  },
+  {
+   "variavel": "OnlineSecurity",
+   "ks_na_banda": 0.009424348589323062,
+   "ks_fora_da_banda": 0.2563637295607155,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.3020833333333333,
+   "churn_baixo": 0.3130724396336386
+  },
+  {
+   "variavel": "MultipleLines",
+   "ks_na_banda": 0.006631260274176487,
+   "ks_fora_da_banda": 0.07772625652065912,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.3069908814589666,
+   "churn_baixo": 0.31283710895361383
+  },
+  {
+   "variavel": "Contract_Two year",
+   "ks_na_banda": 0.006201697424110475,
+   "ks_fora_da_banda": 0.39744614911460985,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.1,
+   "churn_baixo": 0.31174603174603177
+  },
+  {
+   "variavel": "PhoneService",
+   "ks_na_banda": 0.005450427331354743,
+   "ks_fora_da_banda": 0.029105304455143033,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.3090778097982709,
+   "churn_baixo": 0.3197969543147208
+  },
+  {
+   "variavel": "Dependents",
+   "ks_na_banda": 0.0044034841080341225,
+   "ks_fora_da_banda": 0.2501058682974723,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.3146067415730337,
+   "churn_baixo": 0.30919446704637915
+  },
+  {
+   "variavel": "PaymentMethod_Mailed check",
+   "ks_na_banda": 0.0038939593421551955,
+   "ks_fora_da_banda": 0.12207856728847044,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.3140495867768595,
+   "churn_baixo": 0.309328968903437
+  },
+  {
+   "variavel": "gender",
+   "ks_na_banda": 0.002698249763833427,
+   "ks_fora_da_banda": 0.0038798660973041743,
+   "churn_na_banda": 0.31041009463722397,
+   "churn_alto": 0.3092909535452323,
+   "churn_baixo": 0.3116036505867014
+  }
+ ],
+ "regras": [
+  {
+   "regra": "Contract_Month-to-month > 0.5 e MonthlyCharges <= 98.1",
+   "aparece_em": 2,
+   "clientes": 484,
+   "churn": 0.3243801652892562,
+   "lift": 1.0450052072834777
+  },
+  {
+   "regra": "Contract_Month-to-month > 0.5 e MonthlyCharges > 98.1",
+   "aparece_em": 2,
+   "clientes": 51,
+   "churn": 0.3137254901960784,
+   "lift": 1.0106806950422444
+  },
+  {
+   "regra": "tenure > 1.5 e MonthlyCharges <= 29.38",
+   "aparece_em": 1,
+   "clientes": 11,
+   "churn": 0.09090909090909091,
+   "lift": 0.2928677014042868
+  },
+  {
+   "regra": "MonthlyCharges <= 29.48 e TotalCharges <= 25.23",
+   "aparece_em": 1,
+   "clientes": 26,
+   "churn": 0.5,
+   "lift": 1.6107723577235773
+  },
+  {
+   "regra": "Contract_Month-to-month <= 0.5 e TotalCharges > 4757",
+   "aparece_em": 1,
+   "clientes": 24,
+   "churn": 0.16666666666666666,
+   "lift": 0.5369241192411924
+  },
+  {
+   "regra": "Contract_Month-to-month <= 0.5 e PaymentMethod_Automatic <= 0.5",
+   "aparece_em": 1,
+   "clientes": 25,
+   "churn": 0.2,
+   "lift": 0.644308943089431
+  },
+  {
+   "regra": "MonthlyCharges <= 29.48 e TotalCharges > 25.23",
+   "aparece_em": 1,
+   "clientes": 29,
+   "churn": 0.20689655172413793,
+   "lift": 0.6665264928511354
+  },
+  {
+   "regra": "Contract_Month-to-month <= 0.5 e OnlineBackup <= 0.5",
+   "aparece_em": 1,
+   "clientes": 28,
+   "churn": 0.21428571428571427,
+   "lift": 0.6903310104529616
+  },
+  {
+   "regra": "Contract_Month-to-month <= 0.5 e PaymentMethod_Automatic > 0.5",
+   "aparece_em": 1,
+   "clientes": 22,
+   "churn": 0.22727272727272727,
+   "lift": 0.7321692535107169
+  },
+  {
+   "regra": "Contract_Month-to-month > 0.5 e InternetService_Fiber optic > 0.5",
+   "aparece_em": 1,
+   "clientes": 121,
+   "churn": 0.371900826446281,
+   "lift": 1.1980951421084458
+  },
+  {
+   "regra": "Contract_Month-to-month <= 0.5 e OnlineBackup > 0.5",
+   "aparece_em": 1,
+   "clientes": 24,
+   "churn": 0.2916666666666667,
+   "lift": 0.9396172086720868
+  },
+  {
+   "regra": "Contract_Month-to-month > 0.5 e InternetService_Fiber optic <= 0.5",
+   "aparece_em": 1,
+   "clientes": 149,
+   "churn": 0.2953020134228188,
+   "lift": 0.9513286408031867
+  },
+  {
+   "regra": "tenure <= 1.5",
+   "aparece_em": 1,
+   "clientes": 40,
+   "churn": 0.325,
+   "lift": 1.0470020325203253
+  },
+  {
+   "regra": "MonthlyCharges > 29.48 e tenure <= 22.5",
+   "aparece_em": 1,
+   "clientes": 94,
+   "churn": 0.2978723404255319,
+   "lift": 0.9596090641757481
+  },
+  {
+   "regra": "MonthlyCharges > 29.48 e tenure > 22.5",
+   "aparece_em": 1,
+   "clientes": 168,
+   "churn": 0.30357142857142855,
+   "lift": 0.977968931475029
+  },
+  {
+   "regra": "Contract_Month-to-month <= 0.5 e TotalCharges <= 4757",
+   "aparece_em": 1,
+   "clientes": 23,
+   "churn": 0.30434782608695654,
+   "lift": 0.9804701307882645
+  },
+  {
+   "regra": "tenure > 1.5 e MonthlyCharges > 29.38",
+   "aparece_em": 1,
+   "clientes": 266,
+   "churn": 0.3157894736842105,
+   "lift": 1.0173299101412066
+  }
+ ]
+}
