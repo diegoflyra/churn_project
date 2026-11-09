@@ -1,0 +1,122 @@
+{
+ "nome": "b20_partida",
+ "pergunta": "Os padr\u00f5es da fase 3 superam a refer\u00eancia na medida nova?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "N"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": 0.0006414088473559546,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5470774113071871,
+   "delta": 0.0,
+   "ganhou": "",
+   "delta_parada": 0.0,
+   "delta_banda": 0.0,
+   "decisao": "base"
+  },
+  {
+   "variante": "campe\u00e3o val da fase 3, parando pela perda",
+   "ks": 0.5477173168273068,
+   "delta": 0.0006399055201197804,
+   "ganhou": "15/30",
+   "delta_parada": 0.0003479892452266542,
+   "delta_banda": 0.003353131655744747,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "1x10 com GELU e Dropout",
+   "ks": 0.5481739247410451,
+   "delta": 0.0010965134338579965,
+   "ganhou": "21/30",
+   "delta_parada": 0.0006614412724035919,
+   "delta_banda": 0.005697007564769162,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "2x16 GELU, Dropout na 1\u00aa camada",
+   "ks": 0.5480926987737533,
+   "delta": 0.0010152874665660468,
+   "ganhou": "17/30",
+   "delta_parada": 0.0002609805781651264,
+   "delta_banda": 0.0025192342499820415,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "campe\u00e3o teste da fase 3",
+   "ks": 0.5493743092643741,
+   "delta": 0.002296897957187079,
+   "ganhou": "21/30",
+   "delta_parada": 0.0017014659405971799,
+   "delta_banda": 0.01193006989539247,
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "N"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "reps": [
+  101,
+  102,
+  103,
+  104,
+  105,
+  106,
+  107,
+  108,
+  109,
+  110,
+  111,
+  112,
+  113,
+  114,
+  115,
+  116,
+  117,
+  118,
+  119,
+  120,
+  121,
+  122,
+  123,
+  124,
+  125,
+  126,
+  127,
+  128,
+  129,
+  130
+ ]
+}

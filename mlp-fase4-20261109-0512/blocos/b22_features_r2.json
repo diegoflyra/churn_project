@@ -1,0 +1,176 @@
+{
+ "nome": "b22_features_r2",
+ "pergunta": "Alguma feature para os clientes amb\u00edguos supera o ru\u00eddo?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "N"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco",
+   "tenure_1"
+  ]
+ },
+ "regua": 0.00032435093125924295,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5519945300202482,
+   "delta": 0.0,
+   "ganhou": "",
+   "delta_parada": 0.0,
+   "delta_banda": 0.0,
+   "decisao": "base"
+  },
+  {
+   "variante": "com tenure_ate_3",
+   "ks": 0.5518869027964858,
+   "delta": -0.00010762722376251125,
+   "ganhou": "14/30",
+   "delta_parada": -0.00016048738899751374,
+   "delta_banda": -0.001362761797791817,
+   "decisao": "rejeitada",
+   "delta_xgb": 2.021324360538627e-05,
+   "ganhou_xgb": "14/30"
+  },
+  {
+   "variante": "com novo_mes_a_mes",
+   "ks": 0.5526359921522999,
+   "delta": 0.0006414621320517214,
+   "ganhou": "20/30",
+   "delta_parada": 0.0007674821845677101,
+   "delta_banda": -1.4194789706367671e-05,
+   "decisao": "rejeitada",
+   "delta_xgb": 2.531459808485792e-06,
+   "ganhou_xgb": "14/30"
+  },
+  {
+   "variante": "com n_protecao",
+   "ks": 0.5508528757138839,
+   "delta": -0.0011416543063642777,
+   "ganhou": "10/30",
+   "delta_parada": -4.608427367718271e-05,
+   "delta_banda": -0.0023910472407560426,
+   "decisao": "rejeitada",
+   "delta_xgb": -0.0009898016586390298,
+   "ganhou_xgb": "12/30"
+  },
+  {
+   "variante": "com n_streaming",
+   "ks": 0.5512540684175494,
+   "delta": -0.0007404616026988053,
+   "ganhou": "14/30",
+   "delta_parada": -0.00016500523238242027,
+   "delta_banda": -0.001447124718273716,
+   "decisao": "rejeitada",
+   "delta_xgb": -0.00030109609239740894,
+   "ganhou_xgb": "12/30"
+  },
+  {
+   "variante": "com fibra_sem_protecao",
+   "ks": 0.5518331830879616,
+   "delta": -0.0001613469322865028,
+   "ganhou": "15/30",
+   "delta_parada": -0.000362257314416381,
+   "delta_banda": -0.003902823337474002,
+   "decisao": "rejeitada",
+   "delta_xgb": 8.193613872889972e-05,
+   "ganhou_xgb": "17/30"
+  },
+  {
+   "variante": "com atrito_pagamento",
+   "ks": 0.5508954003951803,
+   "delta": -0.0010991296250679,
+   "ganhou": "10/30",
+   "delta_parada": -0.0009437977487652664,
+   "delta_banda": -0.0030948360718739834,
+   "decisao": "rejeitada",
+   "delta_xgb": -0.00030217838318509586,
+   "ganhou_xgb": "15/30"
+  },
+  {
+   "variante": "com sozinho",
+   "ks": 0.5512230558510963,
+   "delta": -0.0007714741691518201,
+   "ganhou": "15/30",
+   "delta_parada": 0.0003336670178215632,
+   "delta_banda": -0.0015797127321685034,
+   "decisao": "rejeitada",
+   "delta_xgb": -0.0008149020697173456,
+   "ganhou_xgb": "10/30"
+  },
+  {
+   "variante": "sem gender",
+   "ks": 0.5523907646266489,
+   "delta": 0.00039623460640078785,
+   "ganhou": "16/30",
+   "delta_parada": 0.0001482528734427187,
+   "delta_banda": 0.003279244366094154,
+   "decisao": "rejeitada",
+   "delta_xgb": 0.0006512874805423359,
+   "ganhou_xgb": "15/30"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "N"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco",
+   "tenure_1"
+  ]
+ },
+ "reps": [
+  101,
+  102,
+  103,
+  104,
+  105,
+  106,
+  107,
+  108,
+  109,
+  110,
+  111,
+  112,
+  113,
+  114,
+  115,
+  116,
+  117,
+  118,
+  119,
+  120,
+  121,
+  122,
+  123,
+  124,
+  125,
+  126,
+  127,
+  128,
+  129,
+  130
+ ]
+}
