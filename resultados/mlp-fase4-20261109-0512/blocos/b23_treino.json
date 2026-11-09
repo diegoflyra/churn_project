@@ -1,0 +1,187 @@
+{
+ "nome": "b23_treino",
+ "pergunta": "Dropout na 1\u00aa camada, GELU, intensidade, lr, lote ou parada pelo KS (agora na separa\u00e7\u00e3o interna) ajudam?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "N"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco",
+   "tenure_1"
+  ]
+ },
+ "regua": 0.00032435093125924295,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5519945300202482,
+   "delta": 0.0,
+   "ganhou": "",
+   "delta_parada": 0.0,
+   "delta_banda": 0.0,
+   "decisao": "base"
+  },
+  {
+   "variante": "Dropout na 1\u00aa camada",
+   "ks": 0.5517161131172945,
+   "delta": -0.00027841690295371904,
+   "ganhou": "15/30",
+   "delta_parada": -0.0012644091426055677,
+   "delta_banda": 0.0021263671008164803,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "GELU",
+   "ks": 0.5519895299940427,
+   "delta": -5.000026205577897e-06,
+   "ganhou": "14/30",
+   "delta_parada": -0.00039711162008185805,
+   "delta_banda": -0.0014740886201176696,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "l2 0.0001",
+   "ks": 0.5521002695681495,
+   "delta": 0.00010573954790120688,
+   "ganhou": "17/30",
+   "delta_parada": 0.0003373689938976132,
+   "delta_banda": 0.0005276866583853401,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "l2 0.001",
+   "ks": 0.551885842343688,
+   "delta": -0.00010868767656013375,
+   "ganhou": "18/30",
+   "delta_parada": -0.00022285319454852978,
+   "delta_banda": -0.0001985410979452873,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "lr 0,0003",
+   "ks": 0.5516207675791452,
+   "delta": -0.00037376244110293535,
+   "ganhou": "13/30",
+   "delta_parada": 0.00018721184772105826,
+   "delta_banda": 0.002406853665974899,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "lr 0,003",
+   "ks": 0.550887132532141,
+   "delta": -0.0011073974881070426,
+   "ganhou": "10/30",
+   "delta_parada": -3.116281182462544e-05,
+   "delta_banda": -0.0037129602769037854,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "lote 128",
+   "ks": 0.5521633455451375,
+   "delta": 0.0001688155248892135,
+   "ganhou": "17/30",
+   "delta_parada": -0.0001148215312099891,
+   "delta_banda": 0.0016813077554380328,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "lote 512",
+   "ks": 0.5519970833180466,
+   "delta": 2.55329779856502e-06,
+   "ganhou": "14/30",
+   "delta_parada": -0.00013300296821958658,
+   "delta_banda": 0.0014003872884108444,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "paciencia 20",
+   "ks": 0.5519018120290637,
+   "delta": -9.271799118443225e-05,
+   "ganhou": "17/30",
+   "delta_parada": -0.0011122988065975115,
+   "delta_banda": -0.007243247867062391,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "parada pelo KS (na separacao interna)",
+   "ks": 0.5511367128059721,
+   "delta": -0.0008578172142760947,
+   "ganhou": "16/30",
+   "delta_parada": -0.0015267087353707223,
+   "delta_banda": 0.004137874178375815,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "suavizacao 0,05",
+   "ks": 0.5520876061544696,
+   "delta": 9.307613422153694e-05,
+   "ganhou": "15/30",
+   "delta_parada": 0.00014723697014485578,
+   "delta_banda": -4.921686911289284e-05,
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "N"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco",
+   "tenure_1"
+  ]
+ },
+ "reps": [
+  101,
+  102,
+  103,
+  104,
+  105,
+  106,
+  107,
+  108,
+  109,
+  110,
+  111,
+  112,
+  113,
+  114,
+  115,
+  116,
+  117,
+  118,
+  119,
+  120,
+  121,
+  122,
+  123,
+  124,
+  125,
+  126,
+  127,
+  128,
+  129,
+  130
+ ]
+}

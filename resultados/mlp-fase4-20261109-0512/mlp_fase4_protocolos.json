@@ -1,0 +1,23 @@
+[
+ {
+  "config": "refer\u00eancia (fase 2)",
+  "val_antigo": 0.5481187322784711,
+  "ks_parada": 0.5474532859186894,
+  "ks": 0.548392646187873,
+  "otimismo_antigo": -0.00027391390940190163
+ },
+ {
+  "config": "campe\u00e3o val da fase 3 (parada pelo KS)",
+  "val_antigo": 0.5579581496758369,
+  "ks_parada": 0.5436103989014618,
+  "ks": 0.5490287370478881,
+  "otimismo_antigo": 0.008929412627948774
+ },
+ {
+  "config": "campe\u00e3o teste da fase 3",
+  "val_antigo": 0.5485006996892017,
+  "ks_parada": 0.5482032662644981,
+  "ks": 0.5484557990345861,
+  "otimismo_antigo": 4.4900654615598334e-05
+ }
+]
