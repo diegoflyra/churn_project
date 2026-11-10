@@ -1,9 +1,9 @@
 """Fecha o MLP: resultados/mlp.json no formato comum e as tabelas e figuras pedidas nos slides.
 
 Uso (da raiz):  CHURN_DEVICE=cpu python experimentos/mlp/relatorio_final.py
-Le:   resultados/placar.jsonl (versao adotada em resultados/escolhidos.json), resultados/mlp_final.json,
+Le:   resultados/placar.jsonl (versao adotada em resultados/escolhidos.json), resultados/mlp/mlp_final.json,
       o estudo do Optuna da fase 5.
-Gera: resultados/mlp.json, resultados/mlp_slides/TABELAS.md e resultados/mlp_slides/*.png.
+Gera: resultados/mlp.json (o entregavel, formato comum), resultados/mlp/slides/TABELAS.md e resultados/mlp/slides/*.png.
       As variacoes dos slides (perda, ativacao, otimizador, camadas) sao medidas no placar, pareadas com a adotada;
       o que ja estiver no placar e reaproveitado.
 """
@@ -13,13 +13,15 @@ import numpy as np, pandas as pd, optuna
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from scipy.stats import wilcoxon
 from sklearn.metrics import roc_curve, precision_recall_curve, roc_auc_score
 import comum, fase5 as F5
 
 RAIZ = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-PASTA = os.path.join(RAIZ, "resultados")
-SAIDA = os.path.join(PASTA, "mlp_slides")
-ESTUDO = os.path.join(PASTA, "mlp-fase5-20261110-0001", "mlp_fase5.db")
+PASTA = os.path.join(RAIZ, "resultados")              # entregaveis e placar comum
+TRABALHO = os.path.join(PASTA, "mlp")                   # arquivos de trabalho do MLP
+SAIDA = os.path.join(TRABALHO, "slides")
+ESTUDO = os.path.join(TRABALHO, "mlp-fase5-20261110-0001", "mlp_fase5.db")
 
 # Cores (paleta de referencia do skill de visualizacao, validada para 2 series no fundo claro)
 SUPERFICIE, TEXTO, TEXTO2, MUDO, GRADE = "#fcfcfb", "#0b0b0b", "#52514e", "#898781", "#e1e0d9"
@@ -110,6 +112,14 @@ def figura_evolucao(linhas):
     f.tight_layout(); f.savefig(os.path.join(SAIDA, "evolucao_fases.png")); plt.close(f)
 
 
+def _resumo(r):
+    """Os nomes do resumo do comum.avaliar, como [media, dp]. O placar nao guarda o dp de AUROC, MSE e CE (ficam null),
+    nem a validacao com prior corrigido (null)."""
+    return dict(ks=[r["ks_kfold"], float(np.std(r["ks_dobras"]))], auroc=[r["auc_oof"], None],
+                ce_raw=[r.get("ce_val"), None], mse_raw=[r.get("mse_val"), None], ce_corr=[None, None], mse_corr=[None, None],
+                tr_ce=[r.get("ce_treino"), None], tr_mse=[r.get("mse_treino"), None])
+
+
 def _md(df):
     cols = list(df.columns)
     L = ["| " + " | ".join(cols) + " |", "|" + "---|" * len(cols)]
@@ -122,7 +132,7 @@ def main():
     esc = json.load(open(os.path.join(PASTA, "escolhidos.json"), encoding="utf-8"))["mlp"]["rotulo"]
     por = {r["rotulo"]: r for r in comum.ler_placar(PASTA) if r["modelo"] == "mlp"}
     adot = por[esc]
-    fin = json.load(open(os.path.join(PASTA, "mlp_final.json")))
+    fin = json.load(open(os.path.join(TRABALHO, "mlp_final.json")))
     _, _, ytr, yte = F5._dados()
     yte = np.asarray(yte)
 
@@ -133,7 +143,7 @@ def main():
     por.update({l["rotulo"]: l for l in linhas_v})
 
     # 2. CE x MSE tambem no teste (so comparacao, como no formato comum; nao muda a escolha)
-    arq_mse = os.path.join(PASTA, "mlp_slides", "final_mse.json")
+    arq_mse = os.path.join(SAIDA, "final_mse.json")
     os.makedirs(SAIDA, exist_ok=True)
     if os.path.isfile(arq_mse):
         fin_mse = json.load(open(arq_mse))
@@ -150,17 +160,25 @@ def main():
     m = dict(fin["teste"])
     m["ce_corr"] = comum.ce(yte, comum.corrige_prior(p_ce)); m["mse_corr"] = comum.mse(yte, comum.corrige_prior(p_ce))
     v_mse = por["slides_perda_mse"]["vs_adotado"]
+    # mesmos campos do comum.avaliar (stab.json, tabkan.json): diferenca CE - MSE por dobra; as 15 dobras sao as mesmas nos dois
+    d_fold = np.asarray(adot["ks_dobras"]) - np.asarray(por["slides_perda_mse"]["ks_dobras"])
     saida = dict(
         modelo="mlp", melhor_config=adot["config"], ks_dobras_melhor=adot["ks_dobras"], estudo=est,
-        ce_vs_mse=dict(delta_ks_val_media=-v_mse["delta"], delta_ks_val_ic95=[-v_mse["ic95"][1], -v_mse["ic95"][0]], veredito_mse_vs_ce=v_mse["veredito"],
+        ce_vs_mse=dict(delta_ks_val_media=float(d_fold.mean()), delta_ks_val_dp=float(d_fold.std(ddof=1)), delta_por_dobra=d_fold.tolist(),
+                       dobras_ce_melhor=int((d_fold > 0).sum()), wilcoxon_p=float(wilcoxon(d_fold).pvalue) if np.any(d_fold != 0) else 1.0,
+                       delta_ks_oof_ic95=[-v_mse["ic95"][1], -v_mse["ic95"][0]], veredito_mse_vs_ce=v_mse["veredito"],
+                       ks_teste_por_semente=dict(ce=m.get("ks_por_semente"), mse=m_mse.get("ks_por_semente")),
                        delta_ks_teste=float(comum.ks(yte, p_ce) - comum.ks(yte, p_mse)), delta_ks_teste_ic95=dt["ic95"],
-                       resumo={"ce": {k: adot.get(k) for k in ("ks_kfold", "auc_oof", "mse_val", "ce_val", "mse_treino", "ce_treino")},
-                               "mse": {k: por["slides_perda_mse"].get(k) for k in ("ks_kfold", "auc_oof", "mse_val", "ce_val", "mse_treino", "ce_treino")}},
+                       resumo={"ce": _resumo(adot), "mse": _resumo(por["slides_perda_mse"])},
                        teste={"ce": {k: m[k] for k in ("ks", "auroc", "ce", "mse", "f1")}, "mse": {k: m_mse[k] for k in ("ks", "auroc", "ce", "mse", "f1")}}),
+        mse_ce_por_conjunto=dict(treino=dict(mse=adot.get("mse_treino"), ce=adot.get("ce_treino")),       # slide 14
+                                 validacao=dict(mse=adot.get("mse_val"), ce=adot.get("ce_val")),
+                                 teste=dict(mse=m["mse"], ce=m["ce"])),
         teste=m, ks_teste_por_semente=m.get("ks_por_semente"), probabilidades_teste=p_ce.tolist(), y_teste=[int(v) for v in yte],
         placar=dict(rotulo=esc, ks_kfold=adot["ks_kfold"], ep=adot["ep"], ks_oof=adot["ks_oof"], vs_trial0=adot.get("vs_trial0"),
                     vs_referencia=adot.get("vs_referencia"), arquivo="resultados/placar.jsonl"),
-        aviso="ks_dobras_melhor tem as 15 dobras do placar (3 x 5). O estudo e o Optuna da fase 5 (100 trials, 6 divisoes por trial).")
+        aviso="ks_dobras_melhor tem as 15 dobras do placar (3 x 5). O estudo e o Optuna da fase 5 (100 trials, 6 divisoes por trial). "
+              "mse_ce_por_conjunto: treino e validacao vem das dobras do placar (treino com oversampling 1:1), teste do teste unico.")
     json.dump(saida, open(os.path.join(PASTA, "mlp.json"), "w"), indent=1, default=float)
 
     # 4. figuras

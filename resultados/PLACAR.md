@@ -1,12 +1,12 @@
 # Placar
 
-Gerado por `comum.relatorio_placar`. Regra em `pre-proposta.md` ("Placar comum"): k-fold estratificado 3 x 5 (sementes 101, 102, 103), parada em 20% internos, veredito pareado pelo IC95 do bootstrap de clientes. O KS do placar decide; o teste so confere.
+Gerado por `comum.relatorio_placar`. Regra em `docs/pre-proposta.md` ("Placar comum"): k-fold estratificado 3 x 5 (sementes 101, 102, 103), parada em 20% internos, veredito pareado pelo IC95 do bootstrap de clientes. O KS do placar decide; o teste so confere.
 
 ## Modelo adotado de cada um
 
 | Modelo | Versao | KS placar | ep | KS teste | IC95 teste | AUROC teste | vs trial 0 | vs XGBoost | Motivo |
 |---|---|---|---|---|---|---|---|---|---|
-| mlp | fase4 | 0.5520 | 0.0047 | 0.5447 | 0.503 a 0.586 | 0.8502 | ganhou (+0.0131) | - | Maior KS do placar entre as 33 versoes do MLP; ganha do trial 0, empata com a referencia (fase 2) |
+| mlp | fase4 | 0.5520 | 0.0047 | 0.5447 | 0.503 a 0.586 | 0.8502 | ganhou (+0.0131) | - | Maior KS do placar entre as 33 versoes das fases 1-5; ganha do trial 0, empata com a referencia (fase 2). As 9 variacoes dos slides medidas depois (rmsprop 0.5522, adadelta 0.5521) empatam com ela e nao a substituem |
 
 ## mlp: todas as versoes (maior KS do placar primeiro)
 

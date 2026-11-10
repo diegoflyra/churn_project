@@ -1,4 +1,4 @@
-"""Fase 5 do MLP: tudo medido no placar comum (comum.py, pre-proposta.md "Placar comum").
+"""Fase 5 do MLP: tudo medido no placar comum (comum.py, docs/pre-proposta.md "Placar comum").
 
 1. As versoes de cada fase entram no placar, contra o trial 0 (1x10 padrao) e contra a referencia (campeao da fase 2).
 2. Arquiteturas x ritmo de treino: a rede pequena so ganha porque as grandes param cedo? (lr baixo + paciencia alta).

@@ -1,7 +1,7 @@
 # Comparacao dos pre-processamentos
 
 Gerado por `python experimentos/preprocessamentos.py`. Nao edite aqui: edite o `registro.json` de cada modelo.
-As regras estao em `experimentos/README.md`.
+As regras estao em `docs/estrutura_preprocessamento.md`.
 
 ## O que cada modelo usa hoje
 

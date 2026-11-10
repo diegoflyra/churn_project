@@ -49,7 +49,7 @@ def carregar_df(path=CAMINHO_CSV):
 
 
 # Features por linha (sem olhar o rotulo nem outras linhas: nao vazam). Vieram do MLP; a evidencia de cada uma,
-# no MLP e no XGBoost, esta em experimentos/README.md ("Processamentos para testar nos outros modelos").
+# no MLP e no XGBoost, esta em docs/GUIA_DADOS.md.
 FEATURES = {
     "tenure_1": lambda d: (d["tenure"] <= 1).astype(int),                                    # 61% de churn no treino
     "cliente_novo": lambda d: (d["tenure"] <= 6).astype(int),
@@ -292,7 +292,7 @@ def avaliar(modelo, hp_from_params, fit, n_seeds, fit_final=None, salvar_oof=Fal
     print("OK", modelo)
 
 
-# ---------------- placar comum (pre-proposta.md, "Placar comum") ----------------
+# ---------------- placar comum (docs/pre-proposta.md, "Placar comum") ----------------
 # Uma regua so para todos os modelos: k-fold estratificado repetido (3 x 5) sobre o treino oficial, separacao interna
 # de 20% para qualquer parada, OOF salva por cliente e veredito pareado (ganhou / empatou / perdeu) pelo IC95 de um
 # bootstrap de clientes. O teste nao entra aqui.
@@ -473,7 +473,7 @@ def relatorio_placar(pasta=RESULTADOS):
     linhas = ler_placar(pasta)
     f = lambda x: "-" if x is None else f"{x:.4f}"
     v = lambda r, k: "-" if not r.get(k) else f"{r[k]['veredito']} ({r[k]['delta']:+.4f})"
-    L = ["# Placar", "", "Gerado por `comum.relatorio_placar`. Regra em `pre-proposta.md` (\"Placar comum\"): k-fold estratificado 3 x 5 (sementes "
+    L = ["# Placar", "", "Gerado por `comum.relatorio_placar`. Regra em `docs/pre-proposta.md` (\"Placar comum\"): k-fold estratificado 3 x 5 (sementes "
          f"{', '.join(map(str, PLACAR_SEMENTES))}), parada em 20% internos, veredito pareado pelo IC95 do bootstrap de clientes. "
          "O KS do placar decide; o teste so confere.", "", "## Modelo adotado de cada um", "",
          "| Modelo | Versao | KS placar | ep | KS teste | IC95 teste | AUROC teste | vs trial 0 | vs XGBoost | Motivo |", "|---|---|---|---|---|---|---|---|---|---|"]

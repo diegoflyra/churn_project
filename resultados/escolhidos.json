@@ -1,7 +1,7 @@
 {
  "mlp": {
   "rotulo": "fase4",
-  "motivo": "Maior KS do placar entre as 33 versoes do MLP; ganha do trial 0, empata com a referencia (fase 2)",
+  "motivo": "Maior KS do placar entre as 33 versoes das fases 1-5; ganha do trial 0, empata com a referencia (fase 2). As 9 variacoes dos slides medidas depois (rmsprop 0.5522, adadelta 0.5521) empatam com ela e nao a substituem",
   "data": "2026-11-10 17:31"
  }
 }

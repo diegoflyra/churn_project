@@ -2,7 +2,7 @@
 
 Uso: python experimentos/preprocessamentos.py
 Le:  experimentos/<modelo>/preprocessamento/registro.json
-Gera: experimentos/PREPROCESSAMENTOS.md
+Gera: docs/PREPROCESSAMENTOS.md
 """
 import glob, json, os, sys
 
@@ -56,7 +56,7 @@ def _sinal(x):
 def gerar(regs):
     L = ["# Comparacao dos pre-processamentos", "",
          "Gerado por `python experimentos/preprocessamentos.py`. Nao edite aqui: edite o `registro.json` de cada modelo.",
-         "As regras estao em `experimentos/README.md`.", "", "## O que cada modelo usa hoje", "",
+         "As regras estao em `docs/estrutura_preprocessamento.md`.", "", "## O que cada modelo usa hoje", "",
          "| Modelo | Versao | Validacao | Variaveis criadas | Scaler | Oversampling | Extras | Assinatura do teste |", "|---|---|---|---|---|---|---|---|"]
     sim = lambda x: "sim" if x is True else "nao" if x is False else "-" if x is None else str(x)
     for m, r in regs:
@@ -86,8 +86,8 @@ def main():
     assinaturas = {r["assinatura_teste"] for _, r in regs if r.get("assinatura_teste")}
     if len(assinaturas) > 1:
         sys.exit(f"Assinaturas de teste diferentes: {sorted(assinaturas)}. O teste precisa ser o mesmo para todos.")
-    open(os.path.join(PASTA, "PREPROCESSAMENTOS.md"), "w", encoding="utf-8", newline="\n").write(gerar(regs) + "\n")
-    print(f"{len(regs)} registros conferidos; experimentos/PREPROCESSAMENTOS.md atualizado.")
+    open(os.path.join(PASTA, "..", "docs", "PREPROCESSAMENTOS.md"), "w", encoding="utf-8", newline="\n").write(gerar(regs) + "\n")
+    print(f"{len(regs)} registros conferidos; docs/PREPROCESSAMENTOS.md atualizado.")
 
 
 if __name__ == "__main__":

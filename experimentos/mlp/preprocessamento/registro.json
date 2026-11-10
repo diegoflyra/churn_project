@@ -22,7 +22,7 @@
     "ks": 0.5399553614012651,
     "regua": 0.0027719904192369917
    },
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b02_oversampling.json",
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b02_oversampling.json",
    "placar": {
     "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
     "ks": 0.5391093856187226,
@@ -52,7 +52,7 @@
     "regua": 0.0027719904192369917
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b02_oversampling.json"
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b02_oversampling.json"
   },
   {
    "id": "b03_sem_criadas",
@@ -71,7 +71,7 @@
     "regua": 0.0027719904192369917
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b03_variaveis_criadas.json",
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b03_variaveis_criadas.json",
    "placar": {
     "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
     "ks": 0.5359980747627958,
@@ -106,7 +106,7 @@
     "regua": 0.0027719904192369917
    },
    "decisao": "aceita",
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b04_cliente_novo.json",
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b04_cliente_novo.json",
    "placar": {
     "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
     "ks": 0.5454249061403187,
@@ -141,7 +141,7 @@
     "regua": 0.0009338623368046583
    },
    "decisao": "aceita",
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b05_delta_preco.json",
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b05_delta_preco.json",
    "placar": {
     "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
     "ks": 0.5444859599194266,
@@ -176,7 +176,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b06_mtm_fibra.json"
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b06_mtm_fibra.json"
   },
   {
    "id": "b07_preco_por_servico",
@@ -197,7 +197,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b07_preco_por_servico.json"
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b07_preco_por_servico.json"
   },
   {
    "id": "b08_tenure_ate_3",
@@ -218,7 +218,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b08_formas_tenure.json"
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b08_formas_tenure.json"
   },
   {
    "id": "b08_tenure_ate_12",
@@ -239,7 +239,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b08_formas_tenure.json"
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b08_formas_tenure.json"
   },
   {
    "id": "b08_log_tenure",
@@ -260,7 +260,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b08_formas_tenure.json"
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b08_formas_tenure.json"
   },
   {
    "id": "b09_log_total",
@@ -281,7 +281,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b09_formas_cobranca.json"
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b09_formas_cobranca.json"
   },
   {
    "id": "b09_log_mensal",
@@ -302,7 +302,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b09_formas_cobranca.json"
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b09_formas_cobranca.json"
   },
   {
    "id": "b10_novo_sem_fibra_caro",
@@ -323,7 +323,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b10_regras_erros.json"
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b10_regras_erros.json"
   },
   {
    "id": "b10_fibra_recem_chegado",
@@ -344,7 +344,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b10_regras_erros.json"
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b10_regras_erros.json"
   },
   {
    "id": "b10_antigo_sem_automatico",
@@ -365,7 +365,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b10_regras_erros.json"
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b10_regras_erros.json"
   },
   {
    "id": "b11_sem_gender",
@@ -386,7 +386,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b11_retirar_variaveis.json"
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b11_retirar_variaveis.json"
   },
   {
    "id": "b11_sem_streaming",
@@ -407,7 +407,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b11_retirar_variaveis.json"
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b11_retirar_variaveis.json"
   },
   {
    "id": "b11_sem_total_charges",
@@ -428,7 +428,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-fase2-20261104-0505/blocos/b11_retirar_variaveis.json"
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b11_retirar_variaveis.json"
   },
   {
    "id": "f4_tenure_ate_3",
@@ -450,7 +450,7 @@
     "regua": 0.0006414088473559546,
     "delta_xgb": 0.0009828982332192315
    },
-   "evidencia": "resultados/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
   },
   {
    "id": "f4_novo_mes_a_mes",
@@ -472,7 +472,7 @@
     "regua": 0.0006414088473559546,
     "delta_xgb": 0.0003583989783314571
    },
-   "evidencia": "resultados/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
   },
   {
    "id": "f4_n_protecao",
@@ -494,7 +494,7 @@
     "regua": 0.0006414088473559546,
     "delta_xgb": 7.819922186872812e-05
    },
-   "evidencia": "resultados/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
   },
   {
    "id": "f4_n_streaming",
@@ -516,7 +516,7 @@
     "regua": 0.0006414088473559546,
     "delta_xgb": 0.0006905399574071769
    },
-   "evidencia": "resultados/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
   },
   {
    "id": "f4_fibra_sem_protecao",
@@ -538,7 +538,7 @@
     "regua": 0.0006414088473559546,
     "delta_xgb": 6.451990489119523e-05
    },
-   "evidencia": "resultados/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
   },
   {
    "id": "f4_atrito_pagamento",
@@ -560,7 +560,7 @@
     "regua": 0.0006414088473559546,
     "delta_xgb": 0.0003699792277038538
    },
-   "evidencia": "resultados/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
   },
   {
    "id": "f4_sozinho",
@@ -582,7 +582,7 @@
     "regua": 0.0006414088473559546,
     "delta_xgb": 0.0006071957050788039
    },
-   "evidencia": "resultados/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
   },
   {
    "id": "f4_sem_gender",
@@ -600,7 +600,7 @@
     "regua": 0.0006414088473559546,
     "delta_xgb": 0.0008092949473879174
    },
-   "evidencia": "resultados/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
   },
   {
    "id": "f4_tenure_1",
@@ -657,7 +657,7 @@
     ],
     "auroc": 0.8502047003299695
    },
-   "evidencia": "resultados/mlp-fase4-20261109-0512/blocos/b22_features_r1.json e resultados/placar.jsonl"
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json e resultados/placar.jsonl"
   },
   {
    "id": "p_fase4_sem_over",
