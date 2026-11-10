@@ -1,0 +1,52 @@
+{
+ "ks_a": 0.5480663053789588,
+ "ks_b": 0.5524498145517884,
+ "delta": 0.004383509172829332,
+ "ep": 0.0005993093274947954,
+ "ic95": [
+  0.0032088628909395333,
+  0.005558155454719131
+ ],
+ "vitorias": 0.9,
+ "n": 30,
+ "delta_banda": 0.01017096973348508,
+ "referencia": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "N"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "N"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco",
+   "tenure_1"
+  ]
+ }
+}

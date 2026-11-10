@@ -1,0 +1,54 @@
+{
+ "nome": "b03_variaveis_criadas",
+ "pergunta": "As vari\u00e1veis criadas no pr\u00e9-processamento ajudam, agora com os dados na escala certa?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": []
+ },
+ "regua": 0.0027719904192369917,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5399553614012651,
+   "delta": 0.0,
+   "dp_delta": 0.0,
+   "ganhou": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "sem total_addons e PaymentMethod_Automatic",
+   "ks": 0.538349006022044,
+   "delta": -0.0016063553792210693,
+   "dp_delta": 0.003220596351460807,
+   "ganhou": "1/5",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": []
+ },
+ "tempo_s": 134.87339091300964
+}

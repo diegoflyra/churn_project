@@ -48,14 +48,38 @@ def carregar_df(path=CAMINHO_CSV):
     return df
 
 
-def preparar(X_tr, y_tr, X_aval):
-    """Scaler ajustado so em X_tr; oversampling so em X_tr; X_aval so recebe transform."""
+# Features por linha (sem olhar o rotulo nem outras linhas: nao vazam). Vieram do MLP; a evidencia de cada uma,
+# no MLP e no XGBoost, esta em docs/GUIA_DADOS.md.
+FEATURES = {
+    "tenure_1": lambda d: (d["tenure"] <= 1).astype(int),                                    # 61% de churn no treino
+    "cliente_novo": lambda d: (d["tenure"] <= 6).astype(int),
+    "delta_preco": lambda d: d["MonthlyCharges"] - d["TotalCharges"] / (d["tenure"] + 1),   # preco atual - media ja paga
+}
+
+
+def adicionar_features(X, nomes):
+    """Copia de X com as features pedidas de FEATURES."""
+    X = X.copy()
+    for n in nomes:
+        X[n] = FEATURES[n](X)
+    return X
+
+
+def preparar(X_tr, y_tr, X_aval, features=(), over=True):
+    """Scaler ajustado so em X_tr; oversampling so em X_tr; X_aval so recebe transform.
+    features: nomes de FEATURES a acrescentar (as numericas nao binarias entram no scaler).
+    over: True = oversampling 1:1 (padrao do grupo); False = sem; numero (ex.: 0.5) = minoria ate essa fracao da maioria."""
+    if features:
+        X_tr, X_aval = adicionar_features(X_tr, features), adicionar_features(X_aval, features)
+    cols = NUMERIC_COLS + [f for f in features if X_tr[f].nunique() > 2]
     scaler = StandardScaler()
     X_tr_s = X_tr.copy()
-    X_tr_s[NUMERIC_COLS] = scaler.fit_transform(X_tr[NUMERIC_COLS])
+    X_tr_s[cols] = scaler.fit_transform(X_tr[cols])
     X_av_s = X_aval.copy()
-    X_av_s[NUMERIC_COLS] = scaler.transform(X_aval[NUMERIC_COLS])
-    X_b, y_b = RandomOverSampler(random_state=SEMENTE).fit_resample(X_tr_s, y_tr)
+    X_av_s[cols] = scaler.transform(X_aval[cols])
+    if over is False:
+        return X_tr_s, y_tr, X_av_s
+    X_b, y_b = RandomOverSampler(sampling_strategy="auto" if over is True else float(over), random_state=SEMENTE).fit_resample(X_tr_s, y_tr)
     return X_b, y_b, X_av_s
 
 
@@ -266,6 +290,211 @@ def avaliar(modelo, hp_from_params, fit, n_seeds, fit_final=None, salvar_oof=Fal
     os.makedirs(RESULTADOS, exist_ok=True)
     json.dump(out, open(f"{RESULTADOS}/{modelo}.json", "w"), indent=1)
     print("OK", modelo)
+
+
+# ---------------- placar comum (docs/pre-proposta.md, "Placar comum") ----------------
+# Uma regua so para todos os modelos: k-fold estratificado repetido (3 x 5) sobre o treino oficial, separacao interna
+# de 20% para qualquer parada, OOF salva por cliente e veredito pareado (ganhou / empatou / perdeu) pelo IC95 de um
+# bootstrap de clientes. O teste nao entra aqui.
+PLACAR_SEMENTES = (101, 102, 103)
+PLACAR_DOBRAS = 5
+PLACAR_FRACAO_PARADA = 0.2
+PLACAR_BOOT = 2000
+
+
+def divisoes_placar(y, sementes=PLACAR_SEMENTES):
+    """[dict(semente, dobra, treino, validacao, ajuste, parada)] com posicoes no treino oficial.
+    `ajuste` e `parada` sao posicoes dentro de `treino` (ajuste + parada = treino); a validacao nao decide nada."""
+    y = np.asarray(y)
+    saida = []
+    for s in sementes:
+        for i, (a, b) in enumerate(StratifiedKFold(PLACAR_DOBRAS, shuffle=True, random_state=s).split(np.zeros(len(y)), y)):
+            aj, pa = train_test_split(np.arange(len(a)), test_size=PLACAR_FRACAO_PARADA, stratify=y[a], random_state=1000 * s + i)
+            saida.append(dict(semente=s, dobra=i, treino=a, validacao=b, ajuste=np.sort(aj), parada=np.sort(pa)))
+    return saida
+
+
+def assinatura_treino(X_train):
+    """Identifica os clientes do treino oficial, na ordem: OOFs so se comparam com a mesma assinatura."""
+    return hashlib.sha256(json.dumps([int(i) for i in X_train.index]).encode()).hexdigest()[:16]
+
+
+def resumir_placar(y, divs, p_val, p_treino=None, extra=None):
+    """Junta as previsoes de cada divisao (mesma ordem de `divs`) na medida do placar.
+    p_treino (opcional): previsoes no treino da dobra, como o modelo treinou nele (MSE/CE de treino, slide 14)."""
+    y = np.asarray(y).astype(float)
+    sementes = sorted({d["semente"] for d in divs})
+    oof = np.full((len(sementes), len(y)), np.nan, dtype="float32")
+    ks_d = []
+    for d, p in zip(divs, p_val):
+        p = np.asarray(p, dtype=float)
+        oof[sementes.index(d["semente"]), d["validacao"]] = p
+        ks_d.append(ks(y[d["validacao"]], p))
+    if np.isnan(oof).any():
+        raise ValueError("faltam previsoes de validacao: as divisoes nao cobrem o treino inteiro")
+    media = oof.mean(0)
+    r = dict(ks_kfold=float(np.mean(ks_d)), ep=float(np.std(ks_d, ddof=1) / np.sqrt(len(ks_d))), ks_dobras=[float(k) for k in ks_d],
+             ks_oof=ks(y, media), auc_oof=float(roc_auc_score(y, media)), mse_val=mse(y, media), ce_val=ce(y, media),
+             sementes=sementes, oof=oof)
+    if p_treino is not None:
+        r["mse_treino"] = float(np.mean([mse(np.asarray(yt), np.asarray(p)) for yt, p in p_treino]))
+        r["ce_treino"] = float(np.mean([ce(np.asarray(yt), np.asarray(p)) for yt, p in p_treino]))
+    if extra:
+        r.update(extra)
+    return r
+
+
+def medir_placar(X_train, y_train, ajustar_prever, divs=None):
+    """Mede um modelo qualquer no placar.
+
+    ajustar_prever(X_tr, y_tr, X_val, ajuste, parada, semente) -> p_val, ou (p_val, (y_tr_usado, p_tr_usado)).
+      X_tr/y_tr chegam crus (sem scaler nem oversampling): o modelo prepara so com eles (ex.: comum.preparar).
+      Qualquer parada (epocas, arvores) usa so X_tr.iloc[parada]; depois o modelo pode retreinar em X_tr inteiro."""
+    y = np.asarray(y_train)
+    divs = divs or divisoes_placar(y)
+    p_val, p_tr = [], []
+    for d in divs:
+        r = ajustar_prever(X_train.iloc[d["treino"]], y_train.iloc[d["treino"]], X_train.iloc[d["validacao"]],
+                           d["ajuste"], d["parada"], 1000 * d["semente"] + d["dobra"])
+        if isinstance(r, tuple):
+            p_val.append(r[0]); p_tr.append(r[1])
+        else:
+            p_val.append(r)
+    return resumir_placar(y, divs, p_val, p_tr if p_tr else None)
+
+
+def comparar_placar(y, oof_a, oof_b, n_boot=PLACAR_BOOT, semente=0):
+    """b contra a, pareado nos mesmos clientes. Delta = KS(OOF b) - KS(OOF a); IC95 por bootstrap de clientes."""
+    y = np.asarray(y)
+    a = np.asarray(oof_a).reshape(-1, len(y)).mean(0)
+    b = np.asarray(oof_b).reshape(-1, len(y)).mean(0)
+    rng = np.random.default_rng(semente)
+    ds = []
+    for _ in range(n_boot):
+        i = rng.integers(0, len(y), len(y))
+        if y[i].min() == y[i].max():
+            continue
+        ds.append(ks(y[i], b[i]) - ks(y[i], a[i]))
+    lo, hi = np.percentile(ds, [2.5, 97.5])
+    return dict(delta=ks(y, b) - ks(y, a), ic95=[float(lo), float(hi)], p_positivo=float(np.mean(np.array(ds) > 0)),
+                veredito="ganhou" if lo > 0 else "perdeu" if hi < 0 else "empatou")
+
+
+def _arq_placar(pasta):
+    return os.path.join(pasta, "placar.jsonl")
+
+
+def ler_placar(pasta=RESULTADOS):
+    """Linhas do placar; a ultima linha de cada (modelo, rotulo) vale."""
+    linhas = {}
+    if os.path.isfile(_arq_placar(pasta)):
+        with open(_arq_placar(pasta), encoding="utf-8") as f:
+            for l in f:
+                try:
+                    r = json.loads(l)
+                except json.JSONDecodeError:
+                    continue
+                linhas[(r["modelo"], r["rotulo"])] = r
+    return list(linhas.values())
+
+
+def _oof_placar(pasta, linha):
+    return np.load(os.path.join(pasta, linha["oof"]))
+
+
+def registrar_placar(pasta, modelo, rotulo, config, medida, y_train, assinatura, contra=None):
+    """Grava a OOF e uma linha no placar. contra = {"vs_trial0": (modelo, rotulo), ...}: comparacoes pareadas.
+    Se ja houver uma linha do xgboost (rotulo 'final', senao a ultima) com a mesma assinatura, entra vs_xgboost."""
+    os.makedirs(os.path.join(pasta, "placar_oof"), exist_ok=True)
+    nome = f"placar_oof/{modelo}__{rotulo}.npy"
+    np.save(os.path.join(pasta, nome), medida["oof"])
+    existentes = {(r["modelo"], r["rotulo"]): r for r in ler_placar(pasta)}
+    contra = dict(contra or {})
+    xg = [r for r in existentes.values() if r["modelo"] == "xgboost" and r["assinatura"] == assinatura]
+    if xg and modelo != "xgboost":
+        contra.setdefault("vs_xgboost", ("xgboost", next((r["rotulo"] for r in xg if r["rotulo"] == "final"), xg[-1]["rotulo"])))
+    linha = dict(modelo=modelo, rotulo=rotulo, data=time.strftime("%Y-%m-%d %H:%M"), assinatura=assinatura, config=config, oof=nome,
+                 **{k: v for k, v in medida.items() if k != "oof"})
+    for campo, chave in contra.items():
+        ref = existentes.get(tuple(chave))
+        if ref is None or ref["assinatura"] != assinatura:
+            linha[campo] = None
+            continue
+        linha[campo] = dict(referencia=list(chave), **comparar_placar(y_train, _oof_placar(pasta, ref), medida["oof"]))
+    linha.update(ks_teste=None, auc_teste=None, mse_teste=None)
+    with open(_arq_placar(pasta), "a", encoding="utf-8") as f:
+        f.write(json.dumps(linha) + "\n")
+    return linha
+
+
+def registrar_teste_placar(pasta, modelo, rotulo, y_teste, p_teste_sementes):
+    """Preenche o teste de uma linha ja medida (uma vez, so na configuracao final). Media das sementes + IC95."""
+    linhas = {(r["modelo"], r["rotulo"]): r for r in ler_placar(pasta)}
+    r = dict(linhas[(modelo, rotulo)])
+    p = np.mean(np.asarray(p_teste_sementes, dtype=float).reshape(-1, len(y_teste)), 0)
+    y = np.asarray(y_teste)
+    r.update(ks_teste=ks(y, p), ks_teste_ic95=list(bootstrap_ks(y, p)), auc_teste=float(roc_auc_score(y, p)), mse_teste=mse(y, p), ce_teste=ce(y, p),
+             data_teste=time.strftime("%Y-%m-%d %H:%M"))
+    with open(_arq_placar(pasta), "a", encoding="utf-8") as f:
+        f.write(json.dumps(r) + "\n")
+    return r
+
+
+def tabela_placar(pasta=RESULTADOS):
+    """Uma linha por (modelo, rotulo): KS do placar, vereditos e teste."""
+    rows = []
+    for r in ler_placar(pasta):
+        row = dict(modelo=r["modelo"], rotulo=r["rotulo"], ks_kfold=r["ks_kfold"], ep=r["ep"], ks_oof=r["ks_oof"], auc_oof=r["auc_oof"],
+                   mse_val=r.get("mse_val"), mse_treino=r.get("mse_treino"))
+        for campo in ["vs_trial0", "vs_xgboost"] + sorted(k for k in r if k.startswith("vs_") and k not in ("vs_trial0", "vs_xgboost")):
+            v = r.get(campo)
+            row[campo] = None if not v else f"{v['veredito']} ({v['delta']:+.4f} [{v['ic95'][0]:+.4f}, {v['ic95'][1]:+.4f}])"
+        row.update(ks_teste=r.get("ks_teste"), auc_teste=r.get("auc_teste"))
+        rows.append(row)
+    return pd.DataFrame(rows)
+
+
+def adotar_placar(pasta, modelo, rotulo, motivo):
+    """Marca a versao adotada de um modelo (a que vai para a comparacao final). Guarda em escolhidos.json."""
+    linhas = {(r["modelo"], r["rotulo"]) for r in ler_placar(pasta)}
+    if (modelo, rotulo) not in linhas:
+        raise KeyError(f"{modelo}/{rotulo} nao esta no placar")
+    arq = os.path.join(pasta, "escolhidos.json")
+    esc = json.load(open(arq, encoding="utf-8")) if os.path.isfile(arq) else {}
+    esc[modelo] = dict(rotulo=rotulo, motivo=motivo, data=time.strftime("%Y-%m-%d %H:%M"))
+    json.dump(esc, open(arq, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
+    return esc[modelo]
+
+
+def relatorio_placar(pasta=RESULTADOS):
+    """Markdown do placar: a versao adotada de cada modelo e, abaixo, todas as versoes medidas de cada um."""
+    arq = os.path.join(pasta, "escolhidos.json")
+    esc = json.load(open(arq, encoding="utf-8")) if os.path.isfile(arq) else {}
+    linhas = ler_placar(pasta)
+    f = lambda x: "-" if x is None else f"{x:.4f}"
+    v = lambda r, k: "-" if not r.get(k) else f"{r[k]['veredito']} ({r[k]['delta']:+.4f})"
+    L = ["# Placar", "", "Gerado por `comum.relatorio_placar`. Regra em `docs/pre-proposta.md` (\"Placar comum\"): k-fold estratificado 3 x 5 (sementes "
+         f"{', '.join(map(str, PLACAR_SEMENTES))}), parada em 20% internos, veredito pareado pelo IC95 do bootstrap de clientes. "
+         "O KS do placar decide; o teste so confere.", "", "## Modelo adotado de cada um", "",
+         "| Modelo | Versao | KS placar | ep | KS teste | IC95 teste | AUROC teste | vs trial 0 | vs XGBoost | Motivo |", "|---|---|---|---|---|---|---|---|---|---|"]
+    por = {(r["modelo"], r["rotulo"]): r for r in linhas}
+    for m, e in sorted(esc.items()):
+        r = por.get((m, e["rotulo"]), {})
+        ic = r.get("ks_teste_ic95")
+        L.append(f"| {m} | {e['rotulo']} | {f(r.get('ks_kfold'))} | {f(r.get('ep'))} | {f(r.get('ks_teste'))} | "
+                 f"{'-' if not ic else f'{ic[0]:.3f} a {ic[1]:.3f}'} | {f(r.get('auc_teste'))} | {v(r, 'vs_trial0')} | {v(r, 'vs_xgboost')} | {e['motivo']} |")
+    for m in sorted({r["modelo"] for r in linhas}):
+        rs = sorted([r for r in linhas if r["modelo"] == m], key=lambda r: -r["ks_kfold"])
+        outros = sorted({k for r in rs for k in r if k.startswith("vs_") and k not in ("vs_trial0", "vs_xgboost")})
+        L += ["", f"## {m}: todas as versoes (maior KS do placar primeiro)", "",
+              "| Versao | KS placar | ep | KS OOF | AUROC OOF | MSE treino | MSE val | vs trial 0 | " + " | ".join(outros) + (" | " if outros else "") + "KS teste |",
+              "|---" * (9 + len(outros)) + "|"]
+        for r in rs:
+            L.append(f"| {r['rotulo']}{' **(adotado)**' if esc.get(m, {}).get('rotulo') == r['rotulo'] else ''} | {f(r['ks_kfold'])} | {f(r['ep'])} | "
+                     f"{f(r['ks_oof'])} | {f(r['auc_oof'])} | {f(r.get('mse_treino'))} | {f(r.get('mse_val'))} | {v(r, 'vs_trial0')} | "
+                     + "".join(f"{v(r, k)} | " for k in outros) + f"{f(r.get('ks_teste'))} |")
+    L += ["", "Diferencas de KS menores que uns 0,01 ficam dentro do ruido do placar: veja o veredito antes de dizer que algo melhorou."]
+    return "\n".join(L) + "\n"
 
 
 if __name__ == "__main__":

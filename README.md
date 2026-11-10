@@ -2,13 +2,18 @@
 
 Previsão de churn (cancelamento) de clientes de telecomunicações. Projeto da disciplina IF702.
 
-O pré-processamento base está no notebook `if702-preprocessamento.ipynb`, e cada algoritmo tem uma pasta própria em `experimentos/`. Cada modelo pode evoluir o próprio pré-processamento e registra essa evolução em `experimentos/<modelo>/preprocessamento/`: veja as regras em `experimentos/README.md` e a comparação em `experimentos/PREPROCESSAMENTOS.md`.
+O pré-processamento base está no notebook `if702-preprocessamento.ipynb`, e cada algoritmo tem uma pasta própria em `experimentos/`. Cada modelo pode evoluir o próprio pré-processamento e registra essa evolução em `experimentos/<modelo>/preprocessamento/`: veja as regras em `docs/estrutura_preprocessamento.md` e a comparação em `docs/PREPROCESSAMENTOS.md`. O que testar nos dados de cada modelo, a partir do que o MLP aprendeu, está em `docs/GUIA_DADOS.md`.
 
 ## Estrutura
 
 ```
-├── comum.py        dados, dobras, métricas, estudo Optuna e avaliação final
-├── resultados/     JSONs de todos os modelos
+├── comum.py        dados, dobras, métricas, estudo Optuna, avaliação final e placar comum
+├── docs/           pre-proposta, estrutura do pré-processamento, guia de dados e comparação dos pré-processamentos
+├── resultados/
+│   ├── <modelo>.json   entregável: um por modelo, no formato comum (mlp.json, stab.json, tabkan.json, ...)
+│   ├── placar.jsonl, PLACAR.md, placar_oof/, escolhidos.json   o placar comum (docs/pre-proposta.md)
+│   ├── processamentos_comuns.json   features testadas em outros modelos (docs/GUIA_DADOS.md)
+│   └── <modelo>/       arquivos de trabalho de cada modelo (execuções, intermediários, tabelas dos slides)
 └── experimentos/
     ├── stab/       stab.ipynb, modelo.py, avaliar.py
     ├── tabkan/     tabkan.ipynb, modelo.py, avaliar.py

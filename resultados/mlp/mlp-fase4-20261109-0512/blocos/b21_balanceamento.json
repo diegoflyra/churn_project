@@ -1,0 +1,113 @@
+{
+ "nome": "b21_balanceamento",
+ "pergunta": "Trocar as c\u00f3pias do oversampling por peso na classe positiva ajuda, medindo o retreino?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "N"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": 0.0006414088473559546,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5470774113071871,
+   "delta": 0.0,
+   "ganhou": "",
+   "delta_parada": 0.0,
+   "delta_banda": 0.0,
+   "decisao": "base"
+  },
+  {
+   "variante": "sem oversampling",
+   "ks": 0.5487566339446224,
+   "delta": 0.0016792226374352218,
+   "ganhou": "22/30",
+   "delta_parada": 0.0012186113833580444,
+   "delta_banda": 0.00032623221932128556,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem oversampling, peso 1,5",
+   "ks": 0.549343666196713,
+   "delta": 0.0022662548895259873,
+   "ganhou": "23/30",
+   "delta_parada": 0.0017068555565455464,
+   "delta_banda": 0.0034076173332639142,
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem oversampling, peso 2,77",
+   "ks": 0.5481032989341313,
+   "delta": 0.0010258876269442477,
+   "ganhou": "21/30",
+   "delta_parada": 0.0011888453293780446,
+   "delta_banda": 0.00559113550879334,
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "N"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "reps": [
+  101,
+  102,
+  103,
+  104,
+  105,
+  106,
+  107,
+  108,
+  109,
+  110,
+  111,
+  112,
+  113,
+  114,
+  115,
+  116,
+  117,
+  118,
+  119,
+  120,
+  121,
+  122,
+  123,
+  124,
+  125,
+  126,
+  127,
+  128,
+  129,
+  130
+ ]
+}

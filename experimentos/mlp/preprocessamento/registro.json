@@ -1,7 +1,7 @@
 {
  "modelo": "mlp",
  "responsavel": "Diego",
- "atual": "b05_delta_preco",
+ "atual": "f4_tenure_1",
  "assinatura_teste": "e90ba6fab761f037",
  "versoes": [
   {
@@ -22,7 +22,18 @@
     "ks": 0.5399553614012651,
     "regua": 0.0027719904192369917
    },
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b02_oversampling.json"
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b02_oversampling.json",
+   "placar": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5391093856187226,
+    "ep": 0.006576705347507828,
+    "delta": null,
+    "ganhou": null,
+    "ic95": null,
+    "mse_val": 0.16620476846125318,
+    "regua": null,
+    "rotulo_placar": "trial0"
+   }
   },
   {
    "id": "b02_sem_oversampling",
@@ -41,7 +52,7 @@
     "regua": 0.0027719904192369917
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b02_oversampling.json"
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b02_oversampling.json"
   },
   {
    "id": "b03_sem_criadas",
@@ -60,7 +71,21 @@
     "regua": 0.0027719904192369917
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b03_variaveis_criadas.json"
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b03_variaveis_criadas.json",
+   "placar": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5359980747627958,
+    "ep": 0.006452374495180274,
+    "delta": 0.001282777181346173,
+    "ganhou": "empatou vs trial0",
+    "ic95": [
+     -0.006623574952959468,
+     0.005983061658860582
+    ],
+    "mse_val": 0.1648805446624424,
+    "regua": null,
+    "rotulo_placar": "dados_sem_criadas"
+   }
   },
   {
    "id": "b04_cliente_novo",
@@ -81,7 +106,21 @@
     "regua": 0.0027719904192369917
    },
    "decisao": "aceita",
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b04_cliente_novo.json"
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b04_cliente_novo.json",
+   "placar": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5454249061403187,
+    "ep": 0.006049732402464563,
+    "delta": 0.012545406414988802,
+    "ganhou": "empatou vs trial0",
+    "ic95": [
+     -0.0004757850927049167,
+     0.02183972521362829
+    ],
+    "mse_val": 0.16247628693137345,
+    "regua": null,
+    "rotulo_placar": "dados_cliente_novo"
+   }
   },
   {
    "id": "b05_delta_preco",
@@ -102,7 +141,21 @@
     "regua": 0.0009338623368046583
    },
    "decisao": "aceita",
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b05_delta_preco.json"
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b05_delta_preco.json",
+   "placar": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5444859599194266,
+    "ep": 0.0056067499198970035,
+    "delta": 0.006857287821521396,
+    "ganhou": "empatou vs trial0",
+    "ic95": [
+     -0.0021637392307202823,
+     0.018346485073991423
+    ],
+    "mse_val": 0.1630374506574154,
+    "regua": null,
+    "rotulo_placar": "referencia"
+   }
   },
   {
    "id": "b06_mtm_fibra",
@@ -123,7 +176,7 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b06_mtm_fibra.json"
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b06_mtm_fibra.json"
   },
   {
    "id": "b07_preco_por_servico",
@@ -144,7 +197,605 @@
     "regua": 0.0019139670543347532
    },
    "decisao": "rejeitada",
-   "evidencia": "resultados/mlp-20261103-0337/blocos/b07_preco_por_servico.json"
+   "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b07_preco_por_servico.json"
+  },
+  {
+   "id": "b08_tenure_ate_3",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona tenure_ate_3 (tenure <= 3)",
+   "motivo": "Fase 2: o corte de 6 meses foi escolhido a mao; testar outro corte",
+   "altera": {
+    "extras": [
+     "tenure_ate_3"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5526137872840005,
+    "delta": 0.002047374462130236,
+    "ganhou": "3/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b08_formas_tenure.json"
+  },
+  {
+   "id": "b08_tenure_ate_12",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona tenure_ate_12 (tenure <= 12)",
+   "motivo": "Fase 2: o corte de 6 meses foi escolhido a mao; testar outro corte",
+   "altera": {
+    "extras": [
+     "tenure_ate_12"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5489213465479379,
+    "delta": -0.0016450662739323275,
+    "ganhou": "2/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b08_formas_tenure.json"
+  },
+  {
+   "id": "b08_log_tenure",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona log_tenure (log1p de tenure)",
+   "motivo": "Fase 2: cliente_novo foi o maior ganho; testar uma forma continua de tenure",
+   "altera": {
+    "extras": [
+     "log_tenure"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5505451286432319,
+    "delta": -2.1284178638358854e-05,
+    "ganhou": "3/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b08_formas_tenure.json"
+  },
+  {
+   "id": "b09_log_total",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona log_total (log1p de TotalCharges)",
+   "motivo": "Fase 2: testar as cobrancas em escala logaritmica",
+   "altera": {
+    "extras": [
+     "log_total"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5495784411867988,
+    "delta": -0.000987971635071494,
+    "ganhou": "1/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b09_formas_cobranca.json"
+  },
+  {
+   "id": "b09_log_mensal",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona log_mensal (log1p de MonthlyCharges)",
+   "motivo": "Fase 2: testar as cobrancas em escala logaritmica",
+   "altera": {
+    "extras": [
+     "log_mensal"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5502172495662976,
+    "delta": -0.0003491632555726598,
+    "ganhou": "2/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b09_formas_cobranca.json"
+  },
+  {
+   "id": "b10_novo_sem_fibra_caro",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona regra: tenure <= 10, sem fibra, MonthlyCharges > 55",
+   "motivo": "Fase 2: regra da arvore que separa clientes do mesmo lado do escore",
+   "altera": {
+    "extras": [
+     "novo_sem_fibra_caro"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5498422895298194,
+    "delta": -0.0007241232920508711,
+    "ganhou": "3/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b10_regras_erros.json"
+  },
+  {
+   "id": "b10_fibra_recem_chegado",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona regra: fibra e TotalCharges <= 120",
+   "motivo": "Fase 2: regra da arvore que separa clientes do mesmo lado do escore",
+   "altera": {
+    "extras": [
+     "fibra_recem_chegado"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.550039764359352,
+    "delta": -0.0005266484625181978,
+    "ganhou": "2/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b10_regras_erros.json"
+  },
+  {
+   "id": "b10_antigo_sem_automatico",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona regra: tenure > 29, sem pagamento automatico",
+   "motivo": "Fase 2: regra da arvore que separa clientes do mesmo lado do escore",
+   "altera": {
+    "extras": [
+     "antigo_sem_automatico"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5495782158187412,
+    "delta": -0.0009881970031290655,
+    "ganhou": "2/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b10_regras_erros.json"
+  },
+  {
+   "id": "b11_sem_gender",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Retira gender",
+   "motivo": "Fase 2: variavel de pouco sinal",
+   "altera": {
+    "extras": [
+     "sem_gender"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5514933044722456,
+    "delta": 0.0009268916503753832,
+    "ganhou": "3/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b11_retirar_variaveis.json"
+  },
+  {
+   "id": "b11_sem_streaming",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Retira StreamingTV e StreamingMovies",
+   "motivo": "Fase 2: variaveis de pouco sinal",
+   "altera": {
+    "extras": [
+     "sem_streaming"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5503317365394997,
+    "delta": -0.0002346762823704607,
+    "ganhou": "3/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b11_retirar_variaveis.json"
+  },
+  {
+   "id": "b11_sem_total_charges",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Retira TotalCharges",
+   "motivo": "Fase 2: variavel redundante com tenure e MonthlyCharges",
+   "altera": {
+    "extras": [
+     "sem_total_charges"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS) e experimentos/mlp/evolucao.py",
+   "validacao": {
+    "protocolo": "5 divisoes novas do treino",
+    "ks": 0.5506134728169434,
+    "delta": 4.705999507326197e-05,
+    "ganhou": "3/5",
+    "regua": 0.0019139670543347532
+   },
+   "decisao": "rejeitada",
+   "evidencia": "resultados/mlp/mlp-fase2-20261104-0505/blocos/b11_retirar_variaveis.json"
+  },
+  {
+   "id": "f4_tenure_ate_3",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona tenure_ate_3",
+   "motivo": "Fase 4: features para os clientes ambiguos (perto do limiar do KS)",
+   "altera": {
+    "extras": [
+     "tenure_ate_3"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "k-fold aninhado, 30 divisoes (fase 4)",
+    "ks": 0.5504675932962612,
+    "delta": 0.0033901819890740296,
+    "ganhou": "27/30",
+    "regua": 0.0006414088473559546,
+    "delta_xgb": 0.0009828982332192315
+   },
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+  },
+  {
+   "id": "f4_novo_mes_a_mes",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona novo_mes_a_mes",
+   "motivo": "Fase 4: features para os clientes ambiguos (perto do limiar do KS)",
+   "altera": {
+    "extras": [
+     "novo_mes_a_mes"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "k-fold aninhado, 30 divisoes (fase 4)",
+    "ks": 0.5474138185560022,
+    "delta": 0.0003364072488150849,
+    "ganhou": "18/30",
+    "regua": 0.0006414088473559546,
+    "delta_xgb": 0.0003583989783314571
+   },
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+  },
+  {
+   "id": "f4_n_protecao",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona n_protecao",
+   "motivo": "Fase 4: features para os clientes ambiguos (perto do limiar do KS)",
+   "altera": {
+    "extras": [
+     "n_protecao"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "k-fold aninhado, 30 divisoes (fase 4)",
+    "ks": 0.5474008703749321,
+    "delta": 0.0003234590677449578,
+    "ganhou": "16/30",
+    "regua": 0.0006414088473559546,
+    "delta_xgb": 7.819922186872812e-05
+   },
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+  },
+  {
+   "id": "f4_n_streaming",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona n_streaming",
+   "motivo": "Fase 4: features para os clientes ambiguos (perto do limiar do KS)",
+   "altera": {
+    "extras": [
+     "n_streaming"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "k-fold aninhado, 30 divisoes (fase 4)",
+    "ks": 0.5468230686044826,
+    "delta": -0.0002543427027045834,
+    "ganhou": "13/30",
+    "regua": 0.0006414088473559546,
+    "delta_xgb": 0.0006905399574071769
+   },
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+  },
+  {
+   "id": "f4_fibra_sem_protecao",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona fibra_sem_protecao",
+   "motivo": "Fase 4: features para os clientes ambiguos (perto do limiar do KS)",
+   "altera": {
+    "extras": [
+     "fibra_sem_protecao"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "k-fold aninhado, 30 divisoes (fase 4)",
+    "ks": 0.547199329311649,
+    "delta": 0.00012191800446195908,
+    "ganhou": "13/30",
+    "regua": 0.0006414088473559546,
+    "delta_xgb": 6.451990489119523e-05
+   },
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+  },
+  {
+   "id": "f4_atrito_pagamento",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona atrito_pagamento",
+   "motivo": "Fase 4: features para os clientes ambiguos (perto do limiar do KS)",
+   "altera": {
+    "extras": [
+     "atrito_pagamento"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "k-fold aninhado, 30 divisoes (fase 4)",
+    "ks": 0.546848052138638,
+    "delta": -0.00022935916854907405,
+    "ganhou": "16/30",
+    "regua": 0.0006414088473559546,
+    "delta_xgb": 0.0003699792277038538
+   },
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+  },
+  {
+   "id": "f4_sozinho",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona sozinho",
+   "motivo": "Fase 4: features para os clientes ambiguos (perto do limiar do KS)",
+   "altera": {
+    "extras": [
+     "sozinho"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "k-fold aninhado, 30 divisoes (fase 4)",
+    "ks": 0.5462974736066053,
+    "delta": -0.0007799377005819341,
+    "ganhou": "12/30",
+    "regua": 0.0006414088473559546,
+    "delta_xgb": 0.0006071957050788039
+   },
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+  },
+  {
+   "id": "f4_sem_gender",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Remove gender",
+   "motivo": "Fase 4: features para os clientes ambiguos (perto do limiar do KS)",
+   "altera": {},
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "k-fold aninhado, 30 divisoes (fase 4)",
+    "ks": 0.5481389210635277,
+    "delta": 0.0010615097563404581,
+    "ganhou": "17/30",
+    "regua": 0.0006414088473559546,
+    "delta_xgb": 0.0008092949473879174
+   },
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json"
+  },
+  {
+   "id": "f4_tenure_1",
+   "parte_de": "b05_delta_preco",
+   "mudanca": "Adiciona tenure_1 (tenure <= 1)",
+   "motivo": "Fase 4: o churn chega a 61% com tenure <= 1; a rede pequena nao faz esse corte sozinha a partir do tenure continuo",
+   "altera": {
+    "extras": [
+     "tenure_1"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS)",
+   "decisao": "aceita",
+   "validacao": {
+    "protocolo": "k-fold aninhado, 30 divisoes (fase 4)",
+    "ks": 0.5519945300202482,
+    "delta": 0.004917118713061049,
+    "ganhou": "26/30",
+    "regua": 0.0006414088473559546,
+    "delta_xgb": 0.00054468751583255
+   },
+   "placar": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5519685812469317,
+    "ep": 0.004733730528835448,
+    "delta": 0.013132932335250036,
+    "ganhou": "ganhou vs trial0",
+    "ic95": [
+     0.0009014333930606772,
+     0.02623690120260659
+    ],
+    "mse_val": 0.16314991624300676,
+    "regua": null,
+    "rotulo_placar": "fase4"
+   },
+   "placar_vs_referencia": {
+    "referencia": [
+     "mlp",
+     "referencia"
+    ],
+    "delta": 0.00627564451372864,
+    "ic95": [
+     -0.002714277955532579,
+     0.013533380507781695
+    ],
+    "p_positivo": 0.9075,
+    "veredito": "empatou"
+   },
+   "teste": {
+    "ks": 0.5447229678072738,
+    "ic95": [
+     0.503423511632663,
+     0.5860952362218118
+    ],
+    "auroc": 0.8502047003299695
+   },
+   "evidencia": "resultados/mlp/mlp-fase4-20261109-0512/blocos/b22_features_r1.json e resultados/placar.jsonl"
+  },
+  {
+   "id": "p_fase4_sem_over",
+   "parte_de": "f4_tenure_1",
+   "mudanca": "Remove o oversampling",
+   "motivo": "Fase 5: tamanho do oversampling. KS igual; MSE e entropia cruzada melhores com menos oversampling",
+   "altera": {
+    "oversampling": false
+   },
+   "codigo": "experimentos/mlp/evolucao.py (_prep, over)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5504864718019137,
+    "ep": 0.005658539838986278,
+    "delta": 0.011640587084724263,
+    "ganhou": "empatou vs trial0",
+    "ic95": [
+     -0.0004660111342522919,
+     0.024897139743821316
+    ],
+    "mse_val": 0.1335434149395616,
+    "regua": null,
+    "rotulo_placar": "fase4_sem_over"
+   },
+   "evidencia": "resultados/placar.jsonl"
+  },
+  {
+   "id": "p_fase4_over_0.5",
+   "parte_de": "f4_tenure_1",
+   "mudanca": "Oversampling ate 0,5 da maioria",
+   "motivo": "Fase 5: tamanho do oversampling. KS igual; MSE e entropia cruzada melhores com menos oversampling",
+   "altera": {
+    "oversampling": 0.5
+   },
+   "codigo": "experimentos/mlp/evolucao.py (_prep, over)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.548492907894346,
+    "ep": 0.005561039741054356,
+    "delta": 0.010992029060105546,
+    "ganhou": "empatou vs trial0",
+    "ic95": [
+     -0.0004068593370163048,
+     0.025439087291274694
+    ],
+    "mse_val": 0.13663588568788743,
+    "regua": null,
+    "rotulo_placar": "fase4_over_0.5"
+   },
+   "evidencia": "resultados/placar.jsonl"
+  },
+  {
+   "id": "p_fase4_over_0.75",
+   "parte_de": "f4_tenure_1",
+   "mudanca": "Oversampling ate 0,75 da maioria",
+   "motivo": "Fase 5: tamanho do oversampling. KS igual; MSE e entropia cruzada melhores com menos oversampling",
+   "altera": {
+    "oversampling": 0.75
+   },
+   "codigo": "experimentos/mlp/evolucao.py (_prep, over)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5512790423429892,
+    "ep": 0.005352828643993298,
+    "delta": 0.015811726987955188,
+    "ganhou": "ganhou vs trial0",
+    "ic95": [
+     0.0018845173662007887,
+     0.026548821329491577
+    ],
+    "mse_val": 0.14811420505164322,
+    "regua": null,
+    "rotulo_placar": "fase4_over_0.75"
+   },
+   "evidencia": "resultados/placar.jsonl"
+  },
+  {
+   "id": "p_sem_escala",
+   "parte_de": "v0",
+   "mudanca": "Remove o StandardScaler",
+   "motivo": "Fase 5: medir cada etapa do pre-processamento no placar",
+   "altera": {
+    "scaler": false
+   },
+   "codigo": "experimentos/mlp/evolucao.py (_prep, escala)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5254453202934326,
+    "ep": 0.007851766676756725,
+    "delta": 0.0026008500375016563,
+    "ganhou": "empatou vs trial0",
+    "ic95": [
+     -0.012741344015199286,
+     0.015077679020582505
+    ],
+    "mse_val": 0.17643637852569677,
+    "regua": null,
+    "rotulo_placar": "dados_sem_escala"
+   },
+   "evidencia": "resultados/placar.jsonl"
+  },
+  {
+   "id": "p_so_tenure_1",
+   "parte_de": "v0",
+   "mudanca": "So tenure_1, sem cliente_novo e delta_preco",
+   "motivo": "Fase 5: isolar o efeito de cada feature",
+   "altera": {
+    "extras": [
+     "tenure_1"
+    ]
+   },
+   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5494556924651945,
+    "ep": 0.006218040886017329,
+    "delta": 0.013120431783754993,
+    "ganhou": "ganhou vs trial0",
+    "ic95": [
+     0.000596379536057337,
+     0.02410657941243203
+    ],
+    "mse_val": 0.16234709606928516,
+    "regua": null,
+    "rotulo_placar": "dados_tenure_1"
+   },
+   "evidencia": "resultados/placar.jsonl"
   }
- ]
+ ],
+ "placar": {
+  "arquivo": "resultados/placar.jsonl",
+  "relatorio": "resultados/PLACAR.md",
+  "adotado": "fase4",
+  "historico": "experimentos/mlp/HISTORICO.md"
+ }
 }

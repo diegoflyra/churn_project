@@ -1,0 +1,129 @@
+{
+ "nome": "b13_onde_regularizar",
+ "linhagem": "teste",
+ "pergunta": "Regularizar a camada apontada pelos logits supera as outras posi\u00e7\u00f5es?",
+ "base": {
+  "hp": {
+   "camadas": 4,
+   "unidades": 16,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DNDD"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": {
+  "val": 0.0016248198365819255,
+  "teste": 0.0033053228705043347
+ },
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "val": 0.5473988739458803,
+   "delta_val": 0.0,
+   "ganhou_val": "",
+   "teste": 0.5497435867734131,
+   "delta_teste": 0.0,
+   "ganhou_teste": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "sem regularizacao",
+   "val": 0.5454983385657157,
+   "delta_val": -0.001900535380164442,
+   "ganhou_val": "10/20",
+   "teste": 0.5492122264180919,
+   "delta_teste": -0.0005313603553213586,
+   "ganhou_teste": "8/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "Dropout na camada 2",
+   "val": 0.5478389037678394,
+   "delta_val": 0.00044002982195923135,
+   "ganhou_val": "10/20",
+   "teste": 0.5521361149631472,
+   "delta_teste": 0.0023925281897342276,
+   "ganhou_teste": "12/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "BN na camada 2",
+   "val": 0.5418137634369152,
+   "delta_val": -0.0055851105089649074,
+   "ganhou_val": "3/20",
+   "teste": 0.5461426316155275,
+   "delta_teste": -0.0036009551578856545,
+   "ganhou_teste": "6/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "Dropout em todas",
+   "val": 0.5478389037678394,
+   "delta_val": 0.00044002982195923135,
+   "ganhou_val": "10/20",
+   "teste": 0.5521361149631472,
+   "delta_teste": 0.0023925281897342276,
+   "ganhou_teste": "12/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "BN em todas",
+   "val": 0.525244726125399,
+   "delta_val": -0.022154147820481217,
+   "ganhou_val": "0/20",
+   "teste": 0.5318877441262424,
+   "delta_teste": -0.01785584264717075,
+   "ganhou_teste": "2/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "BN e Dropout alternados, BN primeiro",
+   "val": 0.5364754296406166,
+   "delta_val": -0.010923444305263607,
+   "ganhou_val": "3/20",
+   "teste": 0.5466168181923489,
+   "delta_teste": -0.0031267685810642764,
+   "ganhou_teste": "6/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "BN e Dropout alternados, Dropout primeiro",
+   "val": 0.5387754521774222,
+   "delta_val": -0.008623421768457878,
+   "ganhou_val": "0/20",
+   "teste": 0.5436593369496507,
+   "delta_teste": -0.006084249823762428,
+   "ganhou_teste": "3/20",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 4,
+   "unidades": 16,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DNDD"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}

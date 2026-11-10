@@ -1,0 +1,10 @@
+{
+ "queda_a_para_b": 0.02209856441257891,
+ "ganho_b_contra_val": 0.003062589994583802,
+ "vitorias_b_contra_val": 0.66,
+ "configuracoes_distintas": 105,
+ "n": 200,
+ "ks_b_ref": 0.5528835915930198,
+ "ks_b_escolhida": 0.556647115549743,
+ "ks_b_val": 0.5535845255551592
+}

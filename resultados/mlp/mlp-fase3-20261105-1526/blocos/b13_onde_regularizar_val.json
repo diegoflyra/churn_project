@@ -1,0 +1,119 @@
+{
+ "nome": "b13_onde_regularizar",
+ "linhagem": "val",
+ "pergunta": "Regularizar a camada apontada pelos logits supera as outras posi\u00e7\u00f5es?",
+ "base": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": {
+  "val": 0.00039661240362895975,
+  "teste": 0.000491893072623134
+ },
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "val": 0.5483392667152345,
+   "delta_val": 0.0,
+   "ganhou_val": "",
+   "teste": 0.5497780068774014,
+   "delta_teste": 0.0,
+   "ganhou_teste": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "sem regularizacao",
+   "val": 0.5473459255551655,
+   "delta_val": -0.000993341160068989,
+   "ganhou_val": "10/20",
+   "teste": 0.5499266917977554,
+   "delta_teste": 0.00014868492035388647,
+   "ganhou_teste": "13/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "BN na camada 1",
+   "val": 0.5429320410484332,
+   "delta_val": -0.005407225666801213,
+   "ganhou_val": "3/20",
+   "teste": 0.5497577354219276,
+   "delta_teste": -2.0271455473930276e-05,
+   "ganhou_teste": "8/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "Dropout em todas",
+   "val": 0.5483626565128749,
+   "delta_val": 2.3389797640449573e-05,
+   "ganhou_val": "11/20",
+   "teste": 0.549685420107298,
+   "delta_teste": -9.258677010349215e-05,
+   "ganhou_teste": "9/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "BN em todas",
+   "val": 0.5337428563566895,
+   "delta_val": -0.01459641035854486,
+   "ganhou_val": "0/20",
+   "teste": 0.5379881283737493,
+   "delta_teste": -0.011789878503652174,
+   "ganhou_teste": "2/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "BN e Dropout alternados, BN primeiro",
+   "val": 0.5377875486768798,
+   "delta_val": -0.010551718038354507,
+   "ganhou_val": "1/20",
+   "teste": 0.5450227371263847,
+   "delta_teste": -0.004755269751016889,
+   "ganhou_teste": "5/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "BN e Dropout alternados, Dropout primeiro",
+   "val": 0.5461367355174818,
+   "delta_val": -0.0022025311977526053,
+   "ganhou_val": "5/20",
+   "teste": 0.5491113655845294,
+   "delta_teste": -0.0006666412928720722,
+   "ganhou_teste": "10/20",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}

@@ -1,0 +1,80 @@
+{
+ "nome": "b18_optuna",
+ "linhagem": "teste",
+ "pergunta": "O melhor trial supera o campe\u00e3o em divis\u00f5es novas?",
+ "base": {
+  "hp": {
+   "camadas": 4,
+   "unidades": 16,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DNDD",
+   "peso_pos": 1.5
+  },
+  "dados": {
+   "over": false
+  },
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": {
+  "val": 0.0018909035162657962,
+  "teste": 0.0009707958656159976
+ },
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "val": 0.5496242682089528,
+   "delta_val": 0.0,
+   "ganhou_val": "",
+   "teste": 0.5541074105821961,
+   "delta_teste": 0.0,
+   "ganhou_teste": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "melhor trial",
+   "val": 0.5490663499284587,
+   "delta_val": -0.000557918280494124,
+   "ganhou_val": "7/20",
+   "teste": 0.5574652737556637,
+   "delta_teste": 0.003357863173467396,
+   "ganhou_teste": "16/20",
+   "decisao": "ACEITA"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 2,
+   "unidades": 47,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.0001564570789442291,
+   "dropout": 0.3215897831163661,
+   "l2": 1.1107958156042701e-06,
+   "perda": "mse",
+   "paciencia": 10,
+   "plano": "DD",
+   "peso_pos": 1.5,
+   "funil": true,
+   "suav": 0.0898753403823129,
+   "pen_logit": 0.0,
+   "lote": 512,
+   "parada": "perda"
+  },
+  "dados": {
+   "over": false
+  },
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}

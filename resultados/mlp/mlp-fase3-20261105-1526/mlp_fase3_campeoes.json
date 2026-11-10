@@ -1,0 +1,49 @@
+{
+ "val": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND",
+   "parada": "ks"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "teste": {
+  "hp": {
+   "camadas": 2,
+   "unidades": 47,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.0001564570789442291,
+   "dropout": 0.3215897831163661,
+   "l2": 1.1107958156042701e-06,
+   "perda": "mse",
+   "paciencia": 10,
+   "plano": "DD",
+   "peso_pos": 1.5,
+   "funil": true,
+   "suav": 0.0898753403823129,
+   "pen_logit": 0.0,
+   "lote": 512,
+   "parada": "perda"
+  },
+  "dados": {
+   "over": false
+  },
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}

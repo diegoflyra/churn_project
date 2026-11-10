@@ -1,11 +1,12 @@
-# Experimentos
+# Estrutura do pré-processamento
 
-Cada modelo tem uma pasta própria e pode evoluir o próprio pré-processamento. Essa pasta guarda também o histórico dele:
+Cada modelo tem uma pasta própria em `experimentos/` e pode evoluir o próprio pré-processamento. Essa pasta guarda também o histórico dele:
 
 ```
+docs/
+├── estrutura_preprocessamento.md   este guia
+└── PREPROCESSAMENTOS.md            comparação entre modelos (gerada)
 experimentos/
-├── README.md                este guia
-├── PREPROCESSAMENTOS.md     comparação entre modelos (gerada)
 ├── preprocessamentos.py     confere os registros e gera a comparação
 └── <modelo>/
     └── preprocessamento/
@@ -43,10 +44,14 @@ Mudar a divisão de validação é permitido, mas os KS de validação deixam de
   "codigo": "experimentos/mlp/blocos.py (CANDIDATAS)",
   "validacao": {"protocolo": "5 divisões novas do treino", "ks": 0.5491, "delta": 0.0092, "ganhou": "5/5", "regua": 0.0028},
   "decisao": "aceita",
-  "evidencia": "resultados/mlp-20261103-0337/blocos/b04_cliente_novo.json"
+  "evidencia": "resultados/mlp/mlp-20261103-0337/blocos/b04_cliente_novo.json"
 }
 ```
 
 - **`decisao`:** `base`, `em teste`, `aceita` ou `rejeitada`.
 - **`altera`:** só o que muda em relação à versão anterior. Aceita `divisao_validacao`, `variaveis_criadas`, `scaler`, `oversampling` e `extras`.
 - **`atual`:** no topo do arquivo, indica a versão que o modelo usa hoje.
+
+## Processamentos para testar nos outros modelos
+
+O que o MLP aprendeu sobre os dados, o que já foi medido em outros modelos e como testar no seu: **[`GUIA_DADOS.md`](GUIA_DADOS.md)**. Tudo sai de `comum.preparar(..., features=..., over=...)`, sem mexer no seu código além dessa linha.

@@ -29,11 +29,12 @@ def _prep(Xa, ya, Xb, criadas=True, escala=True, over=True, extra=None):
     if not criadas:
         Xa, Xb = Xa.drop(columns=CRIADAS), Xb.drop(columns=CRIADAS)
     if escala:
-        cols = comum.NUMERIC_COLS + [c for c in novas if Xa[c].nunique() > 2]
+        cols = [c for c in comum.NUMERIC_COLS if c in Xa] + [c for c in novas if Xa[c].nunique() > 2]
         sc = StandardScaler().fit(Xa[cols])
         Xa[cols], Xb[cols] = sc.transform(Xa[cols]), sc.transform(Xb[cols])
-    if over:
-        Xa, ya = RandomOverSampler(random_state=comum.SEMENTE).fit_resample(Xa, ya)
+    if over:   # True = 1:1; um numero (ex.: 0.5) = minoria ate essa fracao da maioria
+        alvo = "auto" if over is True else float(over)
+        Xa, ya = RandomOverSampler(sampling_strategy=alvo, random_state=comum.SEMENTE).fit_resample(Xa, ya)
     return Xa.values.astype("float32"), ya.values.astype("float32"), Xb.values.astype("float32")
 
 

@@ -1,0 +1,54 @@
+{
+ "nome": "b02_oversampling",
+ "pergunta": "Tirar o oversampling melhora o KS?",
+ "base": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": []
+ },
+ "regua": 0.0027719904192369917,
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "ks": 0.5399553614012651,
+   "delta": 0.0,
+   "dp_delta": 0.0,
+   "ganhou": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "sem oversampling",
+   "ks": 0.5413077374619363,
+   "delta": 0.0013523760606711567,
+   "dp_delta": 0.0032714330215742314,
+   "ganhou": "4/5",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 1,
+   "unidades": 10,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.0,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10
+  },
+  "dados": {},
+  "extras": []
+ },
+ "tempo_s": 153.7000653743744
+}

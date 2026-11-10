@@ -1,0 +1,102 @@
+{
+ "nome": "b17_balanceamento",
+ "linhagem": "teste",
+ "pergunta": "Trocar as c\u00f3pias do oversampling por peso na classe positiva ajuda?",
+ "base": {
+  "hp": {
+   "camadas": 4,
+   "unidades": 16,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DNDD"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": {
+  "val": 0.0016248198365819255,
+  "teste": 0.0033053228705043347
+ },
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "val": 0.5473988739458803,
+   "delta_val": 0.0,
+   "ganhou_val": "",
+   "teste": 0.5497435867734131,
+   "delta_teste": 0.0,
+   "ganhou_teste": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "sem oversampling",
+   "val": 0.5473059594127851,
+   "delta_val": -9.291453309500652e-05,
+   "ganhou_val": "11/20",
+   "teste": 0.555165911520475,
+   "delta_teste": 0.005422324747061902,
+   "ganhou_teste": "17/20",
+   "decisao": "supera o ruido"
+  },
+  {
+   "variante": "sem oversampling, peso 2,77",
+   "val": 0.5489761240887007,
+   "delta_val": 0.0015772501428204632,
+   "ganhou_val": "11/20",
+   "teste": 0.553721839225018,
+   "delta_teste": 0.0039782524516050076,
+   "ganhou_teste": "14/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem oversampling, peso 1,5",
+   "val": 0.5471460070545443,
+   "delta_val": -0.00025286689133589,
+   "ganhou_val": "8/20",
+   "teste": 0.5552569262185212,
+   "delta_teste": 0.005513339445108234,
+   "ganhou_teste": "19/20",
+   "decisao": "ACEITA"
+  },
+  {
+   "variante": "sem oversampling, peso 4",
+   "val": 0.548438063092574,
+   "delta_val": 0.0010391891466936588,
+   "ganhou_val": "13/20",
+   "teste": 0.5529055201241773,
+   "delta_teste": 0.0031619333507640623,
+   "ganhou_teste": "15/20",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 4,
+   "unidades": 16,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DNDD",
+   "peso_pos": 1.5
+  },
+  "dados": {
+   "over": false
+  },
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}

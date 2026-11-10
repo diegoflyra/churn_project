@@ -1,0 +1,101 @@
+{
+ "nome": "b17_balanceamento",
+ "linhagem": "val",
+ "pergunta": "Trocar as c\u00f3pias do oversampling por peso na classe positiva ajuda?",
+ "base": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND",
+   "parada": "ks"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "regua": {
+  "val": 0.0009527054649133004,
+  "teste": 0.0010796825407332177
+ },
+ "tabela": [
+  {
+   "variante": "(campeao atual)",
+   "val": 0.5577077631434126,
+   "delta_val": 0.0,
+   "ganhou_val": "",
+   "teste": 0.5508336118934697,
+   "delta_teste": 0.0,
+   "ganhou_teste": "",
+   "decisao": "base"
+  },
+  {
+   "variante": "sem oversampling",
+   "val": 0.5572766484625182,
+   "delta_val": -0.00043111468089456205,
+   "ganhou_val": "9/20",
+   "teste": 0.5561182562245779,
+   "delta_teste": 0.005284644331108179,
+   "ganhou_teste": "16/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem oversampling, peso 2,77",
+   "val": 0.5580031276369373,
+   "delta_val": 0.00029536449352459137,
+   "ganhou_val": "13/20",
+   "teste": 0.553129250800102,
+   "delta_teste": 0.0022956389066321747,
+   "ganhou_teste": "16/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem oversampling, peso 1,5",
+   "val": 0.5575783704317109,
+   "delta_val": -0.0001293927117018534,
+   "ganhou_val": "11/20",
+   "teste": 0.5549622868187549,
+   "delta_teste": 0.004128674925285225,
+   "ganhou_teste": "17/20",
+   "decisao": "rejeitada"
+  },
+  {
+   "variante": "sem oversampling, peso 4",
+   "val": 0.5573117705019419,
+   "delta_val": -0.0003959926414708492,
+   "ganhou_val": "9/20",
+   "teste": 0.550937285908608,
+   "delta_teste": 0.00010367401513824425,
+   "ganhou_teste": "11/20",
+   "decisao": "rejeitada"
+  }
+ ],
+ "campeao": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND",
+   "parada": "ks"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}

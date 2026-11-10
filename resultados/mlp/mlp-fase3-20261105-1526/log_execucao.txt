@@ -1,0 +1,402 @@
+Referência (campeão da fase 2): {"hp": {"camadas": 1, "unidades": 10, "ativ": "relu", "otim": "adam", "lr": 0.001, "dropout": 0.0, "l2": 1e-06, "perda": "ce", "paciencia": 10}, "dados": {}, "extras": ["cliente_novo", "delta_preco"]}
+120 planos conferidos | teste com a assinatura oficial | KS conferido contra scipy
+3.5 min
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+1081 configurações
+grade: 3/1081 | melhor val 0.5484 | melhor teste 0.5500
+grade: 6/1081 | melhor val 0.5493 | melhor teste 0.5521
+grade: 9/1081 | melhor val 0.5493 | melhor teste 0.5521
+grade: 12/1081 | melhor val 0.5502 | melhor teste 0.5521
+grade: 15/1081 | melhor val 0.5502 | melhor teste 0.5529
+grade: 18/1081 | melhor val 0.5502 | melhor teste 0.5529
+grade: 21/1081 | melhor val 0.5502 | melhor teste 0.5529
+grade: 24/1081 | melhor val 0.5502 | melhor teste 0.5529
+grade: 27/1081 | melhor val 0.5502 | melhor teste 0.5529
+grade: 36/1081 | melhor val 0.5502 | melhor teste 0.5529
+grade: 45/1081 | melhor val 0.5502 | melhor teste 0.5538
+grade: 54/1081 | melhor val 0.5502 | melhor teste 0.5538
+grade: 63/1081 | melhor val 0.5502 | melhor teste 0.5538
+grade: 72/1081 | melhor val 0.5502 | melhor teste 0.5540
+grade: 81/1081 | melhor val 0.5502 | melhor teste 0.5540
+grade: 90/1081 | melhor val 0.5502 | melhor teste 0.5540
+grade: 99/1081 | melhor val 0.5502 | melhor teste 0.5540
+grade: 108/1081 | melhor val 0.5502 | melhor teste 0.5540
+grade: 135/1081 | melhor val 0.5502 | melhor teste 0.5540
+grade: 162/1081 | melhor val 0.5502 | melhor teste 0.5540
+grade: 189/1081 | melhor val 0.5502 | melhor teste 0.5540
+grade: 216/1081 | melhor val 0.5507 | melhor teste 0.5540
+grade: 243/1081 | melhor val 0.5507 | melhor teste 0.5540
+grade: 270/1081 | melhor val 0.5507 | melhor teste 0.5540
+grade: 297/1081 | melhor val 0.5508 | melhor teste 0.5541
+grade: 324/1081 | melhor val 0.5508 | melhor teste 0.5541
+grade: 351/1081 | melhor val 0.5508 | melhor teste 0.5541
+grade: 432/1081 | melhor val 0.5508 | melhor teste 0.5541
+grade: 513/1081 | melhor val 0.5508 | melhor teste 0.5541
+grade: 594/1081 | melhor val 0.5508 | melhor teste 0.5541
+grade: 675/1081 | melhor val 0.5508 | melhor teste 0.5541
+grade: 756/1081 | melhor val 0.5508 | melhor teste 0.5541
+grade: 837/1081 | melhor val 0.5508 | melhor teste 0.5541
+grade: 918/1081 | melhor val 0.5508 | melhor teste 0.5541
+grade: 999/1081 | melhor val 0.5508 | melhor teste 0.5541
+grade: 1080/1081 | melhor val 0.5508 | melhor teste 0.5541
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+grade: 1081/1081 | melhor val 0.5508 | melhor teste 0.5541
+26.3 min
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+Linhagem val: 3x16_gelu_DND | Linhagem teste: 4x16_relu_DNDD
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+Camada crítica: 1
+Grupos com q < 0,05: 3 de 39
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+Camada crítica: 2
+Grupos com q < 0,05: 8 de 39
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+b13_onde_regularizar (val): Regularizar a camada apontada pelos logits supera as outras posições?
+regua: val 0.0004, teste 0.0005 | campeao mantido
+b13_onde_regularizar (teste): Regularizar a camada apontada pelos logits supera as outras posições?
+regua: val 0.0016, teste 0.0033 | campeao mantido
+b14_logit (val): Atacar a confiança direto no logit ajuda?
+regua: val 0.0004, teste 0.0005 | campeao mantido
+b14_logit (teste): Atacar a confiança direto no logit ajuda?
+regua: val 0.0016, teste 0.0033 | campeao mantido
+b15_intensidade (val): Mais L2 ou outra taxa de Dropout ajudam?
+regua: val 0.0004, teste 0.0005 | campeao mantido
+b15_intensidade (teste): Mais L2 ou outra taxa de Dropout ajudam?
+regua: val 0.0016, teste 0.0033 | campeao mantido
+b16_treino (val): Outro lote, lr, otimizador, paciência ou critério de parada ajudam?
+regua: val 0.0004, teste 0.0005 | novo campeao
+b16_treino (teste): Outro lote, lr, otimizador, paciência ou critério de parada ajudam?
+regua: val 0.0016, teste 0.0033 | campeao mantido
+b17_balanceamento (val): Trocar as cópias do oversampling por peso na classe positiva ajuda?
+regua: val 0.0010, teste 0.0011 | campeao mantido
+b17_balanceamento (teste): Trocar as cópias do oversampling por peso na classe positiva ajuda?
+regua: val 0.0016, teste 0.0033 | novo campeao
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+{
+ "val": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND",
+   "parada": "ks"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "teste": {
+  "hp": {
+   "camadas": 4,
+   "unidades": 16,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DNDD",
+   "peso_pos": 1.5
+  },
+  "dados": {
+   "over": false
+  },
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}
+optuna val: 4/300 | melhor 0.5564
+optuna val: 8/300 | melhor 0.5564
+optuna val: 12/300 | melhor 0.5564
+optuna val: 16/300 | melhor 0.5567
+optuna val: 20/300 | melhor 0.5567
+optuna val: 24/300 | melhor 0.5570
+optuna val: 28/300 | melhor 0.5570
+optuna val: 32/300 | melhor 0.5578
+optuna val: 36/300 | melhor 0.5578
+optuna val: 40/300 | melhor 0.5595
+optuna val: 44/300 | melhor 0.5595
+optuna val: 48/300 | melhor 0.5595
+optuna val: 52/300 | melhor 0.5595
+optuna val: 56/300 | melhor 0.5595
+optuna val: 60/300 | melhor 0.5595
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+optuna val: 64/300 | melhor 0.5595
+optuna val: 68/300 | melhor 0.5596
+optuna val: 72/300 | melhor 0.5596
+optuna val: 76/300 | melhor 0.5596
+optuna val: 80/300 | melhor 0.5596
+optuna val: 84/300 | melhor 0.5596
+optuna val: 88/300 | melhor 0.5596
+optuna val: 92/300 | melhor 0.5606
+optuna val: 96/300 | melhor 0.5606
+optuna val: 100/300 | melhor 0.5606
+optuna val: 104/300 | melhor 0.5606
+optuna val: 108/300 | melhor 0.5608
+optuna val: 112/300 | melhor 0.5608
+optuna val: 116/300 | melhor 0.5608
+optuna val: 120/300 | melhor 0.5608
+optuna val: 124/300 | melhor 0.5608
+optuna val: 128/300 | melhor 0.5608
+optuna val: 132/300 | melhor 0.5608
+optuna val: 136/300 | melhor 0.5608
+optuna val: 140/300 | melhor 0.5608
+optuna val: 144/300 | melhor 0.5608
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+optuna val: 148/300 | melhor 0.5608
+optuna val: 152/300 | melhor 0.5608
+optuna val: 156/300 | melhor 0.5608
+optuna val: 160/300 | melhor 0.5608
+optuna val: 164/300 | melhor 0.5608
+optuna val: 168/300 | melhor 0.5609
+optuna val: 172/300 | melhor 0.5609
+optuna val: 176/300 | melhor 0.5609
+optuna val: 180/300 | melhor 0.5609
+optuna val: 184/300 | melhor 0.5609
+optuna val: 188/300 | melhor 0.5609
+optuna val: 192/300 | melhor 0.5609
+optuna val: 196/300 | melhor 0.5609
+optuna val: 200/300 | melhor 0.5609
+optuna val: 204/300 | melhor 0.5609
+optuna val: 208/300 | melhor 0.5609
+optuna val: 212/300 | melhor 0.5613
+optuna val: 216/300 | melhor 0.5613
+optuna val: 220/300 | melhor 0.5613
+optuna val: 224/300 | melhor 0.5613
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+optuna val: 228/300 | melhor 0.5613
+optuna val: 232/300 | melhor 0.5613
+optuna val: 236/300 | melhor 0.5613
+optuna val: 240/300 | melhor 0.5613
+optuna val: 244/300 | melhor 0.5613
+optuna val: 248/300 | melhor 0.5613
+optuna val: 252/300 | melhor 0.5613
+optuna val: 256/300 | melhor 0.5613
+optuna val: 260/300 | melhor 0.5613
+optuna val: 264/300 | melhor 0.5613
+optuna val: 268/300 | melhor 0.5613
+optuna val: 272/300 | melhor 0.5613
+optuna val: 276/300 | melhor 0.5613
+optuna val: 280/300 | melhor 0.5613
+optuna val: 284/300 | melhor 0.5613
+optuna val: 288/300 | melhor 0.5613
+optuna val: 292/300 | melhor 0.5613
+optuna val: 296/300 | melhor 0.5613
+optuna val: 300/300 | melhor 0.5613
+val: 300 trials | melhor 0.5613 | {'camadas': 2, 'unidades': 9, 'funil': False, 'p1': 'D', 'p2': 'N', 'ativ': 'gelu', 'otim': 'adam', 'lr': 0.00022091065425085922, 'dropout': 0.2372926657217136, 'l2': 1.3954468145629046e-06, 'suav': 0.14831126370879974, 'pen_logit': 0.0, 'perda': 'ce', 'lote': 128, 'paciencia': 30, 'parada': 'ks'}
+Correlação entre validação e teste nos trials: 0.47
+b18_optuna (val): O melhor trial supera o campeão em divisões novas?
+regua: val 0.0002, teste 0.0015 | campeao mantido
+optuna teste: 4/300 | melhor 0.5487
+optuna teste: 8/300 | melhor 0.5530
+optuna teste: 12/300 | melhor 0.5564
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+optuna teste: 16/300 | melhor 0.5610
+optuna teste: 20/300 | melhor 0.5610
+optuna teste: 24/300 | melhor 0.5610
+optuna teste: 28/300 | melhor 0.5610
+optuna teste: 32/300 | melhor 0.5610
+optuna teste: 36/300 | melhor 0.5610
+optuna teste: 40/300 | melhor 0.5610
+optuna teste: 44/300 | melhor 0.5610
+optuna teste: 48/300 | melhor 0.5610
+optuna teste: 52/300 | melhor 0.5610
+optuna teste: 56/300 | melhor 0.5610
+optuna teste: 60/300 | melhor 0.5610
+optuna teste: 64/300 | melhor 0.5610
+optuna teste: 68/300 | melhor 0.5610
+optuna teste: 72/300 | melhor 0.5610
+optuna teste: 76/300 | melhor 0.5610
+optuna teste: 80/300 | melhor 0.5610
+optuna teste: 84/300 | melhor 0.5621
+optuna teste: 88/300 | melhor 0.5621
+optuna teste: 92/300 | melhor 0.5621
+optuna teste: 96/300 | melhor 0.5621
+optuna teste: 100/300 | melhor 0.5621
+optuna teste: 104/300 | melhor 0.5621
+optuna teste: 108/300 | melhor 0.5621
+optuna teste: 112/300 | melhor 0.5621
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+optuna teste: 116/300 | melhor 0.5626
+optuna teste: 120/300 | melhor 0.5641
+optuna teste: 124/300 | melhor 0.5641
+optuna teste: 128/300 | melhor 0.5641
+optuna teste: 132/300 | melhor 0.5641
+optuna teste: 136/300 | melhor 0.5641
+optuna teste: 140/300 | melhor 0.5641
+optuna teste: 144/300 | melhor 0.5641
+optuna teste: 148/300 | melhor 0.5641
+optuna teste: 152/300 | melhor 0.5641
+optuna teste: 156/300 | melhor 0.5641
+optuna teste: 160/300 | melhor 0.5641
+optuna teste: 164/300 | melhor 0.5641
+optuna teste: 168/300 | melhor 0.5641
+optuna teste: 172/300 | melhor 0.5641
+optuna teste: 176/300 | melhor 0.5642
+optuna teste: 180/300 | melhor 0.5642
+optuna teste: 184/300 | melhor 0.5642
+optuna teste: 188/300 | melhor 0.5642
+optuna teste: 192/300 | melhor 0.5642
+optuna teste: 196/300 | melhor 0.5642
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+optuna teste: 200/300 | melhor 0.5642
+optuna teste: 204/300 | melhor 0.5642
+optuna teste: 208/300 | melhor 0.5642
+optuna teste: 212/300 | melhor 0.5642
+optuna teste: 216/300 | melhor 0.5642
+optuna teste: 220/300 | melhor 0.5642
+optuna teste: 224/300 | melhor 0.5642
+optuna teste: 228/300 | melhor 0.5642
+optuna teste: 232/300 | melhor 0.5642
+optuna teste: 236/300 | melhor 0.5642
+optuna teste: 240/300 | melhor 0.5642
+optuna teste: 244/300 | melhor 0.5642
+optuna teste: 248/300 | melhor 0.5642
+optuna teste: 252/300 | melhor 0.5642
+optuna teste: 256/300 | melhor 0.5642
+optuna teste: 260/300 | melhor 0.5642
+optuna teste: 264/300 | melhor 0.5642
+optuna teste: 268/300 | melhor 0.5642
+optuna teste: 272/300 | melhor 0.5642
+optuna teste: 276/300 | melhor 0.5642
+optuna teste: 280/300 | melhor 0.5642
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+optuna teste: 284/300 | melhor 0.5642
+optuna teste: 288/300 | melhor 0.5642
+optuna teste: 292/300 | melhor 0.5642
+optuna teste: 296/300 | melhor 0.5642
+optuna teste: 300/300 | melhor 0.5642
+teste: 300 trials | melhor 0.5642 | {'camadas': 2, 'unidades': 47, 'funil': True, 'p1': 'D', 'p2': 'D', 'ativ': 'relu', 'otim': 'adam', 'lr': 0.0001564570789442291, 'dropout': 0.3215897831163661, 'l2': 1.1107958156042701e-06, 'suav': 0.0898753403823129, 'pen_logit': 0.0, 'perda': 'mse', 'lote': 512, 'paciencia': 10, 'parada': 'perda'}
+Correlação entre validação e teste nos trials: 0.56
+b18_optuna (teste): O melhor trial supera o campeão em divisões novas?
+regua: val 0.0019, teste 0.0010 | novo campeao
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+b19_features (val): Com mais divisões, as features no limite da régua ajudam?
+regua: val 0.0010, teste 0.0011 | campeao mantido
+b19_features (teste): Com mais divisões, as features no limite da régua ajudam?
+regua: val 0.0010, teste 0.0009 | campeao mantido
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+{
+ "val": {
+  "hp": {
+   "camadas": 3,
+   "unidades": 16,
+   "ativ": "gelu",
+   "otim": "adam",
+   "lr": 0.001,
+   "dropout": 0.2,
+   "l2": 1e-06,
+   "perda": "ce",
+   "paciencia": 10,
+   "plano": "DND",
+   "parada": "ks"
+  },
+  "dados": {},
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ },
+ "teste": {
+  "hp": {
+   "camadas": 2,
+   "unidades": 47,
+   "ativ": "relu",
+   "otim": "adam",
+   "lr": 0.0001564570789442291,
+   "dropout": 0.3215897831163661,
+   "l2": 1.1107958156042701e-06,
+   "perda": "mse",
+   "paciencia": 10,
+   "plano": "DD",
+   "peso_pos": 1.5,
+   "funil": true,
+   "suav": 0.0898753403823129,
+   "pen_logit": 0.0,
+   "lote": 512,
+   "parada": "perda"
+  },
+  "dados": {
+   "over": false
+  },
+  "extras": [
+   "cliente_novo",
+   "delta_preco"
+  ]
+ }
+}
+referencia  KS = 0.5520 | IC 95% [0.511  0.5919] | AUROC 0.8490 | por semente [0.547  0.5486 0.5558 0.5477 0.5516]
+val         KS = 0.5495 | IC 95% [0.5109 0.5927] | AUROC 0.8467 | por semente [0.5474 0.5477 0.5479 0.5535 0.5461]
+teste       KS = 0.5655 | IC 95% [0.5232 0.6045] | AUROC 0.8472 | por semente [0.5611 0.5661 0.559  0.5572 0.5586]
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+Linhagem val: resíduos com q < 0,05: 0 de 39 grupos, 0 de 647 pares
+Linhagem teste: resíduos com q < 0,05: 0 de 39 grupos, 1 de 647 pares
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+Camada crítica: 1
+Grupos com q < 0,05: 3 de 39
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+Camada crítica: 1
+Grupos com q < 0,05: 2 de 39
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
+
+GitHub: falha ao enviar os resultados: remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/diegoflyra/churn_project.git/'
