@@ -170,6 +170,8 @@ A linha `("xgboost", "final")`, quando existir, entra sozinha como `vs_xgboost` 
  
 O teste é usado **uma vez por modelo**, só na configuração final, depois que o placar já decidiu. A configuração é treinada no treino inteiro com `preparar` (parada pela mesma separação interna de 20%), e os modelos estocásticos rodam com 5 sementes. O KS e o AUROC no teste saem com intervalo de 95% por bootstrap (1.000 reamostras), e a diferença para o XGBoost sai por bootstrap pareado.
  
+**O KS oficial de cada modelo é o do teste.** É o único número medido em clientes que não influenciaram nenhuma escolha. O KS do placar escolheu a versão e, por isso, tende a sair um pouco otimista para a vencedora. Na apresentação, cada modelo aparece com os dois: o KS no teste como resultado e o KS do placar como a estimativa que guiou a escolha.
+ 
 **O teste confere, mas não decide.** Com cerca de 1.760 clientes, o teste não distingue diferenças menores que uns 2 pontos de KS. Quando o teste contradiz o placar, o modelo não é trocado: a apresentação mostra os dois números e explica a diferença. Nunca se volta a ajustar o modelo depois de olhar o teste.
  
 A versão anterior desta proposta usava a mesma dobra para o early stopping e para escolher a configuração. Na fase 3 do MLP, isso inflou o KS de validação do campeão em +0,009. A separação interna do item 2 do placar corrige o problema.

@@ -148,3 +148,35 @@ def test_final_e_metricas_do_teste_com_limiar_da_oof(tmp_path):
     assert {"ks", "auroc", "f1", "ks_ic95", "ks_por_semente"} <= set(m)
     d = F5.delta_teste(fin, fin, n=50)
     assert d["delta"] == 0
+
+
+def test_oversampling_com_tamanho_e_relatorio(tmp_path):
+    import evolucao as EV
+    Xtr, _, ytr, _ = _base()
+    y = np.asarray(ytr)
+    n0, n1 = min((y == 0).sum(), (y == 1).sum()), max((y == 0).sum(), (y == 1).sum())
+    meio = (n0 / n1 + 1) / 2                     # entre a proporcao natural e 1:1
+    for over, esperado in ((True, n1), (meio, int(n1 * meio))):
+        _, ya, _ = EV._prep(Xtr, ytr, Xtr, over=over)
+        assert abs(min((ya == 1).sum(), (ya == 0).sum()) - esperado) <= 1
+    pasta = str(tmp_path)
+    F5.garantir(pasta, [("trial0", C, None)])
+    comum.adotar_placar(pasta, "mlp", "trial0", "teste")
+    md = comum.relatorio_placar(pasta)
+    assert "trial0 **(adotado)**" in md and "| mlp | trial0 |" in md
+    with pytest.raises(KeyError):
+        comum.adotar_placar(pasta, "mlp", "nao_existe", "x")
+
+
+def test_preparar_comum_com_features_e_oversampling():
+    """O padrao de comum.preparar nao muda; features e tamanho do oversampling sao opcionais e nao olham a avaliacao."""
+    Xtr, Xte, ytr, _ = _base()
+    a = comum.preparar(Xtr, ytr, Xte)
+    b = comum.preparar(Xtr, ytr, Xte, features=(), over=True)
+    assert np.allclose(np.asarray(a[0]), np.asarray(b[0])) and (np.asarray(a[1]) == 1).mean() == .5
+    Xa, ya, Xv = comum.preparar(Xtr, ytr, Xte, features=("tenure_1", "cliente_novo", "delta_preco"), over=False)
+    assert {"tenure_1", "cliente_novo", "delta_preco"} <= set(Xa.columns) and len(Xa) == len(Xtr)
+    assert set(Xa.tenure_1.unique()) <= {0, 1} and abs(Xa.delta_preco.mean()) < 1e-6        # delta_preco entra no scaler
+    assert (Xv.tenure_1 == (Xte.tenure <= 1).astype(int)).all()                            # por linha: nao depende do treino
+    Xa, ya, _ = comum.preparar(Xtr, ytr, Xte, over=(np.asarray(ytr).mean() / (1 - np.asarray(ytr).mean()) + 1) / 2)
+    assert len(Xtr) < len(Xa) < len(comum.preparar(Xtr, ytr, Xte)[0])
