@@ -1,0 +1,12 @@
+[tool.ruff]
+line-length = 130
+# So os arquivos que seguem esta regra; o resto do repositorio tem estilo proprio.
+include = ["tests/**/*.py", "experimentos/xgboost/**/*.py", "experimentos/mitra/**/*.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "B"]
+
+[tool.pytest.ini_options]
+# Sem caminho, o pytest roda os testes que nao precisam de torch; os do MLP rodam com o caminho explicito.
+testpaths = ["tests", "experimentos/xgboost", "experimentos/mitra"]
+pythonpath = ["."]

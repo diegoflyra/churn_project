@@ -363,6 +363,57 @@ def medir_placar(X_train, y_train, ajustar_prever, divs=None):
     return resumir_placar(y, divs, p_val, p_tr if p_tr else None)
 
 
+def divisoes_optuna(y):
+    """As 5 dobras oficiais (semente 42, as mesmas de carregar_dobras), com a mesma separacao interna de 20% do placar.
+    Sao diferentes das divisoes do placar (101 a 103): o placar mede de novo a configuracao que a busca escolheu."""
+    return divisoes_placar(y, sementes=(SEMENTE,))
+
+
+def estudo_placar(modelo, n_trials, sugerir, ajustar_prever_de, padrao, X_train, y_train, pasta=RESULTADOS,
+                  timeout=None, callbacks=None, continuar=None):
+    """Optuna nas 5 dobras oficiais, com o procedimento do placar em cada dobra (parada so nos 20% internos).
+
+    sugerir(trial) -> hp; ajustar_prever_de(hp) -> ajustar_prever no formato de medir_placar.
+    Mesmo amostrador e mesmo corte de estudo(): TPE com semente 42, MedianPruner(5, 1), a media acumulada e reportada
+    a cada dobra e o corte so acontece depois da segunda. O trial 0 e `padrao`. SQLite em <pasta>/<modelo>.db, retomavel.
+    continuar() -> False encerra antes do proximo trial (limite de horas do Kaggle)."""
+    os.makedirs(pasta, exist_ok=True)
+    y = np.asarray(y_train)
+    divs = divisoes_optuna(y)
+    st = optuna.create_study(study_name=modelo, storage=f"sqlite:///{pasta}/{modelo}.db", load_if_exists=True,
+                             direction="maximize", sampler=optuna.samplers.TPESampler(seed=SEMENTE),
+                             pruner=optuna.pruners.MedianPruner(n_startup_trials=5, n_warmup_steps=1))
+    if len(st.trials) == 0:
+        st.enqueue_trial(padrao)
+
+    def objetivo_(trial):
+        ajustar_prever = ajustar_prever_de(sugerir(trial))
+        t0, kss = time.time(), []
+        for i, d in enumerate(divs):
+            r = ajustar_prever(X_train.iloc[d["treino"]], y_train.iloc[d["treino"]], X_train.iloc[d["validacao"]],
+                               d["ajuste"], d["parada"], 1000 * d["semente"] + d["dobra"])
+            p = r[0] if isinstance(r, tuple) else r
+            kss.append(ks(y[d["validacao"]], np.asarray(p, dtype=float)))
+            trial.report(float(np.mean(kss)), i)
+            if i == 1 and trial.should_prune():       # depois da segunda dobra
+                raise optuna.TrialPruned()
+        trial.set_user_attr("ks_dobras", [float(k) for k in kss])
+        trial.set_user_attr("tempo_s", time.time() - t0)
+        return float(np.mean(kss))
+
+    def parar(st_, _t):
+        if continuar is not None and not continuar():
+            st_.stop()
+
+    restantes = n_trials - len([t for t in st.trials if t.state.is_finished()])
+    t0 = time.time()
+    if restantes > 0 and (continuar is None or continuar()):
+        st.optimize(objetivo_, n_trials=restantes, timeout=timeout, callbacks=[*(callbacks or []), parar],
+                    show_progress_bar=False, gc_after_trial=True)
+    st.set_user_attr("tempo_parede_s", st.user_attrs.get("tempo_parede_s", 0) + time.time() - t0)
+    return st
+
+
 def comparar_placar(y, oof_a, oof_b, n_boot=PLACAR_BOOT, semente=0):
     """b contra a, pareado nos mesmos clientes. Delta = KS(OOF b) - KS(OOF a); IC95 por bootstrap de clientes."""
     y = np.asarray(y)
@@ -425,6 +476,47 @@ def registrar_placar(pasta, modelo, rotulo, config, medida, y_train, assinatura,
     with open(_arq_placar(pasta), "a", encoding="utf-8") as f:
         f.write(json.dumps(linha) + "\n")
     return linha
+
+
+_CAMPOS_FORA_DA_MEDIDA = {"modelo", "rotulo", "data", "assinatura", "config", "oof", "ks_teste", "auc_teste", "mse_teste",
+                          "ce_teste", "ks_teste_ic95", "data_teste"}
+
+
+def medida_da_linha(pasta, linha):
+    """A medida (formato de medir_placar) de uma linha ja registrada, com a OOF lida do disco."""
+    m = {k: v for k, v in linha.items() if k not in _CAMPOS_FORA_DA_MEDIDA and not k.startswith("vs_")}
+    m["oof"] = _oof_placar(pasta, linha)
+    return m
+
+
+def garantir_placar(pasta, modelo, rotulo, config, medir, y_train, assinatura, contra=None):
+    """registrar_placar so se faltar: com a mesma config e a mesma assinatura, devolve a linha que ja existe.
+    medir() -> medida; so e chamado quando precisa. Devolve (linha, medida)."""
+    chave = json.dumps(config, sort_keys=True, default=str)
+    linha = next((r for r in ler_placar(pasta) if r["modelo"] == modelo and r["rotulo"] == rotulo and r["assinatura"] == assinatura
+                  and json.dumps(r["config"], sort_keys=True, default=str) == chave), None)
+    if linha is not None:
+        return linha, medida_da_linha(pasta, linha)
+    medida = medir()
+    linha = registrar_placar(pasta, modelo, rotulo, config, medida, y_train, assinatura, contra)
+    return json.loads(json.dumps(linha)), medida      # igual a linha lida do disco (tuplas viram listas)
+
+
+def importar_placar(origem, destino, modelos):
+    """Copia as linhas atuais dos `modelos` (e as OOF delas) de um placar para outro. Serve para levar a linha do XGBoost
+    para a pasta de uma execucao no Kaggle (e o vs_xgboost aparecer la) e trazer os resultados de volta para resultados/.
+    Linha ja presente no destino, com a mesma data, nao e copiada de novo. Devolve quantas linhas foram copiadas."""
+    import shutil
+    no_destino = {(r["modelo"], r["rotulo"], r["data"]) for r in ler_placar(destino)}
+    novas = [r for r in ler_placar(origem) if r["modelo"] in modelos and (r["modelo"], r["rotulo"], r["data"]) not in no_destino]
+    if not novas:
+        return 0
+    os.makedirs(os.path.join(destino, "placar_oof"), exist_ok=True)
+    with open(_arq_placar(destino), "a", encoding="utf-8") as f:
+        for r in novas:
+            shutil.copyfile(os.path.join(origem, r["oof"]), os.path.join(destino, r["oof"]))
+            f.write(json.dumps(r) + "\n")
+    return len(novas)
 
 
 def registrar_teste_placar(pasta, modelo, rotulo, y_teste, p_teste_sementes):
