@@ -14,10 +14,13 @@ O pré-processamento base está no notebook `if702-preprocessamento.ipynb`, e ca
 │   ├── placar.jsonl, PLACAR.md, placar_oof/, escolhidos.json   o placar comum (docs/pre-proposta.md)
 │   ├── processamentos_comuns.json   features testadas em outros modelos (docs/GUIA_DADOS.md)
 │   └── <modelo>/       arquivos de trabalho de cada modelo (execuções, intermediários, tabelas dos slides)
+├── tests/          testes do comum.py (pytest)
 └── experimentos/
     ├── stab/       stab.ipynb, modelo.py, avaliar.py
     ├── tabkan/     tabkan.ipynb, modelo.py, avaliar.py
-    └── kan/, mlp/, mitra/, tabpfn_v2/, gradient_boosting/
+    ├── xgboost/    xgboost.ipynb, modelo.py, test_modelo.py: a referência do placar (linha xgboost/final)
+    ├── mitra/      mitra.ipynb (Kaggle, GPU), modelo.py, instalar.py, test_mitra.py
+    └── kan/, mlp/, tabpfn_v2/, gradient_boosting/
 ```
 
 Em cada pasta, `modelo.py` tem o modelo, o treino e o espaço de busca, e `avaliar.py` tem só o que é específico daquele modelo na avaliação. Para rodar, a partir de qualquer diretório:
@@ -57,4 +60,28 @@ Para rodar localmente, instale as dependências e troque a variável `path` pelo
 
 ```
 pip install numpy pandas scikit-learn imbalanced-learn kagglehub jupyter
+```
+
+## XGBoost e Mitra
+
+Os dois usam o placar comum e buscam do mesmo jeito: `comum.estudo_placar` roda o Optuna nas 5 dobras oficiais com o procedimento do placar em cada dobra, e o melhor trial é medido de novo no placar.
+
+O XGBoost roda na CPU, localmente:
+
+```
+jupyter nbconvert --to notebook --execute --inplace experimentos/xgboost/xgboost.ipynb
+```
+
+Ele grava a linha `("xgboost", "final")` em `resultados/placar.jsonl`, que entra como `vs_xgboost` nas linhas dos outros modelos.
+
+O Mitra precisa de GPU e roda no Kaggle, no mesmo fluxo do MLP; o passo a passo está na primeira célula de `experimentos/mitra/mitra.ipynb`.
+A T4 do Kaggle não tem `bfloat16`, que o AutoGluon fixa, e `experimentos/mitra/modelo.py` troca a precisão.
+`experimentos/mitra/instalar.py` instala o `autogluon.tabular` 1.6.3 sem trocar o torch do Kaggle.
+Para trazer as linhas do Mitra para o placar do repositório: `comum.importar_placar(<pasta da execução>, "resultados", ["mitra"])`.
+
+Os testes rodam sem a base e sem GPU (o Mitra é substituído por um classificador falso):
+
+```
+python -m pytest
+ruff check
 ```
