@@ -1,0 +1,10 @@
+[tool.ruff]
+line-length = 130
+include = ["comum.py", "tests/**/*.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

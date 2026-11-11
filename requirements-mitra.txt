@@ -1,0 +1,15 @@
+# Ambiente do Mitra v2, em máquina com GPU. Separado de requirements.txt porque
+# autogluon.tabular 1.6.3 exige pandas<2.4 e torch<2.14.
+autogluon.tabular[mitra]==1.6.3
+torch==2.13.0
+transformers==5.22.1
+numpy==2.5.4
+pandas==2.3.3
+scikit-learn==1.9.1
+imbalanced-learn==0.14.2
+scipy==1.18.1
+optuna==5.0.0
+kagglehub==1.0.3
+ipykernel==7.4.0
+nbconvert==7.17.2
+ipywidgets==8.1.9
