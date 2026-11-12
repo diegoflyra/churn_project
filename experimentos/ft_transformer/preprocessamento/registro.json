@@ -1,0 +1,33 @@
+{
+ "modelo": "ft_transformer",
+ "responsavel": "Diego",
+ "atual": "v0",
+ "assinatura_teste": "e90ba6fab761f037",
+ "versoes": [
+  {
+   "id": "v0",
+   "parte_de": null,
+   "mudanca": "Pre-processamento base do grupo",
+   "motivo": "Ponto de partida comum. Cada coluna de comum.preparar vira um token numerico do FT-Transformer",
+   "altera": {
+    "divisao_validacao": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "variaveis_criadas": true,
+    "scaler": true,
+    "oversampling": true
+   },
+   "codigo": "comum.py (preparar) e experimentos/ft_transformer/fase1.py",
+   "decisao": "base"
+  },
+  {
+   "id": "f1_sem_oversampling",
+   "parte_de": "v0",
+   "mudanca": "Remove o oversampling",
+   "motivo": "No MLP, sem oversampling o KS empatou e o MSE na validacao caiu de 0,162 para 0,134 (docs/GUIA_DADOS.md)",
+   "altera": {
+    "oversampling": false
+   },
+   "codigo": "experimentos/ft_transformer/fase1.py (rotulo trial0_sem_over) e ft_transformer_fase1.ipynb",
+   "decisao": "em teste"
+  }
+ ]
+}

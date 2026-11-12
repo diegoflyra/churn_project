@@ -7,6 +7,7 @@ As regras estao em `docs/estrutura_preprocessamento.md`.
 
 | Modelo | Versao | Validacao | Variaveis criadas | Scaler | Oversampling | Extras | Assinatura do teste |
 |---|---|---|---|---|---|---|---|
+| ft_transformer | v0 | placar comum 3x5 (sementes 101-103), parada em 20% internos | sim | sim | sim | - | e90ba6fab761f037 |
 | gradient_boosting | v0 | 5 dobras oficiais | sim | sim | sim | - | e90ba6fab761f037 |
 | kan | v0 | 5 dobras oficiais | sim | sim | sim | - | e90ba6fab761f037 |
 | mitra | v0 | 5 dobras oficiais | sim | sim | sim | - | e90ba6fab761f037 |
@@ -18,6 +19,13 @@ As regras estao em `docs/estrutura_preprocessamento.md`.
 ## Evolucao por modelo
 
 So compare numeros de KS com o mesmo protocolo. O teste nao aparece aqui: ele fica para a avaliacao final.
+
+### ft_transformer
+
+| Versao | Parte de | Mudanca | KS | Delta | Ganhou | Regua | Decisao | Protocolo |
+|---|---|---|---|---|---|---|---|---|
+| v0 | - | Pre-processamento base do grupo | - | - | - | - | base | - |
+| f1_sem_oversampling | v0 | Remove o oversampling | - | - | - | - | em teste | - |
 
 ### gradient_boosting
 
