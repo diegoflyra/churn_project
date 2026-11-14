@@ -2,9 +2,11 @@ numpy
 pandas
 scipy
 scikit-learn
+matplotlib
 imbalanced-learn
 optuna
 torch
+pykan==0.2.8
 xgboost
 wandb
 kagglehub
