@@ -26,7 +26,7 @@ PADRAO = dict(
     ffn_fator=4 / 3,                                        # FFN oculta = d_token * fator (ReGLU)
     lr=1e-4, wd=1e-5, lote=256,                             # AdamW, sem weight decay no tokenizador, normas e vieses
     paciencia=16, perda="ce",                               # parada na perda da separacao interna (artigo: 16)
-)
+)   # hp["parada"] = "ks" troca o criterio (fase 3); fora do PADRAO para o trial 0 manter a chave
 _ARQ = ("n_blocos", "d_token", "n_cabecas", "drop_atencao", "drop_ffn", "drop_residual", "ffn_fator")
 
 
@@ -117,8 +117,8 @@ def _logits(m, X, lote=2048):
 
 
 def treinar(Xtr, ytr, hp, semente, Xval=None, yval=None, epocas=None, ao_fim_epoca=None, dispositivo=None):
-    """Com (Xval, yval): para quando a perda nelas nao melhora por `paciencia` epocas e volta ao melhor estado.
-    Com `epocas`: treina esse numero fixo de epocas (o retreino no treino inteiro da dobra). Devolve (modelo, melhor epoca)."""
+    """Com (Xval, yval): para quando a perda nelas nao melhora por `paciencia` epocas e volta ao melhor estado. Com
+    hp["parada"] == "ks", o criterio e o KS nelas (o maior), como na parada pelo KS do MLP. Com `epocas`: treina esse numero fixo de epocas (o retreino no treino inteiro da dobra). Devolve (modelo, melhor epoca)."""
     dev = torch.device(dispositivo or DEVICE)
     torch.manual_seed(semente); np.random.seed(semente)
     m = FTTransformer(Xtr.shape[1], **arquitetura(hp)).to(dev)
@@ -142,9 +142,12 @@ def treinar(Xtr, ytr, hp, semente, Xval=None, yval=None, epocas=None, ao_fim_epo
             continue
         m.eval()
         with torch.no_grad():
-            lv = perda(_logits(m, Xv), yv, hp.get("perda", "ce")).item()
+            zv = _logits(m, Xv)
+            lv = perda(zv, yv, hp.get("perda", "ce")).item()
         if not math.isfinite(lv):
             break
+        if hp.get("parada") == "ks":
+            lv = -comum.ks(np.asarray(yval), torch.sigmoid(zv).cpu().numpy())
         if lv < best - 1e-6:
             best, best_state, melhor_ep, esp = lv, copy.deepcopy(m.state_dict()), ep, 0
         else:
