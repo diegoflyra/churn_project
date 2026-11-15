@@ -108,14 +108,13 @@ def test_padrao_cabe_no_espaco_e_fine_tuning_so_abre_lr_e_passos_quando_ligado()
 
 
 # ---------------- precisao ----------------
-def test_precisao_automatica_e_float16_so_sem_fine_tuning():
+def test_precisao_automatica_e_pedida():
     icl, ft = M.PADRAO, dict(M.PADRAO, fine_tune=True, lr=1e-5, fine_tune_steps=10)
     assert M.precisao_para(icl, "auto", nativo=True) == "bfloat16"
     assert M.precisao_para(icl, "auto", nativo=False) == "float32"
     assert M.precisao_para(ft, "auto", nativo=False) == "float32"
     assert M.precisao_para(icl, "float16") == "float16"
-    assert M.precisao_para(ft, "float16", nativo=False) == "float32"     # o estudo nao para num trial com fine-tuning
-    assert M.precisao_para(ft, "float16", nativo=True) == "bfloat16"
+    assert M.precisao_para(ft, "float16") == "float16"                   # com o escalonamento do gradiente ligado
     assert M.precisao_para(ft, "float32", nativo=True) == "float32"
     with pytest.raises(ValueError):
         M.precisao_para(icl, "fp8")
@@ -132,6 +131,58 @@ def test_subclasse_troca_a_precisao_fixada_pelo_autogluon():
     cfg, modelo = m._create_config("classification", 10)
     assert cfg.hyperparams == {"precision": "float32", "max_epochs": 0} and modelo == "Tab2D"
     assert issubclass(C, Base)
+
+
+def test_float16_liga_o_escalonamento_do_gradiente_sem_o_piso_do_autogluon():
+    class Base:
+        def _create_config(self, task, dim_output, time_limit=None):
+            hp = {"precision": "bfloat16", "grad_scaler_enabled": False, "grad_scaler_scale_min": 65536.0}
+            return types.SimpleNamespace(hyperparams=hp), "Tab2D"
+
+    m = M.com_precisao(Base)()
+    m.precisao = "float16"
+    cfg, _ = m._create_config("classification", 10)
+    assert cfg.hyperparams == {"precision": "float16", "grad_scaler_enabled": True, "grad_scaler_scale_min": 1.0}
+    m.precisao = "float32"
+    cfg, _ = m._create_config("classification", 10)
+    assert cfg.hyperparams["grad_scaler_enabled"] is False
+
+
+def test_treinador_solta_otimizador_e_gradientes_e_guarda_a_escala():
+    eventos = []
+
+    class Escala:
+        def __init__(self, ligado):
+            self.ligado = ligado
+
+        def is_enabled(self):
+            return self.ligado
+
+        def get_scale(self):
+            return 1024.0
+
+    class Modelo:
+        def zero_grad(self, set_to_none=False):
+            eventos.append(("zero_grad", set_to_none))
+
+    class Base:
+        def __init__(self, ligado):
+            self.scaler, self.model, self.optimizer = Escala(ligado), Modelo(), "adamw"
+
+        def train(self, *args):
+            eventos.append(("train", args))
+            return "ok"
+
+        def post_fit_optimize(self):
+            self.optimizer = self.scaler = None
+
+    T = M.que_libera(Base)
+    t = T(True)
+    assert t.train(1, 2) == "ok" and eventos == [("train", (1, 2)), ("zero_grad", True)]
+    assert t.optimizer is None and t.escala_final == 1024.0
+    t2 = T(False)
+    t2.train()
+    assert t2.escala_final is None and t2.optimizer is None
 
 
 # ---------------- placar ----------------

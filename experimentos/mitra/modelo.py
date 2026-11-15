@@ -7,6 +7,14 @@ O que vem da leitura do autogluon.tabular 1.6.3 (models/mitra):
 - A precisao e fixada em "bfloat16" em `_create_config` (sklearn_interface.py:147) e usada em todo `torch.autocast`
   (trainer_finetune.py:124, 240 e 299). A T4 do Kaggle (capacidade 7.5) nao tem bfloat16 nativo.
 - Se faltar memoria na GPU, o `fit` corta o contexto pela metade e so imprime um aviso. Aqui isso vira erro.
+- Com fine-tuning, cada passo treina com 80% do contexto como suporte e ate 1024 linhas como consulta
+  (dataset_finetune.py:110). O contexto do Mitra e o mesmo `max_samples_support` no treino e na previsao, entao o corte
+  por falta de memoria no treino tambem encolhe o contexto da previsao.
+- Depois de treinar, cada estimador guarda na GPU o otimizador AdamW (2 copias dos pesos) e os gradientes (1 copia):
+  `post_fit_optimize` existe para liberar isso, mas o MitraClassifier nunca o chama. Com 8 estimadores, o oitavo treina
+  com o lixo dos sete anteriores ocupando a GPU.
+- O escalonamento do gradiente vem desligado e, ligado, nunca desce de 65536 (grad_scaler_scale_min): em float16, um
+  estouro faria todos os passos seguintes serem descartados.
 
 Placar (docs/pre-proposta.md, item 2), em cada dobra:
 - Sem fine-tuning: o contexto e o treino inteiro da dobra. O `X_val` do `fit` e uma amostra da parada; com zero passos
@@ -67,18 +75,19 @@ def bf16_nativo():
 
 
 def precisao_para(hp, pedida="auto", nativo=None):
-    """auto: bfloat16 se a GPU tem suporte nativo; senao float32.
-    float16 so vale sem fine-tuning: o AutoGluon desliga o escalonamento do gradiente (grad_scaler_enabled=False), e treinar
-    em float16 sem ele perde gradientes pequenos. Num trial com fine-tuning, float16 vira o que "auto" escolheria."""
+    """auto: bfloat16 se a GPU tem suporte nativo; senao float32. As outras valem como pedidas: em float16, o fine-tuning
+    roda com o escalonamento do gradiente ligado (com_precisao), a receita padrao de precisao mista do torch."""
     if pedida not in ("auto", *PRECISOES):
         raise ValueError(f"precisao desconhecida: {pedida!r}")
-    if pedida == "auto" or (pedida == "float16" and hp["fine_tune"]):
+    if pedida == "auto":
         return "bfloat16" if (bf16_nativo() if nativo is None else nativo) else "float32"
     return pedida
 
 
 def com_precisao(base):
-    """Subclasse de `base` (o MitraClassifier) que troca a precisao fixada em _create_config pela do atributo `precisao`."""
+    """Subclasse de `base` (o MitraClassifier) que troca a precisao fixada em _create_config pela do atributo `precisao`.
+    Em float16, liga o escalonamento do gradiente e deixa a escala descer ate 1: sem ele, gradientes pequenos viram zero;
+    com o piso de 65536 do AutoGluon, um estouro descartaria todos os passos seguintes."""
 
     class MitraComPrecisao(base):
         precisao = "bfloat16"
@@ -86,9 +95,27 @@ def com_precisao(base):
         def _create_config(self, *args, **kwargs):
             cfg, modelo = super()._create_config(*args, **kwargs)
             cfg.hyperparams["precision"] = self.precisao
+            if self.precisao == "float16":
+                cfg.hyperparams.update(grad_scaler_enabled=True, grad_scaler_scale_min=1.0)
             return cfg, modelo
 
     return MitraComPrecisao
+
+
+def que_libera(base):
+    """Subclasse de `base` (o TrainerFinetune) que, ao fim do treino, guarda a escala do gradiente e solta da GPU o
+    otimizador e os gradientes. A previsao so usa cfg, preprocessor, model e device (trainer_finetune.py:281)."""
+
+    class TrainerQueLibera(base):
+        def train(self, *args, **kwargs):
+            out = super().train(*args, **kwargs)
+            self.escala_final = float(self.scaler.get_scale()) if self.scaler.is_enabled() else None
+            self.model.zero_grad(set_to_none=True)
+            self.post_fit_optimize()
+            liberar_gpu()
+            return out
+
+    return TrainerQueLibera
 
 
 _classe = {}
@@ -96,8 +123,11 @@ _classe = {}
 
 def classe():
     if "c" not in _classe:
-        from autogluon.tabular.models.mitra.sklearn_interface import MitraClassifier
-        _classe["c"] = com_precisao(MitraClassifier)
+        from autogluon.tabular.models.mitra import sklearn_interface as si
+        if not getattr(si.TrainerFinetune, "libera", False):  # _train_ensemble cria os treinadores por este nome
+            si.TrainerFinetune = que_libera(si.TrainerFinetune)
+            si.TrainerFinetune.libera = True
+        _classe["c"] = com_precisao(si.MitraClassifier)
         # autocast em float32 nao existe na GPU: o torch avisa e roda sem autocast, que e o que se quer
         warnings.filterwarnings("ignore", message="In CUDA autocast, but the target dtype is not supported")
     return _classe["c"]
@@ -138,7 +168,7 @@ def conferir_contexto(m):
     contexto = m.trainers[0].cfg.hyperparams["max_samples_support"]
     if contexto != CONTEXTO_MAXIMO:
         raise RuntimeError(f"Faltou memoria na GPU: o AutoGluon reduziu o contexto para {contexto} linhas, o que mudaria "
-                           "o modelo. Reduza n_estimators ou use uma GPU maior.")
+                           "o modelo. Com fine-tuning, use PRECISAO = \"float16\" (etapa de medidas) ou uma GPU maior.")
 
 
 # ---------------- placar ----------------
@@ -159,6 +189,9 @@ def _int(y):
     return np.asarray(y).astype(int)
 
 
+ULTIMO_AJUSTE = {}  # "escalas": escala final do gradiente de cada estimador no ultimo ajuste (None sem escalonamento)
+
+
 def ajustar_e_prever(hp, X, y, X_aval, parada, semente, precisao, features=()):
     """O ajuste de uma dobra (ou do treino inteiro, na avaliacao final). Devolve a probabilidade de churn em X_aval.
     parada: posicoes em X que ficam fora do ajuste com fine-tuning e de onde sai a avaliacao do passo 0 sem ele."""
@@ -166,22 +199,25 @@ def ajustar_e_prever(hp, X, y, X_aval, parada, semente, precisao, features=()):
     semear(semente)
     m = criar(hp, semente, precisao)
     parada = np.asarray(parada)
-    if hp["fine_tune"]:
-        ajuste = np.setdiff1d(np.arange(len(X)), parada)
-        Xa, ya, Xr = comum.preparar(X.iloc[ajuste], y.iloc[ajuste], pd.concat([X.iloc[parada], X_aval]),
-                                    features=features, over=hp["over"])
-        m.fit(_f32(Xa), _int(ya), _f32(Xr.iloc[:len(parada)]), _int(y.iloc[parada]))
-        Xv = Xr.iloc[len(parada):]
-    else:
-        sub = amostra_estratificada(parada, y, N_AVALIACAO, semente)
-        XA, yA, Xr = comum.preparar(X, y, pd.concat([X_aval, X.iloc[sub]]), features=features, over=hp["over"])
-        m.fit(_f32(XA), _int(yA), _f32(Xr.iloc[len(X_aval):]), _int(y.iloc[sub]))
-        Xv = Xr.iloc[:len(X_aval)]
-    conferir_contexto(m)
-    p = np.asarray(m.predict_proba(_f32(Xv)))[:, 1]
-    del m
-    liberar_gpu()
-    return p
+    ULTIMO_AJUSTE.clear()
+    try:
+        if hp["fine_tune"]:
+            ajuste = np.setdiff1d(np.arange(len(X)), parada)
+            Xa, ya, Xr = comum.preparar(X.iloc[ajuste], y.iloc[ajuste], pd.concat([X.iloc[parada], X_aval]),
+                                        features=features, over=hp["over"])
+            m.fit(_f32(Xa), _int(ya), _f32(Xr.iloc[:len(parada)]), _int(y.iloc[parada]))
+            Xv = Xr.iloc[len(parada):]
+        else:
+            sub = amostra_estratificada(parada, y, N_AVALIACAO, semente)
+            XA, yA, Xr = comum.preparar(X, y, pd.concat([X_aval, X.iloc[sub]]), features=features, over=hp["over"])
+            m.fit(_f32(XA), _int(yA), _f32(Xr.iloc[len(X_aval):]), _int(y.iloc[sub]))
+            Xv = Xr.iloc[:len(X_aval)]
+        ULTIMO_AJUSTE["escalas"] = [getattr(t, "escala_final", None) for t in m.trainers]
+        conferir_contexto(m)
+        return np.asarray(m.predict_proba(_f32(Xv)))[:, 1]
+    finally:  # tambem quando o contexto encolheu: a proxima medida comeca com a GPU vazia
+        del m
+        liberar_gpu()
 
 
 def ajustar_prever_de(hp, features=(), precisao="auto"):
@@ -206,7 +242,8 @@ def medir_divisao(hp, X_tr, y_tr, d, precisao, features=()):
                          1000 * d["semente"] + d["dobra"], precisao, features)
     tempo = time.perf_counter() - t0
     pico = torch.cuda.max_memory_allocated() / 2**30 if torch.cuda.is_available() else 0.0
-    return dict(p=p, ks=comum.ks(np.asarray(y_tr)[d["validacao"]], p), tempo_s=tempo, pico_gb=pico)
+    return dict(p=p, ks=comum.ks(np.asarray(y_tr)[d["validacao"]], p), tempo_s=tempo, pico_gb=pico,
+                escalas=list(ULTIMO_AJUSTE["escalas"]))
 
 
 def final(hp, X_tr, y_tr, X_te, n_sementes=5, features=(), precisao="auto"):
