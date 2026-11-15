@@ -38,5 +38,31 @@
     65536.0
    ]
   }
+ },
+ "caro": {
+  "hp": {
+   "n_estimators": 2,
+   "random_mirror_x": true,
+   "shuffle_features": false,
+   "shuffle_classes": false,
+   "over": true,
+   "fine_tune": true,
+   "lr": 1e-05,
+   "fine_tune_steps": 10
+  },
+  "precisao": "float16",
+  "ks": 0.5082455882892468,
+  "tempo_s": 381.10487548599986,
+  "pico_gb": 11.110207080841064,
+  "escalas": [
+   65536.0,
+   65536.0
+  ]
+ },
+ "estimativa": {
+  "trial_icl_min": 5.2089028871666665,
+  "trial_caro_min": 31.75873962383332,
+  "linha_placar_icl_min": 15.626708661499997,
+  "trials_em_10h": 32
  }
 }
