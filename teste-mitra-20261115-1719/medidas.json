@@ -24,5 +24,19 @@
  "reprodutivel": {
   "max_dif_p": 0.0,
   "identicas": true
+ },
+ "fine_tuning": {
+  "float32": {
+   "coube": false
+  },
+  "float16": {
+   "coube": true,
+   "ks": 0.5099607440290568,
+   "tempo_s": 190.72177734299999,
+   "pico_gb": 10.828689575195312,
+   "escalas": [
+    65536.0
+   ]
+  }
  }
 }
