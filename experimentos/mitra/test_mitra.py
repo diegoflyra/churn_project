@@ -95,16 +95,18 @@ def _dados(n=500, semente=0):
 
 
 # ---------------- espaco ----------------
-def test_padrao_cabe_no_espaco_e_fine_tuning_so_abre_lr_e_passos_quando_ligado():
+def test_padrao_cabe_no_espaco_e_a_busca_e_so_de_contexto():
     assert M.sugerir(optuna.trial.FixedTrial(M.PADRAO)) == M.PADRAO
-    ft = dict(M.PADRAO, fine_tune=True, lr=3e-6, fine_tune_steps=50)
-    assert M.sugerir(optuna.trial.FixedTrial(ft)) == ft
     st = optuna.create_study(direction="maximize", sampler=optuna.samplers.RandomSampler(seed=0))
+    vistos = set()
     for _ in range(30):
         t = st.ask()
         hp = M.sugerir(t)
-        assert ("lr" in hp) == ("fine_tune_steps" in hp) == hp["fine_tune"]
+        assert hp["fine_tune"] is False and "lr" not in hp and "fine_tune_steps" not in hp
+        assert "fine_tune" not in t.params                                  # fixo, nao entra no estudo
+        vistos.add(hp["n_estimators"])
         st.tell(t, 0.0)
+    assert vistos == {1, 2, 4, 8}
 
 
 # ---------------- precisao ----------------
@@ -255,7 +257,7 @@ def test_medida_completa_no_placar_e_no_estudo(tmp_path):
     assert len(MitraFalso.instancias) == 15
     st = comum.estudo_placar(M.MODELO, 2, M.sugerir, lambda hp: M.ajustar_prever_de(hp, precisao="float32"), M.PADRAO,
                              X, y, pasta=str(tmp_path))
-    assert st.trials[0].params == M.PADRAO and len(st.trials) == 2
+    assert M.sugerir(optuna.trial.FixedTrial(st.trials[0].params)) == M.PADRAO and len(st.trials) == 2
 
 
 def test_final_usa_uma_separacao_por_semente():

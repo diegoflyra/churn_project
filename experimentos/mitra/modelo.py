@@ -49,18 +49,19 @@ PADRAO = dict(n_estimators=1, random_mirror_x=True, shuffle_features=False, shuf
 
 
 def sugerir(t):
-    hp = dict(
+    """So contexto. O fine-tuning ficou fora da busca pelas medidas na T4 do Kaggle (teste-mitra-20261115-1719, branch
+    resultados): em float32 ele nao cabe com oversampling; em float16 custa cerca de 19 s por passo e por estimador, contra
+    41 s por estimador para uma dobra inteira sem ele. Um trial com 2 estimadores e 20 passos levou 102 min e empatou com o
+    trial 0 (0,5483 contra 0,5479), e o espaco com ate 8 estimadores e 100 passos passaria de centenas de horas de GPU.
+    O fine-tuning continua em ajustar_e_prever, para as medidas."""
+    return dict(
         n_estimators=t.suggest_categorical("n_estimators", [1, 2, 4, 8]),
         random_mirror_x=t.suggest_categorical("random_mirror_x", [True, False]),
         shuffle_features=t.suggest_categorical("shuffle_features", [True, False]),
         shuffle_classes=t.suggest_categorical("shuffle_classes", [True, False]),
         over=t.suggest_categorical("over", [True, False]),  # oversampling do contexto
-        fine_tune=t.suggest_categorical("fine_tune", [True, False]),
+        fine_tune=False,
     )
-    if hp["fine_tune"]:
-        hp["lr"] = t.suggest_float("lr", 1e-6, 1e-4, log=True)
-        hp["fine_tune_steps"] = t.suggest_int("fine_tune_steps", 10, 100, step=10)
-    return hp
 
 
 # ---------------- GPU e precisao ----------------

@@ -76,6 +76,7 @@ Ele grava a linha `("xgboost", "final")` em `resultados/placar.jsonl`, que entra
 
 O Mitra precisa de GPU e roda no Kaggle, no mesmo fluxo do MLP; o passo a passo está na primeira célula de `experimentos/mitra/mitra.ipynb`.
 A T4 do Kaggle não tem `bfloat16`, que o AutoGluon fixa, e `experimentos/mitra/modelo.py` troca a precisão.
+A busca do Mitra é só de contexto: medido na T4, o fine-tuning custou dezenas de vezes mais e empatou com o trial 0 (os números estão no notebook).
 `experimentos/mitra/instalar.py` instala o `autogluon.tabular` 1.6.3 sem trocar o torch do Kaggle.
 Para trazer as linhas do Mitra para o placar do repositório: `comum.importar_placar(<pasta da execução>, "resultados", ["mitra"])`.
 
