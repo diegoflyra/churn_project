@@ -96,6 +96,17 @@ def grupos_parametros(m, wd):
             dict(params=[p for n, p in m.named_parameters() if sem(n)], weight_decay=0.0))
 
 
+def penalidade(m, hp):
+    """L1 e L2 classicos, somados a perda do treino: l1 * soma|w| + l2 * soma w^2, nos mesmos pesos que recebem weight
+    decay (fora: tokenizador, [CLS], normas e vieses). Opcionais: sem `l1`/`l2` no hp, vale zero e o trial 0 nao muda.
+    Diferente do weight decay do AdamW, que e desacoplado e encolhe lr * wd por passo (quase nada com lr 1e-4)."""
+    l1, l2 = hp.get("l1", 0.0), hp.get("l2", 0.0)
+    if not (l1 or l2):
+        return torch.zeros(())
+    ps = grupos_parametros(m, 0.0)[0]["params"]
+    return sum(l1 * p.abs().sum() + l2 * (p ** 2).sum() for p in ps)
+
+
 def perda(z, y, tipo):
     """z = logit. CE = entropia cruzada binaria; MSE = erro quadratico da probabilidade (Brier)."""
     return F.binary_cross_entropy_with_logits(z, y) if tipo == "ce" else F.mse_loss(torch.sigmoid(z), y)
@@ -123,7 +134,7 @@ def treinar(Xtr, ytr, hp, semente, Xval=None, yval=None, epocas=None, ao_fim_epo
         for i in range(0, len(Xt), lote):
             idx = perm[i:i + lote]
             opt.zero_grad(set_to_none=True)
-            perda(m(Xt[idx]), yt[idx], hp.get("perda", "ce")).backward()
+            (perda(m(Xt[idx]), yt[idx], hp.get("perda", "ce")) + penalidade(m, hp)).backward()   # a parada ve so a perda
             opt.step()
         if ao_fim_epoca:
             m.eval(); ao_fim_epoca(ep, m)

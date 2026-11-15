@@ -27,7 +27,18 @@
     "oversampling": false
    },
    "codigo": "experimentos/ft_transformer/fase1.py (rotulo trial0_sem_over) e ft_transformer_fase1.ipynb",
-   "decisao": "em teste"
+   "decisao": "rejeitada",
+   "evidencia": "branch resultados: ft-fase1-20261112-2125/placar.jsonl",
+   "placar": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5440,
+    "ep": 0.0066,
+    "delta": 0.0024,
+    "ic95": [-0.0067, 0.0148],
+    "ganhou": "empatou vs trial0",
+    "mse_val": 0.1348,
+    "nota": "KS empatou, entao nao substitui o trial 0 (regra do placar). O MSE na validacao caiu de 0,1651 para 0,1348 e a parada passou da epoca mediana 6 para 16: volta a ser candidato quando o MSE/CE do slide 14 pesar"
+   }
   }
  ]
 }

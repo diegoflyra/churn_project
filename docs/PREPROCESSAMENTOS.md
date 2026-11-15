@@ -25,7 +25,7 @@ So compare numeros de KS com o mesmo protocolo. O teste nao aparece aqui: ele fi
 | Versao | Parte de | Mudanca | KS | Delta | Ganhou | Regua | Decisao | Protocolo |
 |---|---|---|---|---|---|---|---|---|
 | v0 | - | Pre-processamento base do grupo | - | - | - | - | base | - |
-| f1_sem_oversampling | v0 | Remove o oversampling | - | - | - | - | em teste | - |
+| f1_sem_oversampling | v0 | Remove o oversampling | - | - | - | - | rejeitada | - |
 
 ### gradient_boosting
 
