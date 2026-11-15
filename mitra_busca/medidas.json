@@ -48,5 +48,39 @@
     65536.0
    ]
   }
+ },
+ "caro": {
+  "hp": {
+   "n_estimators": 8,
+   "random_mirror_x": true,
+   "shuffle_features": false,
+   "shuffle_classes": false,
+   "over": true,
+   "fine_tune": false
+  },
+  "float16": {
+   "ks": 0.5323632461386065,
+   "tempo_s": 155.31037469800003,
+   "pico_gb": 6.112180233001709
+  },
+  "float32": {
+   "ks": 0.5323632461386065,
+   "tempo_s": 555.114433367,
+   "pico_gb": 8.049534320831299
+  }
+ },
+ "estimativa": {
+  "float16": {
+   "trial_medio_min": 7.131587555514877,
+   "trial_caro_min": 12.942531224833337,
+   "busca_100_h": 11.885979259191462,
+   "linha_placar_caro_min": 38.82759367450001
+  },
+  "float32": {
+   "trial_medio_min": 21.49448454428868,
+   "trial_caro_min": 46.25953611391666,
+   "busca_100_h": 35.82414090714781,
+   "linha_placar_caro_min": 138.77860834175
+  }
  }
 }
