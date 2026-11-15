@@ -1,0 +1,28 @@
+{
+ "gpu": "Tesla T4",
+ "capacidade": [
+  7,
+  5
+ ],
+ "bf16_nativo": false,
+ "precisao": {
+  "float16": {
+   "ks": 0.5285568844700443,
+   "tempo_s": 40.4587821749999,
+   "pico_gb": 4.130016326904297,
+   "delta_ks": -0.001903180834281204,
+   "max_dif_p": 0.004574716091156006
+  },
+  "float32": {
+   "ks": 0.5304600653043255,
+   "tempo_s": 65.64047293199997,
+   "pico_gb": 6.067370414733887,
+   "delta_ks": 0.0,
+   "max_dif_p": 0.0
+  }
+ },
+ "reprodutivel": {
+  "max_dif_p": 0.0,
+  "identicas": true
+ }
+}
