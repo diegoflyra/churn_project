@@ -49,10 +49,12 @@ PADRAO = dict(n_estimators=1, random_mirror_x=True, shuffle_features=False, shuf
 
 
 def sugerir(t):
-    """So contexto. O fine-tuning ficou fora da busca pelas medidas na T4 do Kaggle (teste-mitra-20261115-1719, branch
-    resultados): em float32 ele nao cabe com oversampling; em float16 custa cerca de 19 s por passo e por estimador, contra
-    41 s por estimador para uma dobra inteira sem ele. Um trial com 2 estimadores e 20 passos levou 102 min e empatou com o
-    trial 0 (0,5483 contra 0,5479), e o espaco com ate 8 estimadores e 100 passos passaria de centenas de horas de GPU.
+    """So contexto. O fine-tuning ficou fora da busca pelas medidas na T4 do Kaggle (branch resultados):
+    - em float32 ele nao cabe com oversampling (o AutoGluon cortaria o contexto);
+    - em float16, numa dobra, 1 estimador com 30 passos levou 252 s, contra 40 s sem fine-tuning, e o KS caiu de 0,5286
+      para 0,5074 (mitra_busca/medidas.json);
+    - um trial com 2 estimadores e 20 passos, em float32 e sem oversampling, levou 102 min e empatou com o trial 0
+      (0,5483 contra 0,5479; teste-mitra-20261115-1719).
     O fine-tuning continua em ajustar_e_prever, para as medidas."""
     return dict(
         n_estimators=t.suggest_categorical("n_estimators", [1, 2, 4, 8]),
