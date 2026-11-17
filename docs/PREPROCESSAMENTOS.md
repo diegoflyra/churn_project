@@ -9,7 +9,7 @@ As regras estao em `docs/estrutura_preprocessamento.md`.
 |---|---|---|---|---|---|---|---|
 | gradient_boosting | v0 | 5 dobras oficiais | sim | sim | sim | - | e90ba6fab761f037 |
 | kan | v0 | 5 dobras oficiais | sim | sim | sim | - | e90ba6fab761f037 |
-| mitra | v0 | 5 dobras oficiais | sim | sim | sim | - | e90ba6fab761f037 |
+| mitra | p_sem_over | 5 dobras oficiais | sim | sim | nao | - | e90ba6fab761f037 |
 | mlp | f4_tenure_1 | 5 dobras oficiais | sim | sim | sim | cliente_novo, delta_preco, tenure_1 | e90ba6fab761f037 |
 | stab | v0 | 5 dobras oficiais | sim | sim | sim | - | e90ba6fab761f037 |
 | tabkan | v0 | 5 dobras oficiais | sim | sim | sim | - | e90ba6fab761f037 |
@@ -36,7 +36,9 @@ So compare numeros de KS com o mesmo protocolo. O teste nao aparece aqui: ele fi
 
 | Versao | Parte de | Mudanca | KS | Delta | Ganhou | Regua | Decisao | Protocolo |
 |---|---|---|---|---|---|---|---|---|
-| v0 | - | Pre-processamento base do grupo | - | - | - | - | base | - |
+| v0 | - | Pre-processamento base do grupo | 0.5505 | - | - | - | base | placar comum 3x5 (sementes 101-103), parada em 20% internos |
+| p_sem_over | v0 | Remove o oversampling | 0.5519 | +0.0034 | empatou vs com_over | - | aceita | placar comum 3x5 (sementes 101-103), parada em 20% internos |
+| p_tres_features | p_sem_over | Adiciona cliente_novo, delta_preco e tenure_1 | 0.5531 | -0.0029 | empatou vs optuna | - | rejeitada | placar comum 3x5 (sementes 101-103), parada em 20% internos |
 
 ### mlp
 

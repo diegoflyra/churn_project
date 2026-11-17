@@ -106,6 +106,27 @@ def test_importar_placar_leva_linhas_e_oof_sem_duplicar(tmp_path):
     assert outro["vs_xgboost"]["referencia"] == ["xgboost", "final"] and outro["vs_xgboost"]["veredito"] == "empatou"
 
 
+def test_completar_vs_xgboost_preenche_so_o_que_falta(tmp_path):
+    """Linhas medidas antes da referencia (ou trazidas de outra pasta) ganham o vs_xgboost depois, uma vez so."""
+    X, y = _dados()
+    ass, pasta = comum.assinatura_treino(X), str(tmp_path)
+    bom = comum.medir_placar(X, y, lambda X_, y_, Xv, a, p, s: Xv["a"].values)
+    ruim = comum.medir_placar(X, y, lambda X_, y_, Xv, a, p, s: -Xv["a"].values)
+    comum.registrar_placar(pasta, "mitra", "final", {"hp": 1}, bom, y, ass)
+    comum.registrar_placar(pasta, "outro", "x", {"hp": 2}, bom, y, "outra_assinatura")
+    assert comum.completar_vs_xgboost(pasta, y) == 0                   # sem referencia, nada a fazer
+    comum.registrar_placar(pasta, "xgboost", "trial0", {"hp": 0}, bom, y, ass)
+    comum.registrar_placar(pasta, "xgboost", "final", {"hp": 3}, ruim, y, ass)
+    assert comum.completar_vs_xgboost(pasta, y) == 1
+    assert comum.completar_vs_xgboost(pasta, y) == 0
+    linhas = {(r["modelo"], r["rotulo"]): r for r in comum.ler_placar(pasta)}
+    vs = linhas[("mitra", "final")]["vs_xgboost"]
+    esperado = comum.comparar_placar(y, ruim["oof"], bom["oof"])
+    assert vs["referencia"] == ["xgboost", "final"] and vs["veredito"] == "ganhou" and vs["delta"] == esperado["delta"]
+    assert "vs_xgboost" not in linhas[("outro", "x")] and "vs_xgboost" not in linhas[("xgboost", "trial0")]
+    assert linhas[("mitra", "final")]["ks_kfold"] == bom["ks_kfold"]                      # a medida nao muda
+
+
 def test_estudo_corta_depois_da_segunda_dobra(tmp_path):
     """Cinco trials bons completos e um ruim: o ruim para na segunda dobra (passo 1), nao antes."""
     X, y = _dados()

@@ -1,7 +1,7 @@
 {
  "modelo": "mitra",
  "responsavel": "Rafael",
- "atual": "v0",
+ "atual": "p_sem_over",
  "assinatura_teste": "e90ba6fab761f037",
  "versoes": [
   {
@@ -16,7 +16,72 @@
     "oversampling": true
    },
    "codigo": "if702-preprocessamento.ipynb e comum.py",
-   "decisao": "base"
+   "decisao": "base",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5504919662402145,
+    "ep": 0.006116294601141075,
+    "mse_val": 0.14885798191568464,
+    "regua": null,
+    "rotulo_placar": "com_over"
+   },
+   "evidencia": "resultados/placar.jsonl"
+  },
+  {
+   "id": "p_sem_over",
+   "parte_de": "v0",
+   "mudanca": "Remove o oversampling",
+   "motivo": "Escolha do Optuna: o oversampling e um hiperparametro da busca do Mitra. No placar empata com o oversampling, com o mesmo contexto",
+   "altera": {
+    "oversampling": false
+   },
+   "codigo": "experimentos/mitra/mitra.ipynb (busca e variantes do placar)",
+   "decisao": "aceita",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5518621254129564,
+    "ep": 0.005961235487255423,
+    "delta": 0.003368163301322058,
+    "ganhou": "empatou vs com_over",
+    "ic95": [
+     -0.00528344595769415,
+     0.008604817101072979
+    ],
+    "mse_val": 0.1376768412241692,
+    "regua": null,
+    "rotulo_placar": "optuna"
+   },
+   "evidencia": "resultados/placar.jsonl"
+  },
+  {
+   "id": "p_tres_features",
+   "parte_de": "p_sem_over",
+   "mudanca": "Adiciona cliente_novo, delta_preco e tenure_1",
+   "motivo": "docs/GUIA_DADOS.md: as tres features aceitas no MLP; medido com o melhor trial do Optuna",
+   "altera": {
+    "extras": [
+     "cliente_novo",
+     "delta_preco",
+     "tenure_1"
+    ]
+   },
+   "codigo": "experimentos/mitra/mitra.ipynb (busca e variantes do placar)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5531427488264264,
+    "ep": 0.006001196572369434,
+    "delta": -0.0029188787740634936,
+    "ganhou": "empatou vs optuna",
+    "ic95": [
+     -0.009292037015084395,
+     0.005314492820269244
+    ],
+    "mse_val": 0.13762561442471083,
+    "regua": null,
+    "rotulo_placar": "tres_features"
+   },
+   "evidencia": "resultados/placar.jsonl"
   }
  ]
 }

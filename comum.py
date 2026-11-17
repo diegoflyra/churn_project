@@ -519,6 +519,29 @@ def importar_placar(origem, destino, modelos):
     return len(novas)
 
 
+def completar_vs_xgboost(pasta, y_train):
+    """Preenche o vs_xgboost que faltar nas linhas dos outros modelos: as medidas antes da linha do xgboost e as trazidas
+    por importar_placar de uma execucao sem ela. A referencia e a mesma de registrar_placar. Devolve quantas linhas mudaram."""
+    linhas = ler_placar(pasta)
+    xg = {}
+    for r in linhas:
+        if r["modelo"] == "xgboost" and (r["rotulo"] == "final" or xg.get(r["assinatura"], {}).get("rotulo") != "final"):
+            xg[r["assinatura"]] = r
+    novas = []
+    for r in linhas:
+        ref = xg.get(r["assinatura"])
+        if r["modelo"] == "xgboost" or ref is None or r.get("vs_xgboost"):
+            continue
+        cmp = comparar_placar(y_train, _oof_placar(pasta, ref), _oof_placar(pasta, r))
+        novas.append(dict(r, vs_xgboost=dict(referencia=["xgboost", ref["rotulo"]], **cmp)))
+    if not novas:
+        return 0
+    with open(_arq_placar(pasta), "a", encoding="utf-8") as f:
+        for r in novas:
+            f.write(json.dumps(r) + "\n")
+    return len(novas)
+
+
 def registrar_teste_placar(pasta, modelo, rotulo, y_teste, p_teste_sementes):
     """Preenche o teste de uma linha ja medida (uma vez, so na configuracao final). Media das sementes + IC95."""
     linhas = {(r["modelo"], r["rotulo"]): r for r in ler_placar(pasta)}

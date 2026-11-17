@@ -6,8 +6,20 @@ Gerado por `comum.relatorio_placar`. Regra em `docs/pre-proposta.md` ("Placar co
 
 | Modelo | Versao | KS placar | ep | KS teste | IC95 teste | AUROC teste | vs trial 0 | vs XGBoost | Motivo |
 |---|---|---|---|---|---|---|---|---|---|
-| mlp | fase4 | 0.5520 | 0.0047 | 0.5447 | 0.503 a 0.586 | 0.8502 | ganhou (+0.0131) | - | Maior KS do placar entre as 33 versoes das fases 1-5; ganha do trial 0, empata com a referencia (fase 2). As 9 variacoes dos slides medidas depois (rmsprop 0.5522, adadelta 0.5521) empatam com ela e nao a substituem |
+| mitra | final | 0.5519 | 0.0060 | - | - | - | empatou (-0.0005) | empatou (-0.0001) | melhor trial do Optuna; nenhuma variante de dados ganhou dele |
+| mlp | fase4 | 0.5520 | 0.0047 | 0.5447 | 0.503 a 0.586 | 0.8502 | ganhou (+0.0131) | empatou (+0.0010) | Maior KS do placar entre as 33 versoes das fases 1-5; ganha do trial 0, empata com a referencia (fase 2). As 9 variacoes dos slides medidas depois (rmsprop 0.5522, adadelta 0.5521) empatam com ela e nao a substituem |
 | xgboost | final | 0.5471 | 0.0067 | - | - | - | ganhou (+0.0200) | - | melhor trial do Optuna; nenhuma variante de dados ganhou dele no placar |
+
+## mitra: todas as versoes (maior KS do placar primeiro)
+
+| Versao | KS placar | ep | KS OOF | AUROC OOF | MSE treino | MSE val | vs trial 0 | vs_optuna | vs_trial0_float32 | KS teste |
+|---|---|---|---|---|---|---|---|---|---|---|
+| tres_features | 0.5531 | 0.0060 | 0.5360 | 0.8485 | - | 0.1376 | empatou (-0.0034) | empatou (-0.0029) | - | - |
+| optuna | 0.5519 | 0.0060 | 0.5389 | 0.8478 | - | 0.1377 | empatou (-0.0005) | - | - | - |
+| final **(adotado)** | 0.5519 | 0.0060 | 0.5389 | 0.8478 | - | 0.1377 | empatou (-0.0005) | - | - | - |
+| trial0_float32 | 0.5514 | 0.0066 | 0.5401 | 0.8505 | - | 0.1572 | - | - | - | - |
+| trial0_float16 | 0.5505 | 0.0066 | 0.5394 | 0.8505 | - | 0.1572 | - | - | empatou (-0.0007) | - |
+| com_over | 0.5505 | 0.0061 | 0.5355 | 0.8464 | - | 0.1489 | empatou (-0.0039) | empatou (-0.0034) | - | - |
 
 ## mlp: todas as versoes (maior KS do placar primeiro)
 

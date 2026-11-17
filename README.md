@@ -79,6 +79,7 @@ A T4 do Kaggle não tem `bfloat16`, que o AutoGluon fixa, e `experimentos/mitra/
 A busca do Mitra é só de contexto: medido na T4, o fine-tuning custou seis vezes mais por dobra e não melhorou o KS (os números estão no notebook).
 `experimentos/mitra/instalar.py` instala o `autogluon.tabular` 1.6.3 sem trocar o torch do Kaggle.
 Para trazer as linhas do Mitra para o placar do repositório: `comum.importar_placar(<pasta da execução>, "resultados", ["mitra"])`.
+Depois, `comum.completar_vs_xgboost("resultados", y_train)` preenche o `vs_xgboost` das linhas que não o tinham, como as trazidas do Kaggle e as medidas antes da linha do XGBoost.
 
 Os testes rodam sem a base e sem GPU (o Mitra é substituído por um classificador falso):
 
