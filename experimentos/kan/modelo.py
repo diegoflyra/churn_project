@@ -165,17 +165,6 @@ def treinar(Xtr, ytr, hp, seed, Xval=None, yval=None):
     with torch.no_grad():
         logits = model(Xtr_t).reshape(-1)
 
-        print("\n=== DIAGNÓSTICO INICIAL ===")
-        print("Logits finitos:", torch.isfinite(logits).all().item())
-        print("Logits min:", logits.min().item())
-        print("Logits max:", logits.max().item())
-        print("Logits média:", logits.mean().item())
-        print("Logits desvio:", logits.std().item())
-
-        print("Classes de y:", torch.unique(ytr_t))
-        print("Formato de y:", ytr_t.shape)
-        print("Formato dos logits:", logits.reshape(-1, 1).shape)
-
         loss = F.binary_cross_entropy_with_logits(
             logits.reshape(-1, 1),
             ytr_t
@@ -195,18 +184,6 @@ def treinar(Xtr, ytr, hp, seed, Xval=None, yval=None):
 
     loss.backward()
 
-    print("\n=== PARÂMETROS TREINÁVEIS ===")
-
-    for nome, p in model.named_parameters():
-        print(
-            nome,
-            "| requires_grad:", p.requires_grad,
-            "| grad None:", p.grad is None,
-            "| shape:", tuple(p.shape),
-            "| grad finito:",
-            None if p.grad is None
-            else torch.isfinite(p.grad).all().item()
-        )
     model.zero_grad()
 
     
