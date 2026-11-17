@@ -28,7 +28,7 @@ KAN_PADRAO = {
     "base_fun": "silu",
     "grid_eps": 0.02,
     "opt": "LBFGS",
-    "lr": 1.0,
+    "lr": 1e-5,
     "steps": 100,
     "batch": -1,
     "update_grid": True,
