@@ -7,6 +7,7 @@ Gerado por `comum.relatorio_placar`. Regra em `docs/pre-proposta.md` ("Placar co
 | Modelo | Versao | KS placar | ep | KS teste | IC95 teste | AUROC teste | vs trial 0 | vs XGBoost | Motivo |
 |---|---|---|---|---|---|---|---|---|---|
 | mlp | fase4 | 0.5520 | 0.0047 | 0.5447 | 0.503 a 0.586 | 0.8502 | ganhou (+0.0131) | - | Maior KS do placar entre as 33 versoes das fases 1-5; ganha do trial 0, empata com a referencia (fase 2). As 9 variacoes dos slides medidas depois (rmsprop 0.5522, adadelta 0.5521) empatam com ela e nao a substituem |
+| xgboost | final | 0.5471 | 0.0067 | - | - | - | ganhou (+0.0200) | - | melhor trial do Optuna; nenhuma variante de dados ganhou dele no placar |
 
 ## mlp: todas as versoes (maior KS do placar primeiro)
 
@@ -54,5 +55,15 @@ Gerado por `comum.relatorio_placar`. Regra em `docs/pre-proposta.md` ("Placar co
 | trial0 | 0.5391 | 0.0066 | 0.5269 | 0.8417 | 0.1588 | 0.1662 | - | - | - | - |
 | dados_sem_criadas | 0.5360 | 0.0065 | 0.5282 | 0.8432 | 0.1566 | 0.1649 | empatou (+0.0013) | - | empatou (-0.0056) | - |
 | dados_sem_escala | 0.5254 | 0.0079 | 0.5295 | 0.8359 | 0.1688 | 0.1764 | empatou (+0.0026) | - | empatou (-0.0043) | - |
+
+## xgboost: todas as versoes (maior KS do placar primeiro)
+
+| Versao | KS placar | ep | KS OOF | AUROC OOF | MSE treino | MSE val | vs trial 0 | vs_optuna | KS teste |
+|---|---|---|---|---|---|---|---|---|---|
+| tres_features | 0.5497 | 0.0061 | 0.5397 | 0.8454 | 0.1567 | 0.1639 | ganhou (+0.0207) | empatou (+0.0007) | - |
+| sem_over | 0.5489 | 0.0066 | 0.5396 | 0.8485 | 0.1316 | 0.1338 | ganhou (+0.0206) | empatou (+0.0006) | - |
+| optuna | 0.5471 | 0.0067 | 0.5390 | 0.8471 | 0.1561 | 0.1640 | ganhou (+0.0200) | - | - |
+| final **(adotado)** | 0.5471 | 0.0067 | 0.5390 | 0.8471 | 0.1561 | 0.1640 | ganhou (+0.0200) | - | - |
+| trial0 | 0.5157 | 0.0057 | 0.5190 | 0.8390 | 0.0973 | 0.1550 | - | - | - |
 
 Diferencas de KS menores que uns 0,01 ficam dentro do ruido do placar: veja o veredito antes de dizer que algo melhorou.

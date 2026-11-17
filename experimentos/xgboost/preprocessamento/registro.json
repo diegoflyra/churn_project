@@ -1,0 +1,87 @@
+{
+ "modelo": "xgboost",
+ "responsavel": "Rafael",
+ "atual": "v0",
+ "assinatura_teste": "e90ba6fab761f037",
+ "versoes": [
+  {
+   "id": "v0",
+   "parte_de": null,
+   "mudanca": "Pre-processamento base do grupo",
+   "motivo": "Ponto de partida comum",
+   "altera": {
+    "divisao_validacao": "5 dobras oficiais",
+    "variaveis_criadas": true,
+    "scaler": true,
+    "oversampling": true
+   },
+   "codigo": "if702-preprocessamento.ipynb e comum.py",
+   "decisao": "base",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5471496007141897,
+    "ep": 0.006663583805100969,
+    "mse_val": 0.1639655446505003,
+    "regua": null,
+    "rotulo_placar": "optuna"
+   },
+   "evidencia": "resultados/placar.jsonl"
+  },
+  {
+   "id": "p_sem_over",
+   "parte_de": "v0",
+   "mudanca": "Remove o oversampling",
+   "motivo": "docs/GUIA_DADOS.md: o MLP nao ganhou com o oversampling; medido com o melhor trial do Optuna",
+   "altera": {
+    "oversampling": false
+   },
+   "codigo": "experimentos/xgboost/xgboost.ipynb (variantes do placar)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5488601617408897,
+    "ep": 0.006553992136947872,
+    "delta": 0.0005996588084768995,
+    "ganhou": "empatou vs optuna",
+    "ic95": [
+     -0.004429504481986623,
+     0.008709450896295122
+    ],
+    "mse_val": 0.1337701005425727,
+    "regua": null,
+    "rotulo_placar": "sem_over"
+   },
+   "evidencia": "resultados/placar.jsonl"
+  },
+  {
+   "id": "p_tres_features",
+   "parte_de": "v0",
+   "mudanca": "Adiciona cliente_novo, delta_preco e tenure_1",
+   "motivo": "docs/GUIA_DADOS.md: as tres features aceitas no MLP; medido com o melhor trial do Optuna",
+   "altera": {
+    "extras": [
+     "cliente_novo",
+     "delta_preco",
+     "tenure_1"
+    ]
+   },
+   "codigo": "experimentos/xgboost/xgboost.ipynb (variantes do placar)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5496692330672593,
+    "ep": 0.0061258761458642995,
+    "delta": 0.0007132667617688604,
+    "ganhou": "empatou vs optuna",
+    "ic95": [
+     -0.008223744112654701,
+     0.010334616176829254
+    ],
+    "mse_val": 0.16389284416452077,
+    "regua": null,
+    "rotulo_placar": "tres_features"
+   },
+   "evidencia": "resultados/placar.jsonl"
+  }
+ ]
+}

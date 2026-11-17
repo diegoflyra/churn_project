@@ -14,6 +14,7 @@ As regras estao em `docs/estrutura_preprocessamento.md`.
 | stab | v0 | 5 dobras oficiais | sim | sim | sim | - | e90ba6fab761f037 |
 | tabkan | v0 | 5 dobras oficiais | sim | sim | sim | - | e90ba6fab761f037 |
 | tabpfn_v2 | v0 | 5 dobras oficiais | sim | sim | sim | - | e90ba6fab761f037 |
+| xgboost | v0 | 5 dobras oficiais | sim | sim | sim | - | e90ba6fab761f037 |
 
 ## Evolucao por modelo
 
@@ -91,4 +92,12 @@ So compare numeros de KS com o mesmo protocolo. O teste nao aparece aqui: ele fi
 | Versao | Parte de | Mudanca | KS | Delta | Ganhou | Regua | Decisao | Protocolo |
 |---|---|---|---|---|---|---|---|---|
 | v0 | - | Pre-processamento base do grupo | - | - | - | - | base | - |
+
+### xgboost
+
+| Versao | Parte de | Mudanca | KS | Delta | Ganhou | Regua | Decisao | Protocolo |
+|---|---|---|---|---|---|---|---|---|
+| v0 | - | Pre-processamento base do grupo | 0.5471 | - | - | - | base | placar comum 3x5 (sementes 101-103), parada em 20% internos |
+| p_sem_over | v0 | Remove o oversampling | 0.5489 | +0.0006 | empatou vs optuna | - | rejeitada | placar comum 3x5 (sementes 101-103), parada em 20% internos |
+| p_tres_features | v0 | Adiciona cliente_novo, delta_preco e tenure_1 | 0.5497 | +0.0007 | empatou vs optuna | - | rejeitada | placar comum 3x5 (sementes 101-103), parada em 20% internos |
 
