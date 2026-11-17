@@ -1,7 +1,7 @@
 {
  "mlp": {
-  "rotulo": "fase4",
-  "motivo": "Maior KS do placar entre as 33 versoes das fases 1-5; ganha do trial 0, empata com a referencia (fase 2). As 9 variacoes dos slides medidas depois (rmsprop 0.5522, adadelta 0.5521) empatam com ela e nao a substituem",
-  "data": "2026-11-10 17:31"
+  "rotulo": "s6_rmsprop_ks_p50",
+  "motivo": "Maior KS do placar entre as 59 versoes das fases 1-6 (0.5530); fase 6: parada pelo KS dos 20% internos, paciencia 50, sobre slides_otim_rmsprop. Contra a propria base empata (+0.0005); ganha do trial 0 (+0.0178)",
+  "data": "2026-11-16 21:03"
  }
 }
