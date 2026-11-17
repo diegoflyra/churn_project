@@ -54,6 +54,18 @@ FEATURES = {
     "tenure_1": lambda d: (d["tenure"] <= 1).astype(int),                                    # 61% de churn no treino
     "cliente_novo": lambda d: (d["tenure"] <= 6).astype(int),
     "delta_preco": lambda d: d["MonthlyCharges"] - d["TotalCharges"] / (d["tenure"] + 1),   # preco atual - media ja paga
+    # Candidatas triadas no MLP (experimentos/mlp/blocos.py) e medidas no FT-Transformer na fase 5
+    "tenure_ate_3": lambda d: (d["tenure"] <= 3).astype(int),
+    "tenure_ate_12": lambda d: (d["tenure"] <= 12).astype(int),
+    "log_tenure": lambda d: np.log1p(d["tenure"]),
+    "novo_mes_a_mes": lambda d: ((d["tenure"] <= 6) & (d["Contract_Month-to-month"] == 1)).astype(int),
+    "mtm_fibra": lambda d: (d["Contract_Month-to-month"] * d["InternetService_Fiber optic"]).astype(int),
+    "atrito_pagamento": lambda d: ((d["PaymentMethod_Electronic check"] == 1) & (d["PaperlessBilling"] == 1)
+                                   & (d["Contract_Month-to-month"] == 1)).astype(int),
+    "sozinho": lambda d: ((d["Partner"] == 0) & (d["Dependents"] == 0)).astype(int),
+    "n_protecao": lambda d: d[["OnlineSecurity", "OnlineBackup", "DeviceProtection", "TechSupport"]].sum(axis=1),
+    "fibra_sem_protecao": lambda d: ((d["InternetService_Fiber optic"] == 1)
+                                     & (d[["OnlineSecurity", "OnlineBackup", "DeviceProtection", "TechSupport"]].sum(axis=1) == 0)).astype(int),
 }
 
 

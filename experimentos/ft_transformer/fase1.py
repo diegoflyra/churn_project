@@ -44,22 +44,27 @@ def ajustar_um(c, X, y, X_val, ajuste, parada, semente, dispositivo):
     Xa, ya, Xp = comum.preparar(X.iloc[ajuste], y.iloc[ajuste], X.iloc[parada], **dados)
     yp = y.iloc[parada]
     f32 = lambda a: np.asarray(a, dtype="float32")
-    _, ep = M.treinar(f32(Xa), f32(ya), hp, semente, f32(Xp), f32(yp), dispositivo=dispositivo)
     XA, yA, XV = comum.preparar(X, y, X_val, **dados)
-    m, _ = M.treinar(f32(XA), f32(yA), hp, semente, epocas=max(1, ep), dispositivo=dispositivo)
-    return dict(p_val=M.prever(m, f32(XV)), y_tr=np.asarray(yA), p_tr=M.prever(m, f32(XA)), epoca=int(ep))
+    p_val, p_tr, eps = [], [], []
+    for j in range(hp.get("n_redes", 1)):         # fase 5: media de n_redes redes por dobra (a 1a e a de sempre)
+        sj = semente + 7919 * j
+        _, ep = M.treinar(f32(Xa), f32(ya), hp, sj, f32(Xp), f32(yp), dispositivo=dispositivo, colunas=list(Xa.columns))
+        m, _ = M.treinar(f32(XA), f32(yA), hp, sj, epocas=max(1, ep), dispositivo=dispositivo, colunas=list(XA.columns))
+        p_val.append(M.prever(m, f32(XV))); p_tr.append(M.prever(m, f32(XA))); eps.append(ep)
+    return dict(p_val=np.mean(p_val, 0), y_tr=np.asarray(yA), p_tr=np.mean(p_tr, 0), epoca=int(np.median(eps)))
 
 
 def _semente(d, semente):
     return 42 + 1000 * d["semente"] + d["dobra"] + 100000 * semente
 
 
-def medir(c, dispositivos=None, por_dispositivo=2, semente=0):
+def medir(c, dispositivos=None, por_dispositivo=2, semente=0, D=None):
     """Mede uma configuracao no placar (15 dobras). As dobras rodam em paralelo: `por_dispositivo` processos em cada
-    dispositivo (GPU ou "cpu"). Devolve comum.resumir_placar com as epocas da parada."""
+    dispositivo (GPU ou "cpu"). Devolve comum.resumir_placar com as epocas da parada. D: outras divisoes do treino
+    (o Optuna da fase 5 usa divisoes proprias, para nao escolher nas dobras do placar)."""
     dispositivos = list(dispositivos or [M.DEVICE])
     Xtr, _, ytr, _ = _dados()
-    D, t0 = divs(), time.time()
+    D, t0 = (divs() if D is None else D), time.time()
     tarefas = [(c, Xtr.iloc[d["treino"]], ytr.iloc[d["treino"]], Xtr.iloc[d["validacao"]], d["ajuste"], d["parada"],
                 _semente(d, semente), dispositivos[k % len(dispositivos)]) for k, d in enumerate(D)]
     n_jobs = min(len(D), len(dispositivos) * por_dispositivo)

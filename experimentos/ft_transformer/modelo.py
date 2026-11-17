@@ -26,23 +26,85 @@ PADRAO = dict(
     ffn_fator=4 / 3,                                        # FFN oculta = d_token * fator (ReGLU)
     lr=1e-4, wd=1e-5, lote=256,                             # AdamW, sem weight decay no tokenizador, normas e vieses
     paciencia=16, perda="ce",                               # parada na perda da separacao interna (artigo: 16)
-)   # hp["parada"] = "ks" troca o criterio (fase 3); fora do PADRAO para o trial 0 manter a chave
+)   # chaves opcionais, fora do PADRAO para o trial 0 manter a chave:
+#   parada = "ks" (fase 3): o criterio da parada e o KS da separacao interna
+#   tokens = "cat" (fase 5): um token por variavel categorica (as dummies de Contract viram 1 token, nao 3)
+#   num_emb = "plr", plr_k, plr_sigma (fase 5): embeddings periodicos nas colunas numericas (Gorishniy et al., 2022)
+#   agenda = "cos", aquec, horizonte (fase 5): lr sobe linear por `aquec` epocas e cai em cosseno ate `horizonte`
 _ARQ = ("n_blocos", "d_token", "n_cabecas", "drop_atencao", "drop_ffn", "drop_residual", "ffn_fator")
+
+# Variaveis categoricas com mais de duas categorias: em comum.preparar cada uma vira um grupo de dummies (uma ativa por linha)
+CATEGORICAS = {
+    "InternetService": ("InternetService_DSL", "InternetService_Fiber optic", "InternetService_No"),
+    "Contract": ("Contract_Month-to-month", "Contract_One year", "Contract_Two year"),
+    "PaymentMethod": ("PaymentMethod_Bank transfer (automatic)", "PaymentMethod_Credit card (automatic)",
+                      "PaymentMethod_Electronic check", "PaymentMethod_Mailed check"),
+}
 
 
 def arquitetura(hp):
     return {k: hp[k] for k in _ARQ}
 
 
+def estrutura(hp, colunas=None, X=None):
+    """Como as colunas viram tokens: (grupos, numericas). grupos = lista de listas de indices de colunas (um token por
+    grupo); numericas = indices que recebem o embedding periodico. Sem as chaves da fase 5: cada coluna e um token."""
+    n = X.shape[1]
+    grupos = [[j] for j in range(n)]
+    if hp.get("tokens") == "cat":
+        if colunas is None:
+            raise ValueError('tokens="cat" precisa dos nomes das colunas')
+        pos = {c: j for j, c in enumerate(colunas)}
+        dentro = {pos[c]: nome for nome, cs in CATEGORICAS.items() for c in cs if c in pos}
+        grupos, vistos = [], {}
+        for j in range(n):
+            if j not in dentro:
+                grupos.append([j])
+            elif dentro[j] in vistos:
+                grupos[vistos[dentro[j]]].append(j)
+            else:
+                vistos[dentro[j]] = len(grupos); grupos.append([j])
+    numericas = []
+    if hp.get("num_emb") == "plr":
+        X = np.asarray(X)
+        numericas = [j for j in range(n) if len(np.unique(X[:, j])) > 2]      # binarias continuam com x*W + b
+    return grupos, numericas
+
+
 class Tokenizador(nn.Module):
-    def __init__(self, n_features, d_token):
+    """token_g = soma_{j em g} x_j * W_j + b_g. Com cada coluna no seu grupo, e o Feature Tokenizer do artigo. Um grupo
+    de dummies (uma ativa por linha) vira uma embedding da categoria. Colunas em `numericas` trocam x_j * W_j pelo
+    embedding periodico ReLU(Linear([sin(2 pi c x), cos(2 pi c x)])), com as frequencias c aprendidas."""
+
+    def __init__(self, n_features, d_token, grupos=None, numericas=(), plr_k=16, plr_sigma=1.0):
         super().__init__()
         s = 1 / math.sqrt(d_token)
+        grupos = grupos or [[j] for j in range(n_features)]
         self.peso = nn.Parameter(torch.empty(n_features, d_token).uniform_(-s, s))
-        self.vies = nn.Parameter(torch.empty(n_features, d_token).uniform_(-s, s))
+        self.vies = nn.Parameter(torch.empty(len(grupos), d_token).uniform_(-s, s))
+        if any(len(g) > 1 for g in grupos):
+            A = torch.zeros(len(grupos), n_features)
+            for i, g in enumerate(grupos):
+                A[i, g] = 1.0
+            self.register_buffer("agrupa", A)
+        else:
+            self.agrupa = None
+        self.numericas = list(numericas)
+        if self.numericas:
+            k = len(self.numericas)
+            self.register_buffer("idx_num", torch.as_tensor(self.numericas))
+            self.freq = nn.Parameter(torch.randn(k, plr_k) * plr_sigma)
+            self.plr_peso = nn.Parameter(torch.empty(k, 2 * plr_k, d_token).uniform_(-1 / math.sqrt(2 * plr_k), 1 / math.sqrt(2 * plr_k)))
 
-    def forward(self, x):                       # (lote, n) -> (lote, n, d)
-        return x.unsqueeze(-1) * self.peso + self.vies
+    def forward(self, x):                       # (lote, n) -> (lote, n_tokens, d)
+        t = x.unsqueeze(-1) * self.peso
+        if self.numericas:
+            v = 2 * math.pi * x[:, self.idx_num].unsqueeze(-1) * self.freq                # (lote, k, plr_k)
+            e = F.relu(torch.einsum("bkf,kfd->bkd", torch.cat([torch.sin(v), torch.cos(v)], -1), self.plr_peso))
+            t = t.index_copy(1, self.idx_num, e)
+        if self.agrupa is not None:
+            t = torch.einsum("gf,bfd->bgd", self.agrupa, t)
+        return t + self.vies
 
 
 class Bloco(nn.Module):
@@ -66,11 +128,12 @@ class Bloco(nn.Module):
 
 
 class FTTransformer(nn.Module):
-    def __init__(self, n_features, n_blocos, d_token, n_cabecas, drop_atencao, drop_ffn, drop_residual, ffn_fator):
+    def __init__(self, n_features, n_blocos, d_token, n_cabecas, drop_atencao, drop_ffn, drop_residual, ffn_fator,
+                 grupos=None, numericas=(), plr_k=16, plr_sigma=1.0):
         super().__init__()
         if d_token % n_cabecas:
             raise ValueError(f"d_token ({d_token}) precisa ser multiplo de n_cabecas ({n_cabecas})")
-        self.tokenizador = Tokenizador(n_features, d_token)
+        self.tokenizador = Tokenizador(n_features, d_token, grupos, numericas, plr_k, plr_sigma)
         s = 1 / math.sqrt(d_token)
         self.cls = nn.Parameter(torch.empty(d_token).uniform_(-s, s))
         self.blocos = nn.ModuleList(Bloco(d_token, n_cabecas, drop_atencao, drop_ffn, drop_residual, ffn_fator, primeiro=(k == 0))
@@ -116,12 +179,28 @@ def _logits(m, X, lote=2048):
     return torch.cat([m(X[i:i + lote]) for i in range(0, len(X), lote)])
 
 
-def treinar(Xtr, ytr, hp, semente, Xval=None, yval=None, epocas=None, ao_fim_epoca=None, dispositivo=None):
+def fator_lr(hp, ep):
+    """Multiplica o lr na epoca `ep` (1, 2, ...). Sem agenda: 1. Com agenda "cos": sobe linear por `aquec` epocas e cai
+    em cosseno ate 5% do lr na epoca `horizonte`, onde fica. O retreino por N epocas repete exatamente a mesma agenda."""
+    if hp.get("agenda") != "cos":
+        return 1.0
+    aq, hz = hp.get("aquec", 5), hp.get("horizonte", 60)
+    if ep <= aq:
+        return ep / aq
+    prog = min(1.0, (ep - aq) / max(1, hz - aq))
+    return 0.05 + 0.95 * 0.5 * (1 + math.cos(math.pi * prog))
+
+
+def treinar(Xtr, ytr, hp, semente, Xval=None, yval=None, epocas=None, ao_fim_epoca=None, dispositivo=None, colunas=None):
     """Com (Xval, yval): para quando a perda nelas nao melhora por `paciencia` epocas e volta ao melhor estado. Com
-    hp["parada"] == "ks", o criterio e o KS nelas (o maior), como na parada pelo KS do MLP. Com `epocas`: treina esse numero fixo de epocas (o retreino no treino inteiro da dobra). Devolve (modelo, melhor epoca)."""
+    hp["parada"] == "ks", o criterio e o KS nelas (o maior), como na parada pelo KS do MLP. Com `epocas`: treina esse
+    numero fixo de epocas (o retreino no treino inteiro da dobra). `colunas` (nomes) so e preciso com tokens="cat".
+    Devolve (modelo, melhor epoca)."""
     dev = torch.device(dispositivo or DEVICE)
     torch.manual_seed(semente); np.random.seed(semente)
-    m = FTTransformer(Xtr.shape[1], **arquitetura(hp)).to(dev)
+    grupos, numericas = estrutura(hp, colunas, Xtr)
+    extra = dict(grupos=grupos, numericas=numericas, plr_k=hp.get("plr_k", 16), plr_sigma=hp.get("plr_sigma", 1.0))
+    m = FTTransformer(Xtr.shape[1], **arquitetura(hp), **extra).to(dev)
     opt = torch.optim.AdamW(grupos_parametros(m, hp["wd"]), lr=hp["lr"])
     Xt, yt = torch.as_tensor(Xtr, device=dev), torch.as_tensor(ytr, device=dev)
     if Xval is not None:
@@ -129,6 +208,9 @@ def treinar(Xtr, ytr, hp, semente, Xval=None, yval=None, epocas=None, ao_fim_epo
     lote = hp.get("lote", 256)
     best, best_state, melhor_ep, esp = math.inf, None, 0, 0
     for ep in range(1, (epocas or MAX_EPOCAS) + 1):
+        if hp.get("agenda"):
+            for g in opt.param_groups:
+                g["lr"] = hp["lr"] * fator_lr(hp, ep)
         m.train()
         perm = torch.randperm(len(Xt), device=dev)
         for i in range(0, len(Xt), lote):
