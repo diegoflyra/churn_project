@@ -195,20 +195,19 @@ def treinar(Xtr, ytr, hp, seed, Xval=None, yval=None):
 
     loss.backward()
 
-    print("\n=== DIAGNÓSTICO DOS GRADIENTES ===")
-    print("Loss:", loss.item())
+    print("\n=== PARÂMETROS TREINÁVEIS ===")
 
-    for nome, parametro in model.named_parameters():
-        if parametro.grad is None:
-            continue
-
-        grad = parametro.grad
+    for nome, p in model.named_parameters():
         print(
-        nome,
-        "| finito:", torch.isfinite(grad).all().item(),
-        "| máximo absoluto:", grad.abs().max().item()
+            nome,
+            "| requires_grad:", p.requires_grad,
+            "| grad None:", p.grad is None,
+            "| shape:", tuple(p.shape),
+            "| grad finito:",
+            None if p.grad is None
+            else torch.isfinite(p.grad).all().item()
         )
-        model.zero_grad()
+    model.zero_grad()
 
     
     history = model.fit(
