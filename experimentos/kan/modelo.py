@@ -162,6 +162,26 @@ def treinar(Xtr, ytr, hp, seed, Xval=None, yval=None):
         "test_label": yval_t,
     }
 
+    with torch.no_grad():
+        logits = model(Xtr_t).reshape(-1)
+
+        print("\n=== DIAGNÓSTICO INICIAL ===")
+        print("Logits finitos:", torch.isfinite(logits).all().item())
+        print("Logits min:", logits.min().item())
+        print("Logits max:", logits.max().item())
+        print("Logits média:", logits.mean().item())
+        print("Logits desvio:", logits.std().item())
+
+        print("Classes de y:", torch.unique(ytr_t))
+        print("Formato de y:", ytr_t.shape)
+        print("Formato dos logits:", logits.reshape(-1, 1).shape)
+
+        loss = F.binary_cross_entropy_with_logits(
+            logits.reshape(-1, 1),
+            ytr_t
+        )
+
+        print("Loss inicial:", loss.item())
     history = model.fit(
         dataset,
         opt=hp.get("opt", KAN_PADRAO["opt"]),
