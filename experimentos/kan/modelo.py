@@ -95,13 +95,40 @@ def _tensor(x):
 
 def prever(model, X):
     model.eval()
-    with torch.no_grad():
-        logits = model(_tensor(X)).reshape(-1)
-        p = torch.sigmoid(logits).cpu().numpy()
-    if not np.isfinite(p).all():
-        raise FloatingPointError("A KAN produziu probabilidades não finitas.")
-    return p
 
+    x = _tensor(X)
+
+    if not torch.isfinite(x).all():
+        raise FloatingPointError(
+            "A entrada contém NaN ou Inf."
+        )
+
+    with torch.no_grad():
+        logits = model(x).reshape(-1)
+
+        if not torch.isfinite(logits).all():
+            print("\n=== DIAGNÓSTICO KAN ===")
+            print("Logits não finitos.")
+
+            for nome, tensor in model.state_dict().items():
+                if not torch.isfinite(tensor).all():
+                    print(f"Tensor inválido: {nome}")
+                    print("NaN:", torch.isnan(tensor).sum().item())
+                    print("Inf:", torch.isinf(tensor).sum().item())
+
+            print("Entrada:")
+            print("Min:", x.min().item())
+            print("Max:", x.max().item())
+            print("Média:", x.mean().item())
+            print("Desvio:", x.std().item())
+
+            raise FloatingPointError(
+                "A KAN produziu logits não finitos."
+            )
+
+        p = torch.sigmoid(logits).cpu().numpy()
+
+    return p
 
 def treinar(Xtr, ytr, hp, seed, Xval=None, yval=None):
     if (Xval is None) != (yval is None):
