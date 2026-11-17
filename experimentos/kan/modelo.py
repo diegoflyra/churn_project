@@ -68,7 +68,16 @@ def _width(hp, n_inputs):
         layers = [int(nodes) for nodes in hidden]
     return [int(n_inputs), *layers, 1]
 
+def verificar_estado(model, etapa):
+    invalidos = []
 
+    for nome, tensor in model.state_dict().items():
+        if torch.is_floating_point(tensor) and not torch.isfinite(tensor).all():
+            invalidos.append(nome)
+
+    print(f"[{etapa}] Tensores inválidos: {invalidos}")
+
+    return len(invalidos) == 0
 def criar_modelo(hp, n_inputs, seed, save_act=True):
     return KAN(
         width=_width(hp, n_inputs),
@@ -140,6 +149,7 @@ def treinar(Xtr, ytr, hp, seed, Xval=None, yval=None):
         torch.cuda.manual_seed_all(seed)
 
     model = criar_modelo(hp, np.asarray(Xtr).shape[1], seed)
+    verificar_estado(model, "Criação")
     Xtr_t, ytr_t = _tensor(Xtr), _tensor(ytr).reshape(-1, 1)
     if Xval is None:
         Xval_t, yval_t = Xtr_t, ytr_t
@@ -170,6 +180,7 @@ def treinar(Xtr, ytr, hp, seed, Xval=None, yval=None):
         batch=int(hp.get("batch", -1)),
         loss_fn=F.binary_cross_entropy_with_logits,
     )
+    verificar_estado(model, "Após treinamento")
     return model, history
 
 
@@ -215,6 +226,7 @@ def fit_refine(hp, fold, Xlist, seed, new_grid):
         batch=int(config.get("batch", -1)),
         loss_fn=F.binary_cross_entropy_with_logits,
     )
+    verificar_estado(model, "Após treinamento")
     return [prever(model, X) for X in Xlist], prever(model, Xtr), history
 
 
