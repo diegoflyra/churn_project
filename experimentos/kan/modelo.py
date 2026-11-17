@@ -182,6 +182,35 @@ def treinar(Xtr, ytr, hp, seed, Xval=None, yval=None):
         )
 
         print("Loss inicial:", loss.item())
+    
+    model.train()
+    model.zero_grad()
+
+    logits = model(Xtr_t).reshape(-1, 1)
+
+    loss = F.binary_cross_entropy_with_logits(
+        logits,
+        ytr_t
+    )
+
+    loss.backward()
+
+    print("\n=== DIAGNÓSTICO DOS GRADIENTES ===")
+    print("Loss:", loss.item())
+
+    for nome, parametro in model.named_parameters():
+        if parametro.grad is None:
+            continue
+
+        grad = parametro.grad
+        print(
+        nome,
+        "| finito:", torch.isfinite(grad).all().item(),
+        "| máximo absoluto:", grad.abs().max().item()
+        )
+        model.zero_grad()
+
+    
     history = model.fit(
         dataset,
         opt=hp.get("opt", KAN_PADRAO["opt"]),
