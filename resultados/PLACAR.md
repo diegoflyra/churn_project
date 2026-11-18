@@ -6,10 +6,10 @@ Gerado por `comum.relatorio_placar`. Regra em `docs/pre-proposta.md` ("Placar co
 
 | Modelo | Versao | KS placar | ep | KS teste | IC95 teste | AUROC teste | vs trial 0 | vs XGBoost | Motivo |
 |---|---|---|---|---|---|---|---|---|---|
-| gradient_boosting | final | 0.5457 | 0.0068 | - | - | - | empatou (+0.0096) | empatou (-0.0001) | melhor trial do Optuna; nenhuma variante de dados ganhou dele no placar |
+| gradient_boosting | final | 0.5457 | 0.0068 | 0.5423 | 0.502 a 0.584 | 0.8459 | empatou (+0.0096) | empatou (-0.0001) | melhor trial do Optuna; nenhuma variante de dados ganhou dele no placar |
 | mitra | final | 0.5519 | 0.0060 | - | - | - | empatou (-0.0005) | empatou (-0.0001) | melhor trial do Optuna; nenhuma variante de dados ganhou dele |
 | mlp | fase4 | 0.5520 | 0.0047 | 0.5447 | 0.503 a 0.586 | 0.8502 | ganhou (+0.0131) | empatou (+0.0010) | Maior KS do placar entre as 33 versoes das fases 1-5; ganha do trial 0, empata com a referencia (fase 2). As 9 variacoes dos slides medidas depois (rmsprop 0.5522, adadelta 0.5521) empatam com ela e nao a substituem |
-| xgboost | final | 0.5471 | 0.0067 | - | - | - | ganhou (+0.0200) | - | melhor trial do Optuna; nenhuma variante de dados ganhou dele no placar |
+| xgboost | final | 0.5471 | 0.0067 | 0.5426 | 0.502 a 0.584 | 0.8462 | ganhou (+0.0200) | - | melhor trial do Optuna; nenhuma variante de dados ganhou dele no placar |
 
 ## gradient_boosting: todas as versoes (maior KS do placar primeiro)
 
@@ -18,7 +18,7 @@ Gerado por `comum.relatorio_placar`. Regra em `docs/pre-proposta.md` ("Placar co
 | sem_over | 0.5496 | 0.0075 | 0.5426 | 0.8474 | 0.1324 | 0.1343 | ganhou (+0.0133) | empatou (+0.0037) | - |
 | tres_features | 0.5488 | 0.0064 | 0.5414 | 0.8460 | 0.1554 | 0.1630 | empatou (+0.0121) | empatou (+0.0025) | - |
 | optuna | 0.5457 | 0.0068 | 0.5389 | 0.8469 | 0.1558 | 0.1641 | empatou (+0.0096) | - | - |
-| final **(adotado)** | 0.5457 | 0.0068 | 0.5389 | 0.8469 | 0.1558 | 0.1641 | empatou (+0.0096) | - | - |
+| final **(adotado)** | 0.5457 | 0.0068 | 0.5389 | 0.8469 | 0.1558 | 0.1641 | empatou (+0.0096) | - | 0.5423 |
 | trial0 | 0.5346 | 0.0065 | 0.5293 | 0.8439 | 0.1324 | 0.1595 | - | - | - |
 
 ## mitra: todas as versoes (maior KS do placar primeiro)
@@ -86,7 +86,7 @@ Gerado por `comum.relatorio_placar`. Regra em `docs/pre-proposta.md` ("Placar co
 | tres_features | 0.5497 | 0.0061 | 0.5397 | 0.8454 | 0.1567 | 0.1639 | ganhou (+0.0207) | empatou (+0.0007) | - |
 | sem_over | 0.5489 | 0.0066 | 0.5396 | 0.8485 | 0.1316 | 0.1338 | ganhou (+0.0206) | empatou (+0.0006) | - |
 | optuna | 0.5471 | 0.0067 | 0.5390 | 0.8471 | 0.1561 | 0.1640 | ganhou (+0.0200) | - | - |
-| final **(adotado)** | 0.5471 | 0.0067 | 0.5390 | 0.8471 | 0.1561 | 0.1640 | ganhou (+0.0200) | - | - |
+| final **(adotado)** | 0.5471 | 0.0067 | 0.5390 | 0.8471 | 0.1561 | 0.1640 | ganhou (+0.0200) | - | 0.5426 |
 | trial0 | 0.5157 | 0.0057 | 0.5190 | 0.8390 | 0.0973 | 0.1550 | - | - | - |
 
 Diferencas de KS menores que uns 0,01 ficam dentro do ruido do placar: veja o veredito antes de dizer que algo melhorou.
