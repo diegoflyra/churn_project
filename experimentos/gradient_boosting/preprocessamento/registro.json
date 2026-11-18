@@ -16,7 +16,72 @@
     "oversampling": true
    },
    "codigo": "if702-preprocessamento.ipynb e comum.py",
-   "decisao": "base"
+   "decisao": "base",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5457250037998101,
+    "ep": 0.006791026673973823,
+    "mse_val": 0.16410337940923217,
+    "regua": null,
+    "rotulo_placar": "optuna"
+   },
+   "evidencia": "resultados/placar.jsonl"
+  },
+  {
+   "id": "p_sem_over",
+   "parte_de": "v0",
+   "mudanca": "Remove o oversampling",
+   "motivo": "docs/GUIA_DADOS.md: o MLP nao ganhou com o oversampling; medido com o melhor trial do Optuna",
+   "altera": {
+    "oversampling": false
+   },
+   "codigo": "experimentos/gradient_boosting/gradient_boosting.ipynb (variantes do placar)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5495985216554243,
+    "ep": 0.007530967139578797,
+    "delta": 0.0037222230392517375,
+    "ganhou": "empatou vs optuna",
+    "ic95": [
+     -0.003130656456066813,
+     0.00821459016977571
+    ],
+    "mse_val": 0.13431829619132304,
+    "regua": null,
+    "rotulo_placar": "sem_over"
+   },
+   "evidencia": "resultados/placar.jsonl"
+  },
+  {
+   "id": "p_tres_features",
+   "parte_de": "v0",
+   "mudanca": "Adiciona cliente_novo, delta_preco e tenure_1",
+   "motivo": "docs/GUIA_DADOS.md: as tres features aceitas no MLP; medido com o melhor trial do Optuna",
+   "altera": {
+    "extras": [
+     "cliente_novo",
+     "delta_preco",
+     "tenure_1"
+    ]
+   },
+   "codigo": "experimentos/gradient_boosting/gradient_boosting.ipynb (variantes do placar)",
+   "decisao": "rejeitada",
+   "validacao": {
+    "protocolo": "placar comum 3x5 (sementes 101-103), parada em 20% internos",
+    "ks": 0.5487619431967673,
+    "ep": 0.006354519463553998,
+    "delta": 0.0025232730855773156,
+    "ganhou": "empatou vs optuna",
+    "ic95": [
+     -0.007111404102721508,
+     0.011229052277393039
+    ],
+    "mse_val": 0.16297250899496737,
+    "regua": null,
+    "rotulo_placar": "tres_features"
+   },
+   "evidencia": "resultados/placar.jsonl"
   }
  ]
 }

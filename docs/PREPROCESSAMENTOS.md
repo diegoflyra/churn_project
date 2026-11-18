@@ -24,7 +24,9 @@ So compare numeros de KS com o mesmo protocolo. O teste nao aparece aqui: ele fi
 
 | Versao | Parte de | Mudanca | KS | Delta | Ganhou | Regua | Decisao | Protocolo |
 |---|---|---|---|---|---|---|---|---|
-| v0 | - | Pre-processamento base do grupo | - | - | - | - | base | - |
+| v0 | - | Pre-processamento base do grupo | 0.5457 | - | - | - | base | placar comum 3x5 (sementes 101-103), parada em 20% internos |
+| p_sem_over | v0 | Remove o oversampling | 0.5496 | +0.0037 | empatou vs optuna | - | rejeitada | placar comum 3x5 (sementes 101-103), parada em 20% internos |
+| p_tres_features | v0 | Adiciona cliente_novo, delta_preco e tenure_1 | 0.5488 | +0.0025 | empatou vs optuna | - | rejeitada | placar comum 3x5 (sementes 101-103), parada em 20% internos |
 
 ### kan
 

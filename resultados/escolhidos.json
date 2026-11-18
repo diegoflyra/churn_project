@@ -13,5 +13,10 @@
   "rotulo": "final",
   "motivo": "melhor trial do Optuna; nenhuma variante de dados ganhou dele",
   "data": "2026-11-16 05:11"
+ },
+ "gradient_boosting": {
+  "rotulo": "final",
+  "motivo": "melhor trial do Optuna; nenhuma variante de dados ganhou dele no placar",
+  "data": "2026-11-18 14:27"
  }
 }
