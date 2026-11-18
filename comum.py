@@ -202,15 +202,16 @@ def corrige_prior(p, pi=PI):
     w = pi / (1 - pi); q = p * w / (p * w + (1 - p)); return q
 
 
-def sumario_estudo(st):
+def sumario_estudo(st, param="perda", valores=("ce", "mse")):
+    """Resumo do estudo; por_perda e o Mann-Whitney comparam os dois `valores` do hiperparametro `param`."""
     ok = [t for t in st.trials if t.state.name == "COMPLETE"]
     pr = [t for t in st.trials if t.state.name == "PRUNED"]
     por = {}
-    for l in ("ce", "mse"):
-        v = sorted([t.value for t in ok if t.params["perda"] == l], reverse=True)
+    for l in valores:
+        v = sorted([t.value for t in ok if t.params[param] == l], reverse=True)
         por[l] = dict(n=len(v), melhor=v[0] if v else None, mediana=float(np.median(v)) if v else None,
                       media_top5=float(np.mean(v[:5])) if v else None)
-    a = [t.value for t in ok if t.params["perda"] == "ce"]; b = [t.value for t in ok if t.params["perda"] == "mse"]
+    a = [t.value for t in ok if t.params[param] == valores[0]]; b = [t.value for t in ok if t.params[param] == valores[1]]
     mw = float(mannwhitneyu(a, b).pvalue) if len(a) > 2 and len(b) > 2 else None
     try:
         imp = optuna.importance.get_param_importances(st)
@@ -344,18 +345,31 @@ def resumir_placar(y, divs, p_val, p_treino=None, extra=None):
     return r
 
 
-def medir_placar(X_train, y_train, ajustar_prever, divs=None):
+def _mapear(f, itens, threads):
+    """map na ordem dos itens; com threads > 1, em paralelo. Serve a modelos que soltam o GIL (o scikit-learn, nas arvores)."""
+    if threads <= 1 or len(itens) <= 1:
+        return [f(x) for x in itens]
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(min(threads, len(itens))) as ex:
+        return list(ex.map(f, itens))
+
+
+def _rodar_divisao(ajustar_prever, X_train, y_train, d):
+    return ajustar_prever(X_train.iloc[d["treino"]], y_train.iloc[d["treino"]], X_train.iloc[d["validacao"]],
+                          d["ajuste"], d["parada"], 1000 * d["semente"] + d["dobra"])
+
+
+def medir_placar(X_train, y_train, ajustar_prever, divs=None, threads=1):
     """Mede um modelo qualquer no placar.
 
     ajustar_prever(X_tr, y_tr, X_val, ajuste, parada, semente) -> p_val, ou (p_val, (y_tr_usado, p_tr_usado)).
       X_tr/y_tr chegam crus (sem scaler nem oversampling): o modelo prepara so com eles (ex.: comum.preparar).
-      Qualquer parada (epocas, arvores) usa so X_tr.iloc[parada]; depois o modelo pode retreinar em X_tr inteiro."""
+      Qualquer parada (epocas, arvores) usa so X_tr.iloc[parada]; depois o modelo pode retreinar em X_tr inteiro.
+    threads > 1 roda as divisoes em paralelo; o resultado e o mesmo, desde que ajustar_prever nao dependa da ordem."""
     y = np.asarray(y_train)
     divs = divs or divisoes_placar(y)
     p_val, p_tr = [], []
-    for d in divs:
-        r = ajustar_prever(X_train.iloc[d["treino"]], y_train.iloc[d["treino"]], X_train.iloc[d["validacao"]],
-                           d["ajuste"], d["parada"], 1000 * d["semente"] + d["dobra"])
+    for r in _mapear(lambda d: _rodar_divisao(ajustar_prever, X_train, y_train, d), divs, threads):
         if isinstance(r, tuple):
             p_val.append(r[0]); p_tr.append(r[1])
         else:
@@ -370,13 +384,15 @@ def divisoes_optuna(y):
 
 
 def estudo_placar(modelo, n_trials, sugerir, ajustar_prever_de, padrao, X_train, y_train, pasta=RESULTADOS,
-                  timeout=None, callbacks=None, continuar=None):
+                  timeout=None, callbacks=None, continuar=None, threads=1):
     """Optuna nas 5 dobras oficiais, com o procedimento do placar em cada dobra (parada so nos 20% internos).
 
     sugerir(trial) -> hp; ajustar_prever_de(hp) -> ajustar_prever no formato de medir_placar.
     Mesmo amostrador e mesmo corte de estudo(): TPE com semente 42, MedianPruner(5, 1), a media acumulada e reportada
     a cada dobra e o corte so acontece depois da segunda. O trial 0 e `padrao`. SQLite em <pasta>/<modelo>.db, retomavel.
-    continuar() -> False encerra antes do proximo trial (limite de horas do Kaggle)."""
+    continuar() -> False encerra antes do proximo trial (limite de horas do Kaggle).
+    threads > 1 roda as dobras de um trial em paralelo, em dois grupos (as duas primeiras, o corte, as tres ultimas):
+    os trials continuam um de cada vez, e os valores reportados e os cortes sao os mesmos da execucao sequencial."""
     os.makedirs(pasta, exist_ok=True)
     y = np.asarray(y_train)
     divs = divisoes_optuna(y)
@@ -389,14 +405,19 @@ def estudo_placar(modelo, n_trials, sugerir, ajustar_prever_de, padrao, X_train,
     def objetivo_(trial):
         ajustar_prever = ajustar_prever_de(sugerir(trial))
         t0, kss = time.time(), []
-        for i, d in enumerate(divs):
-            r = ajustar_prever(X_train.iloc[d["treino"]], y_train.iloc[d["treino"]], X_train.iloc[d["validacao"]],
-                               d["ajuste"], d["parada"], 1000 * d["semente"] + d["dobra"])
-            p = r[0] if isinstance(r, tuple) else r
-            kss.append(ks(y[d["validacao"]], np.asarray(p, dtype=float)))
-            trial.report(float(np.mean(kss)), i)
-            if i == 1 and trial.should_prune():       # depois da segunda dobra
-                raise optuna.TrialPruned()
+
+        def ks_da(d):
+            r = _rodar_divisao(ajustar_prever, X_train, y_train, d)
+            return ks(y[d["validacao"]], np.asarray(r[0] if isinstance(r, tuple) else r, dtype=float))
+
+        grupos = [divs[:2], divs[2:]] if threads > 1 else [[d] for d in divs]
+        for grupo in grupos:
+            for k in _mapear(ks_da, grupo, threads):
+                i = len(kss)
+                kss.append(k)
+                trial.report(float(np.mean(kss)), i)
+                if i == 1 and trial.should_prune():       # depois da segunda dobra
+                    raise optuna.TrialPruned()
         trial.set_user_attr("ks_dobras", [float(k) for k in kss])
         trial.set_user_attr("tempo_s", time.time() - t0)
         return float(np.mean(kss))

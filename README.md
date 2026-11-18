@@ -19,8 +19,9 @@ O pré-processamento base está no notebook `if702-preprocessamento.ipynb`, e ca
     ├── stab/       stab.ipynb, modelo.py, avaliar.py
     ├── tabkan/     tabkan.ipynb, modelo.py, avaliar.py
     ├── xgboost/    xgboost.ipynb, modelo.py, test_modelo.py: a referência do placar (linha xgboost/final)
+    ├── gradient_boosting/   gradient_boosting.ipynb, modelo.py, test_gradient_boosting.py: o GradientBoostingClassifier do scikit-learn
     ├── mitra/      mitra.ipynb (Kaggle, GPU), modelo.py, instalar.py, test_mitra.py
-    └── kan/, mlp/, tabpfn_v2/, gradient_boosting/
+    └── kan/, mlp/, tabpfn_v2/
 ```
 
 Em cada pasta, `modelo.py` tem o modelo, o treino e o espaço de busca, e `avaliar.py` tem só o que é específico daquele modelo na avaliação. Para rodar, a partir de qualquer diretório:
@@ -62,9 +63,9 @@ Para rodar localmente, instale as dependências e troque a variável `path` pelo
 pip install numpy pandas scikit-learn imbalanced-learn kagglehub jupyter
 ```
 
-## XGBoost e Mitra
+## XGBoost, Gradient Boosting e Mitra
 
-Os dois usam o placar comum e buscam do mesmo jeito: `comum.estudo_placar` roda o Optuna nas 5 dobras oficiais com o procedimento do placar em cada dobra, e o melhor trial é medido de novo no placar.
+Os três usam o placar comum e buscam do mesmo jeito: `comum.estudo_placar` roda o Optuna nas 5 dobras oficiais com o procedimento do placar em cada dobra, e o melhor trial é medido de novo no placar.
 
 O XGBoost roda na CPU, localmente:
 
@@ -73,6 +74,15 @@ jupyter nbconvert --to notebook --execute --inplace experimentos/xgboost/xgboost
 ```
 
 Ele grava a linha `("xgboost", "final")` em `resultados/placar.jsonl`, que entra como `vs_xgboost` nas linhas dos outros modelos.
+
+O Gradient Boosting do scikit-learn também roda na CPU, no mesmo fluxo, com os parâmetros do slide 28:
+
+```
+jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 experimentos/gradient_boosting/gradient_boosting.ipynb
+```
+
+O scikit-learn treina uma árvore de cada vez, num núcleo só, e por isso as dobras rodam em paralelo, em threads (`THREADS` no notebook).
+O resultado não depende do número de threads.
 
 O Mitra precisa de GPU e roda no Kaggle, no mesmo fluxo do MLP; o passo a passo está na primeira célula de `experimentos/mitra/mitra.ipynb`.
 A T4 do Kaggle não tem `bfloat16`, que o AutoGluon fixa, e `experimentos/mitra/modelo.py` troca a precisão.

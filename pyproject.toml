@@ -8,5 +8,5 @@ select = ["E", "F", "I", "W", "B"]
 
 [tool.pytest.ini_options]
 # Sem caminho, o pytest roda os testes que nao precisam de torch; os do MLP rodam com o caminho explicito.
-testpaths = ["tests", "experimentos/xgboost", "experimentos/mitra"]
+testpaths = ["tests", "experimentos/xgboost", "experimentos/gradient_boosting", "experimentos/mitra"]
 pythonpath = ["."]

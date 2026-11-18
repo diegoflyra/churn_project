@@ -68,6 +68,36 @@ def test_estudo_para_quando_o_tempo_acaba(tmp_path):
     assert len([t for t in st.trials if t.state.is_finished()]) == 2
 
 
+def _ruidoso_de(threads_vistas):
+    """Previsao com ruido que depende do trial e da divisao: uns trials ganham, outros sao cortados."""
+    import threading
+
+    def de(hp):
+        def f(X, y, X_val, ajuste, parada, semente):
+            threads_vistas.add(threading.get_ident())
+            rng = np.random.default_rng([semente, int(hp["ruido"] * 1e6)])
+            return X_val["a"].values + rng.normal(0, hp["ruido"], len(X_val))
+        return f
+    return de
+
+
+def test_threads_dao_o_mesmo_estudo_e_a_mesma_medida(tmp_path):
+    X, y = _dados()
+    sugerir = lambda t: dict(ruido=t.suggest_float("ruido", 0.01, 5, log=True))   # noqa: E731
+    estudos, vistas = [], []
+    for threads in (1, 3):
+        v = set()
+        st = comum.estudo_placar("falso", 14, sugerir, _ruidoso_de(v), {"ruido": 0.01}, X, y,
+                                 pasta=str(tmp_path / f"t{threads}"), threads=threads)
+        estudos.append([(t.state.name, t.value, t.intermediate_values, t.params) for t in st.trials])
+        vistas.append(len(v))
+    assert estudos[0] == estudos[1]
+    assert any(e[0] == "PRUNED" for e in estudos[0]) and any(e[0] == "COMPLETE" for e in estudos[0][1:])
+    assert vistas[0] == 1 and vistas[1] > 1
+    m1, m3 = (comum.medir_placar(X, y, _ruidoso_de(set())({"ruido": 0.5}), threads=k) for k in (1, 4))
+    assert np.array_equal(m1["oof"], m3["oof"]) and m1["ks_dobras"] == m3["ks_dobras"]
+
+
 def test_garantir_placar_reaproveita_a_mesma_config_e_mede_a_nova(tmp_path):
     X, y = _dados()
     ass = comum.assinatura_treino(X)
