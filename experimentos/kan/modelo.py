@@ -186,7 +186,7 @@ def treinar(Xtr, ytr, hp, seed, Xval=None, yval=None):
 
     model.zero_grad()
 
-    
+    os.makedirs(model.ckpt_path, exist_ok=True)
     history = model.fit(
         dataset,
         opt=hp.get("opt", KAN_PADRAO["opt"]),
@@ -228,6 +228,7 @@ def fit_refine(hp, fold, Xlist, seed, new_grid):
     config = refinar_hp(hp, grid=int(new_grid), steps=steps_after)
     Xtr_t, ytr_t = _tensor(Xtr), _tensor(ytr).reshape(-1, 1)
     Xval_t, yval_t = _tensor(Xval), _tensor(yval).reshape(-1, 1)
+    os.makedirs(model.ckpt_path, exist_ok=True)
     history = model.fit(
         {
             "train_input": Xtr_t,
