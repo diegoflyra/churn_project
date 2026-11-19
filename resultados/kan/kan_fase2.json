@@ -1,0 +1,280 @@
+{
+  "config": {
+    "hidden": [
+      4
+    ],
+    "mult_nodes": 0,
+    "mult_arity": 2,
+    "grid": 5,
+    "k": 3,
+    "base_fun": "identity",
+    "grid_eps": 0.6906810095805904,
+    "opt": "Adam",
+    "lr": 0.0018146959172558265,
+    "steps": 150,
+    "batch": -1,
+    "update_grid": false,
+    "grid_update_num": 10,
+    "start_grid_update_step": -1,
+    "stop_grid_update_step": 50,
+    "lamb": 0.0,
+    "lamb_l1": 1.0,
+    "lamb_entropy": 2.0,
+    "lamb_coef": 0.0,
+    "lamb_coefdiff": 0.0,
+    "scale_base_mu": 0.0,
+    "scale_base_sigma": 1.0,
+    "sb_trainable": true,
+    "sp_trainable": true
+  },
+  "features": [
+    "tenure_1",
+    "cliente_novo",
+    "delta_preco"
+  ],
+  "over": false,
+  "resultados": [
+    {
+      "variante": "sem oversampling",
+      "ks": 0.5431695134670517,
+      "delta_ks": 0.0016472657962917229,
+      "ganhou_dobras": 6,
+      "n_dobras": 15,
+      "features": [],
+      "over": false,
+      "anterior": {
+        "features": [],
+        "over": true
+      },
+      "decisao": "aceita"
+    },
+    {
+      "variante": "oversampling parcial",
+      "ks": 0.5424070094706995,
+      "delta_ks": -0.0007625039963521966,
+      "ganhou_dobras": 6,
+      "n_dobras": 15,
+      "features": [],
+      "over": 0.5,
+      "anterior": {
+        "features": [],
+        "over": false
+      },
+      "decisao": "rejeitada"
+    },
+    {
+      "variante": "tenure_1",
+      "ks": 0.5513861096406865,
+      "delta_ks": 0.008216596173634749,
+      "ganhou_dobras": 10,
+      "n_dobras": 15,
+      "features": [
+        "tenure_1"
+      ],
+      "over": false,
+      "anterior": {
+        "features": [],
+        "over": false
+      },
+      "decisao": "aceita"
+    },
+    {
+      "variante": "cliente_novo",
+      "ks": 0.5555703995653367,
+      "delta_ks": 0.004184289924650186,
+      "ganhou_dobras": 10,
+      "n_dobras": 15,
+      "features": [
+        "tenure_1",
+        "cliente_novo"
+      ],
+      "over": false,
+      "anterior": {
+        "features": [
+          "tenure_1"
+        ],
+        "over": false
+      },
+      "decisao": "aceita"
+    },
+    {
+      "variante": "delta_preco",
+      "ks": 0.556467259611773,
+      "delta_ks": 0.0008968600464362912,
+      "ganhou_dobras": 8,
+      "n_dobras": 15,
+      "features": [
+        "tenure_1",
+        "cliente_novo",
+        "delta_preco"
+      ],
+      "over": false,
+      "anterior": {
+        "features": [
+          "tenure_1",
+          "cliente_novo"
+        ],
+        "over": false
+      },
+      "decisao": "aceita"
+    }
+  ],
+  "importancia_permutacao": [
+    {
+      "feature": "MonthlyCharges",
+      "mean": 0.030662293827535804,
+      "std": 0.023906624708681885
+    },
+    {
+      "feature": "tenure",
+      "mean": 0.022357454703641012,
+      "std": 0.020285096228446264
+    },
+    {
+      "feature": "delta_preco",
+      "mean": 0.012930859176410769,
+      "std": 0.022949256513051765
+    },
+    {
+      "feature": "Contract_Month-to-month",
+      "mean": 0.01177896634678378,
+      "std": 0.005207469704389765
+    },
+    {
+      "feature": "InternetService_Fiber optic",
+      "mean": 0.010072930151625536,
+      "std": 0.01762842318493108
+    },
+    {
+      "feature": "tenure_1",
+      "mean": 0.009441663740375982,
+      "std": 0.013249325891370026
+    },
+    {
+      "feature": "InternetService_No",
+      "mean": 0.009112836021153158,
+      "std": 0.011694700076947062
+    },
+    {
+      "feature": "Contract_Two year",
+      "mean": 0.007544090901943945,
+      "std": 0.010740090674060518
+    },
+    {
+      "feature": "cliente_novo",
+      "mean": 0.007314765800659329,
+      "std": 0.006721393753732707
+    },
+    {
+      "feature": "total_addons",
+      "mean": 0.0066061666989868815,
+      "std": 0.009695188131199826
+    },
+    {
+      "feature": "TechSupport",
+      "mean": 0.005053380782918148,
+      "std": 0.010136152492974285
+    },
+    {
+      "feature": "PaymentMethod_Automatic",
+      "mean": 0.0049779873060131095,
+      "std": 0.007805150478493186
+    },
+    {
+      "feature": "PaperlessBilling",
+      "mean": 0.004565092060230902,
+      "std": 0.01470334745562356
+    },
+    {
+      "feature": "Contract_One year",
+      "mean": 0.003977824831367038,
+      "std": 0.011906322892282826
+    },
+    {
+      "feature": "InternetService_DSL",
+      "mean": 0.003940927363350921,
+      "std": 0.00638478447488448
+    },
+    {
+      "feature": "PaymentMethod_Electronic check",
+      "mean": 0.003773395038758065,
+      "std": 0.006613835287303552
+    },
+    {
+      "feature": "StreamingTV",
+      "mean": 0.0036541858185839883,
+      "std": 0.011365245293770825
+    },
+    {
+      "feature": "Partner",
+      "mean": 0.0032688064402853325,
+      "std": 0.006533826365552152
+    },
+    {
+      "feature": "PaymentMethod_Mailed check",
+      "mean": 0.003032379624631143,
+      "std": 0.007399153930334509
+    },
+    {
+      "feature": "Dependents",
+      "mean": 0.0026982059654401037,
+      "std": 0.009171052206060943
+    },
+    {
+      "feature": "OnlineBackup",
+      "mean": 0.0022975749348790988,
+      "std": 0.003725397868397169
+    },
+    {
+      "feature": "OnlineSecurity",
+      "mean": 0.0015823196138344375,
+      "std": 0.006771211962834994
+    },
+    {
+      "feature": "PaymentMethod_Bank transfer (automatic)",
+      "mean": 0.00125393738960895,
+      "std": 0.004486048174995437
+    },
+    {
+      "feature": "PhoneService",
+      "mean": 0.0007638928925204125,
+      "std": 0.0048347199656404
+    },
+    {
+      "feature": "gender",
+      "mean": -0.00025519001671916455,
+      "std": 0.0012820845028871126
+    },
+    {
+      "feature": "DeviceProtection",
+      "mean": -0.0008272842100849554,
+      "std": 0.002092774103575906
+    },
+    {
+      "feature": "StreamingMovies",
+      "mean": -0.0011258706806639208,
+      "std": 0.0053518024207546
+    },
+    {
+      "feature": "PaymentMethod_Credit card (automatic)",
+      "mean": -0.0013670407077605695,
+      "std": 0.002248539242413174
+    },
+    {
+      "feature": "TotalCharges",
+      "mean": -0.001908448157485121,
+      "std": 0.0074503164499808506
+    },
+    {
+      "feature": "MultipleLines",
+      "mean": -0.003023967630857638,
+      "std": 0.009963567625427576
+    },
+    {
+      "feature": "SeniorCitizen",
+      "mean": -0.003370510327622256,
+      "std": 0.007386892135269396
+    }
+  ],
+  "modo_rapido": false
+}
