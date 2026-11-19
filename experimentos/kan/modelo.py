@@ -301,11 +301,11 @@ def hp_from_params(params):
     return hp
 
 
-def carregar_dobras(features=(), over=True):
+def carregar_dobras(features=(), over=True, path=comum.CAMINHO_CSV):
     """Cria as cinco dobras oficiais sem ajustar o pré-processamento na validação."""
     from sklearn.model_selection import StratifiedKFold
 
-    Xtr, _, ytr, _ = comum.dividir(comum.carregar_df())
+    Xtr, _, ytr, _ = comum.dividir(comum.carregar_df(path))
     skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=comum.SEMENTE)
     folds = []
     for idx_tr, idx_val in skf.split(Xtr, ytr):
