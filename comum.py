@@ -66,6 +66,19 @@ FEATURES = {
     "n_protecao": lambda d: d[["OnlineSecurity", "OnlineBackup", "DeviceProtection", "TechSupport"]].sum(axis=1),
     "fibra_sem_protecao": lambda d: ((d["InternetService_Fiber optic"] == 1)
                                      & (d[["OnlineSecurity", "OnlineBackup", "DeviceProtection", "TechSupport"]].sum(axis=1) == 0)).astype(int),
+    # Fase 6 do FT: da analise de erro nas OOF do melhor FT (o5_top3). A arvore no residuo separou pela razao de cobranca,
+    # e o KS dentro do contrato mes a mes (0,395) e o pior entre os segmentos
+    "cobranca_razao": lambda d: d["TotalCharges"] / (d["MonthlyCharges"] * d["tenure"].clip(lower=1)),   # < 1: preco atual acima da media paga
+    "preco_subiu": lambda d: (d["TotalCharges"] < d["MonthlyCharges"] * d["tenure"].clip(lower=1)).astype(int),
+    "caro_sem_suporte": lambda d: ((d["MonthlyCharges"] > 98) & (d["TechSupport"] == 0)).astype(int),
+    "caro_sem_backup": lambda d: ((d["MonthlyCharges"] > 98) & (d["OnlineBackup"] == 0)).astype(int),
+    "mtm_tenure": lambda d: d["tenure"] * d["Contract_Month-to-month"],
+    "mtm_sem_suporte": lambda d: ((d["Contract_Month-to-month"] == 1) & (d["TechSupport"] == 0)).astype(int),
+    "mtm_eletronico": lambda d: ((d["Contract_Month-to-month"] == 1) & (d["PaymentMethod_Electronic check"] == 1)).astype(int),
+    "antigo_mtm": lambda d: ((d["Contract_Month-to-month"] == 1) & (d["tenure"] > 24)).astype(int),
+    "antigo": lambda d: (d["tenure"] > 48).astype(int),
+    "muitos_servicos": lambda d: (d[["OnlineSecurity", "OnlineBackup", "DeviceProtection", "TechSupport", "StreamingTV",
+                                     "StreamingMovies"]].sum(axis=1) >= 5).astype(int),
 }
 
 
