@@ -77,7 +77,36 @@ def verificar_estado(model, etapa):
 
     print(f"[{etapa}] Tensores inválidos: {invalidos}")
 
-    return len(invalidos) == 0
+    if invalidos:
+        raise FloatingPointError(
+            f"{etapa}: tensores não finitos: {', '.join(invalidos)}"
+        )
+
+
+def verificar_historico(history, etapa):
+    for nome in ("train_loss", "test_loss"):
+        if nome not in history:
+            raise RuntimeError(f"{etapa}: histórico PyKAN sem a chave {nome!r}.")
+        valores = np.asarray(history[nome], dtype=float)
+        if not valores.size:
+            raise RuntimeError(f"{etapa}: histórico PyKAN vazio para {nome}.")
+        invalidos = np.flatnonzero(~np.isfinite(valores))
+        if invalidos.size:
+            raise FloatingPointError(
+                f"{etapa}: {nome} não finita nos passos "
+                f"{invalidos.tolist()}."
+            )
+
+    if "reg" in history:
+        reg = np.asarray(history["reg"], dtype=float)
+        invalidos = np.flatnonzero(~np.isfinite(reg))
+        if invalidos.size:
+            raise FloatingPointError(
+                f"{etapa}: regularização não finita nos passos "
+                f"{invalidos.tolist()}."
+            )
+
+
 def criar_modelo(hp, n_inputs, seed, save_act=True):
     return KAN(
         width=_width(hp, n_inputs),
@@ -100,6 +129,13 @@ def criar_modelo(hp, n_inputs, seed, save_act=True):
 
 def _tensor(x):
     return torch.as_tensor(np.asarray(x), dtype=torch.float32, device=DEVICE)
+
+
+def _bce_finita(logits, targets):
+    loss = F.binary_cross_entropy_with_logits(logits, targets)
+    if not torch.isfinite(loss):
+        raise FloatingPointError("A perda BCE da KAN não é finita.")
+    return loss
 
 
 def prever(model, X):
@@ -170,6 +206,8 @@ def treinar(Xtr, ytr, hp, seed, Xval=None, yval=None):
             ytr_t
         )
 
+        if not torch.isfinite(loss):
+            raise FloatingPointError("A perda inicial da KAN não é finita.")
         print("Loss inicial:", loss.item())
     
     model.train()
@@ -203,9 +241,10 @@ def treinar(Xtr, ytr, hp, seed, Xval=None, yval=None):
         stop_grid_update_step=int(hp.get("stop_grid_update_step", 50)),
         lr=float(hp.get("lr", 1.0)),
         batch=int(hp.get("batch", -1)),
-        loss_fn=F.binary_cross_entropy_with_logits,
+        loss_fn=_bce_finita,
     )
     verificar_estado(model, "Após treinamento")
+    verificar_historico(history, "Após treinamento")
     return model, history
 
 
@@ -225,6 +264,7 @@ def fit_refine(hp, fold, Xlist, seed, new_grid):
     config_before = refinar_hp(hp, steps=steps_before)
     model, _ = treinar(Xtr, ytr, config_before, seed, Xval, yval)
     model = model.refine(int(new_grid))
+    verificar_estado(model, "Após refinamento da grade")
     config = refinar_hp(hp, grid=int(new_grid), steps=steps_after)
     Xtr_t, ytr_t = _tensor(Xtr), _tensor(ytr).reshape(-1, 1)
     Xval_t, yval_t = _tensor(Xval), _tensor(yval).reshape(-1, 1)
@@ -250,9 +290,10 @@ def fit_refine(hp, fold, Xlist, seed, new_grid):
         stop_grid_update_step=int(config.get("stop_grid_update_step", 50)),
         lr=float(config.get("lr", 1.0)),
         batch=int(config.get("batch", -1)),
-        loss_fn=F.binary_cross_entropy_with_logits,
+        loss_fn=_bce_finita,
     )
     verificar_estado(model, "Após treinamento")
+    verificar_historico(history, "Após treinamento refinado")
     return [prever(model, X) for X in Xlist], prever(model, Xtr), history
 
 
@@ -330,7 +371,13 @@ def medir_config(hp, folds, seeds=(42,)):
     for seed in seeds:
         for i, fold in enumerate(folds):
             Xval, yval = fold[2], fold[3]
-            (pval,), _, _ = fit(hp, fold, [Xval], int(seed) + i)
+            fold_seed = int(seed) + i
+            try:
+                (pval,), _, _ = fit(hp, fold, [Xval], fold_seed)
+            except FloatingPointError as exc:
+                raise FloatingPointError(
+                    f"semente={fold_seed}, dobra={i}: {exc}"
+                ) from exc
             linhas.append({"semente": int(seed), "dobra": i, "ks": comum.ks(yval, pval),
                            "auroc": comum.metricas(yval, pval, 0.5)["auroc"], "ce": comum.ce(yval, pval),
                            "brier": comum.mse(yval, pval)})
@@ -352,6 +399,7 @@ def comparar_bloco(base, variantes, folds, seeds=(42,)):
         except FloatingPointError as exc:
             saida.append({
                 "variante": nome,
+                "status": "falhou",
                 "ks": float("nan"),
                 "ks_dp": float("nan"),
                 "delta_ks": float("-inf"),
@@ -365,6 +413,7 @@ def comparar_bloco(base, variantes, folds, seeds=(42,)):
         delta = np.asarray(medida["ks_dobras"]) - np.asarray(referencia["ks_dobras"])
         saida.append({
             "variante": nome,
+            "status": "ok",
             "ks": medida["ks"],
             "ks_dp": medida["ks_dp"],
             "delta_ks": float(delta.mean()),

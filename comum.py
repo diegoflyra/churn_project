@@ -166,7 +166,13 @@ def objetivo(hp_fn, fit, folds):
         t0 = time.time(); kss = []
         for i, f_ in enumerate(folds):
             Xv, yv = f_[2], f_[3]
-            (pv,), *_ = fit(hp, f_, [Xv], 42 + i)
+            seed = 42 + i
+            try:
+                (pv,), *_ = fit(hp, f_, [Xv], seed)
+            except FloatingPointError as exc:
+                erro = f"semente={seed}, dobra={i}: {exc}"
+                trial.set_user_attr("falha_numerica", erro)
+                raise FloatingPointError(erro) from exc
             kss.append(ks(yv, pv))
             trial.report(float(np.mean(kss)), i)
             if i == 1 and trial.should_prune():       # depois da segunda dobra
@@ -188,7 +194,14 @@ def estudo(modelo, n_trials, hp_fn, fit, padrao, pasta=RESULTADOS, timeout=None,
     restantes = n_trials - len([t for t in st.trials if t.state.is_finished()])
     t0 = time.time()
     if restantes > 0:
-        st.optimize(objetivo(hp_fn, fit, folds), n_trials=restantes, timeout=timeout, callbacks=callbacks, show_progress_bar=False)
+        st.optimize(
+            objetivo(hp_fn, fit, folds),
+            n_trials=restantes,
+            timeout=timeout,
+            callbacks=callbacks,
+            show_progress_bar=False,
+            catch=(FloatingPointError,),
+        )
     st.set_user_attr("tempo_parede_s", st.user_attrs.get("tempo_parede_s", 0) + time.time() - t0)
     return st
 
