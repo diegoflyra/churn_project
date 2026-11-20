@@ -212,14 +212,15 @@ def treinar(Xtr, ytr, hp, seed, Xval=None, yval=None):
     with torch.no_grad():
         logits = model(Xtr_t).reshape(-1)
 
-        loss = F.binary_cross_entropy_with_logits(
+        loss = _bce_finita(
             logits.reshape(-1, 1),
             ytr_t
         )
 
-        if not torch.isfinite(loss):
-            raise FloatingPointError("A perda inicial da KAN não é finita.")
-        print("Loss inicial:", loss.item())
+        print(
+            "Loss inicial (sqrt BCE, escala PyKAN): "
+            f"{torch.sqrt(loss).item():.2e}"
+        )
     
     model.train()
     model.zero_grad()
