@@ -444,9 +444,9 @@ def refinar_hp(hp, **mudancas):
     return novo
 
 
-def avaliar_placar(hp, features=(), over=True, divs=None):
+def avaliar_placar(hp, features=(), over=True, divs=None, path=comum.CAMINHO_CSV):
     """Mede o placar comum; seleciona passos só na partição interna de parada."""
-    Xtr, _, ytr, _ = comum.dividir(comum.carregar_df())
+    Xtr, _, ytr, _ = comum.dividir(comum.carregar_df(path))
     passos = []
 
     def ajustar_prever(X, y, Xval, ajuste, parada, seed):
