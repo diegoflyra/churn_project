@@ -27,7 +27,7 @@ KAN_PADRAO = {
     "k": 3,
     "base_fun": "silu",
     "grid_eps": 0.02,
-    "opt": "adam",
+    "opt": "Adam",
     "lr": 1e-5,
     "steps": 100,
     "batch": -1,
@@ -67,6 +67,17 @@ def _width(hp, n_inputs):
     else:
         layers = [int(nodes) for nodes in hidden]
     return [int(n_inputs), *layers, 1]
+
+
+def _nome_otimizador(hp):
+    nome = str(hp.get("opt", KAN_PADRAO["opt"])).strip().casefold()
+    otimizadores = {"adam": "Adam", "lbfgs": "LBFGS"}
+    if nome not in otimizadores:
+        raise ValueError(
+            f"Otimizador KAN não suportado: {nome!r}. Use 'Adam' ou 'LBFGS'."
+        )
+    return otimizadores[nome]
+
 
 def verificar_estado(model, etapa):
     invalidos = []
@@ -227,7 +238,7 @@ def treinar(Xtr, ytr, hp, seed, Xval=None, yval=None):
     os.makedirs(model.ckpt_path, exist_ok=True)
     history = model.fit(
         dataset,
-        opt=hp.get("opt", KAN_PADRAO["opt"]),
+        opt=_nome_otimizador(hp),
         steps=int(hp.get("steps", KAN_PADRAO["steps"])),
         log=10,
         lamb=float(hp.get("lamb", 0.0)),
@@ -276,7 +287,7 @@ def fit_refine(hp, fold, Xlist, seed, new_grid):
             "test_input": Xval_t,
             "test_label": yval_t,
         },
-        opt=config.get("opt", KAN_PADRAO["opt"]),
+        opt=_nome_otimizador(config),
         steps=int(config.get("steps", KAN_PADRAO["steps"])),
         log=10,
         lamb=float(config.get("lamb", 0.0)),
