@@ -28,7 +28,7 @@ KAN_PADRAO = {
     "base_fun": "silu",
     "grid_eps": 0.02,
     "opt": "Adam",
-    "lr": 1e-5,
+    "lr": 1e-3,
     "steps": 100,
     "batch": -1,
     "update_grid": False,
