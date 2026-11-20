@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import optuna
 from scipy.stats import ks_2samp, wilcoxon, mannwhitneyu
-from sklearn.model_selection import train_test_split, StratifiedKFold
+from sklearn.model_selection import train_test_split, StratifiedKFold, KFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import (roc_curve, roc_auc_score, confusion_matrix,
                              precision_score, recall_score, f1_score)
@@ -90,13 +90,63 @@ def adicionar_features(X, nomes):
     return X
 
 
-def preparar(X_tr, y_tr, X_aval, features=(), over=True):
+# Target encoding (fase 7 do FT): a taxa de churn do grupo do cliente. Os grupos vem da analise de erro do o5_top3
+# (contrato x pagamento x internet; tempo de casa x contrato; internet x protecao; preco x contrato).
+# Faixas fixas, escolhidas antes de olhar o rotulo.
+def _categoria(d, prefixo):
+    cols = [c for c in d.columns if c.startswith(prefixo) and c != "PaymentMethod_Automatic"]
+    return d[cols].idxmax(axis=1).str.replace(prefixo, "", regex=False)
+
+
+_FAIXA_TENURE = [-1, 1, 6, 12, 24, 48, 1000]
+_FAIXA_PRECO = [-1, 35, 70, 90, 100, 1e9]
+TE_GRUPOS = {
+    "te_contrato_pag_net": lambda d: _categoria(d, "Contract_") + "|" + _categoria(d, "PaymentMethod_") + "|" + _categoria(d, "InternetService_"),
+    "te_tenure_contrato": lambda d: pd.cut(d["tenure"], _FAIXA_TENURE, labels=False).astype(str) + "|" + _categoria(d, "Contract_"),
+    "te_net_protecao": lambda d: _categoria(d, "InternetService_") + "|" + d["TechSupport"].astype(str) + d["OnlineSecurity"].astype(str)
+                                 + d["OnlineBackup"].astype(str),
+    "te_preco_contrato": lambda d: pd.cut(d["MonthlyCharges"], _FAIXA_PRECO, labels=False).astype(str) + "|" + _categoria(d, "Contract_"),
+}
+TE_SUAVE = 20          # clientes "virtuais" com a taxa geral: grupos pequenos ficam perto da media
+TE_DOBRAS = 5
+
+
+def codificar_alvo(X_tr, y_tr, X_aval, nomes, m=TE_SUAVE, k=TE_DOBRAS):
+    """Acrescenta a taxa de churn suavizada de cada grupo pedido de TE_GRUPOS. Sem vazamento:
+    - X_aval recebe a taxa calculada so com (X_tr, y_tr);
+    - cada linha de X_tr recebe a taxa calculada nas outras k-1 partes de X_tr (o proprio rotulo nunca entra).
+    Grupo que nao aparece no treino recebe a taxa geral."""
+    y = np.asarray(y_tr, dtype=float)
+    X_tr, X_aval = X_tr.copy(), X_aval.copy()
+    partes = list(KFold(k, shuffle=True, random_state=SEMENTE).split(y))   # sem estratificar: as partes nao dependem dos rotulos
+
+    def taxa(g, yy):
+        pri = yy.mean()
+        s = pd.DataFrame({"g": g, "y": yy}).groupby("g")["y"].agg(["sum", "count"])
+        return (s["sum"] + m * pri) / (s["count"] + m), pri
+
+    for n in nomes:
+        g_tr, g_av = TE_GRUPOS[n](X_tr).to_numpy(), TE_GRUPOS[n](X_aval).to_numpy()
+        enc = np.empty(len(y))
+        for a, b in partes:
+            t, pri = taxa(g_tr[a], y[a])
+            enc[b] = pd.Series(g_tr[b]).map(t).fillna(pri).to_numpy()
+        t, pri = taxa(g_tr, y)
+        X_tr[n] = enc
+        X_aval[n] = pd.Series(g_av).map(t).fillna(pri).to_numpy()
+    return X_tr, X_aval
+
+
+def preparar(X_tr, y_tr, X_aval, features=(), over=True, te=()):
     """Scaler ajustado so em X_tr; oversampling so em X_tr; X_aval so recebe transform.
     features: nomes de FEATURES a acrescentar (as numericas nao binarias entram no scaler).
-    over: True = oversampling 1:1 (padrao do grupo); False = sem; numero (ex.: 0.5) = minoria ate essa fracao da maioria."""
+    over: True = oversampling 1:1 (padrao do grupo); False = sem; numero (ex.: 0.5) = minoria ate essa fracao da maioria.
+    te: nomes de TE_GRUPOS (target encoding calculado so com o treino, ver codificar_alvo)."""
     if features:
         X_tr, X_aval = adicionar_features(X_tr, features), adicionar_features(X_aval, features)
-    cols = NUMERIC_COLS + [f for f in features if X_tr[f].nunique() > 2]
+    if te:
+        X_tr, X_aval = codificar_alvo(X_tr, y_tr, X_aval, te)
+    cols = NUMERIC_COLS + [f for f in features if X_tr[f].nunique() > 2] + list(te)
     scaler = StandardScaler()
     X_tr_s = X_tr.copy()
     X_tr_s[cols] = scaler.fit_transform(X_tr[cols])
