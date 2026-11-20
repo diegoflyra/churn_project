@@ -1,0 +1,130 @@
+{
+ "modelo": "FT-Transformer",
+ "rotulo": "f7_triagem",
+ "arquitetura": {
+  "n_blocos": 1,
+  "d_token": 192,
+  "n_cabecas": 4,
+  "drop_atencao": 0.49174646579703485,
+  "drop_ffn": 0.33792357369236903,
+  "drop_residual": 0.002815031260296183,
+  "ffn_fator": 1.6205510930929652
+ },
+ "hp": {
+  "n_blocos": 1,
+  "d_token": 192,
+  "n_cabecas": 4,
+  "drop_atencao": 0.49174646579703485,
+  "drop_ffn": 0.33792357369236903,
+  "drop_residual": 0.002815031260296183,
+  "ffn_fator": 1.6205510930929652,
+  "lr": 0.00013048115078183745,
+  "wd": 0.0005454677212888819,
+  "lote": 256,
+  "paciencia": 16,
+  "perda": "ce"
+ },
+ "features": [
+  "cliente_novo",
+  "delta_preco",
+  "tenure_1",
+  "cobranca_razao",
+  "antigo",
+  "caro_sem_backup",
+  "fibra_sem_protecao",
+  "atrito_pagamento"
+ ],
+ "colunas": [
+  "gender",
+  "SeniorCitizen",
+  "Partner",
+  "Dependents",
+  "tenure",
+  "PhoneService",
+  "MultipleLines",
+  "OnlineSecurity",
+  "OnlineBackup",
+  "DeviceProtection",
+  "TechSupport",
+  "StreamingTV",
+  "StreamingMovies",
+  "PaperlessBilling",
+  "MonthlyCharges",
+  "TotalCharges",
+  "InternetService_DSL",
+  "InternetService_Fiber optic",
+  "InternetService_No",
+  "Contract_Month-to-month",
+  "Contract_One year",
+  "Contract_Two year",
+  "PaymentMethod_Bank transfer (automatic)",
+  "PaymentMethod_Credit card (automatic)",
+  "PaymentMethod_Electronic check",
+  "PaymentMethod_Mailed check",
+  "total_addons",
+  "PaymentMethod_Automatic",
+  "cliente_novo",
+  "delta_preco",
+  "tenure_1",
+  "cobranca_razao",
+  "antigo",
+  "caro_sem_backup",
+  "fibra_sem_protecao",
+  "atrito_pagamento"
+ ],
+ "escala": {
+  "colunas": [
+   "tenure",
+   "MonthlyCharges",
+   "TotalCharges",
+   "delta_preco",
+   "cobranca_razao"
+  ],
+  "media": [
+   32.36293070806513,
+   64.85662627792503,
+   2292.083538432412,
+   5.77369217514394,
+   0.9990547196707933
+  ],
+  "desvio": [
+   24.62529207569061,
+   30.169077701391032,
+   2284.9525494173863,
+   9.029036110771361,
+   0.06416681268583864
+  ]
+ },
+ "limiar_ks": 0.28016337752342224,
+ "pesos": [
+  "pesos_semente0.pt",
+  "pesos_semente1.pt",
+  "pesos_semente2.pt",
+  "pesos_semente3.pt",
+  "pesos_semente4.pt"
+ ],
+ "epocas": [
+  90,
+  36,
+  31,
+  24,
+  89
+ ],
+ "placar": {
+  "ks_kfold": 0.5572659622604591,
+  "ks_oof": 0.5423731929349824,
+  "auc_oof": 0.8480102063326322
+ },
+ "teste": {
+  "ks": 0.5486514931374917,
+  "ks_ic95": [
+   0.5082984349894099,
+   0.5907771609752217
+  ],
+  "auroc": 0.849311101476424,
+  "precision": 0.5419847328244275,
+  "recall": 0.7601713062098501,
+  "f1": 0.6327985739750446
+ },
+ "data": "2026-11-20"
+}
