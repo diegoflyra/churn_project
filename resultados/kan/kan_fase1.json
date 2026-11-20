@@ -30,13 +30,12 @@
   "origem": "optuna",
   "historico": [
     {
-      "bloco": "largura",
-      "decisao": "16",
-      "ks": 0.09939715791662082,
-      "ks_dp": 0.10463211950301994,
+      "bloco": "baseline",
+      "ks": 0.5213695389738242,
+      "ks_dp": 0.034923020941657106,
       "config": {
         "hidden": [
-          16
+          8
         ],
         "mult_nodes": 0,
         "mult_arity": 2,
@@ -44,8 +43,8 @@
         "k": 3,
         "base_fun": "silu",
         "grid_eps": 0.02,
-        "opt": "adam",
-        "lr": 1e-05,
+        "opt": "Adam",
+        "lr": 0.001,
         "steps": 100,
         "batch": -1,
         "update_grid": false,
@@ -61,13 +60,49 @@
         "scale_base_sigma": 1.0,
         "sb_trainable": true,
         "sp_trainable": true
-      }
+      },
+      "decisao": ""
+    },
+    {
+      "bloco": "largura",
+      "decisao": "16",
+      "ks": 0.5286286353702063,
+      "ks_dp": 0.029815172466612683,
+      "config": {
+        "hidden": [
+          16
+        ],
+        "mult_nodes": 0,
+        "mult_arity": 2,
+        "grid": 3,
+        "k": 3,
+        "base_fun": "silu",
+        "grid_eps": 0.02,
+        "opt": "Adam",
+        "lr": 0.001,
+        "steps": 100,
+        "batch": -1,
+        "update_grid": false,
+        "grid_update_num": 10,
+        "start_grid_update_step": -1,
+        "stop_grid_update_step": 50,
+        "lamb": 0.0,
+        "lamb_l1": 1.0,
+        "lamb_entropy": 2.0,
+        "lamb_coef": 0.0,
+        "lamb_coefdiff": 0.0,
+        "scale_base_mu": 0.0,
+        "scale_base_sigma": 1.0,
+        "sb_trainable": true,
+        "sp_trainable": true
+      },
+      "falhas": []
     },
     {
       "bloco": "profundidade",
       "decisao": "duas camadas",
-      "ks": 0.13944473852937733,
-      "ks_dp": 0.11088535573209342,
+      "ks": 0.5323627744380212,
+      "ks_dp": 0.02949577444781945,
       "config": {
         "hidden": [
           16,
@@ -79,8 +114,8 @@
         "k": 3,
         "base_fun": "silu",
         "grid_eps": 0.02,
-        "opt": "adam",
-        "lr": 1e-05,
+        "opt": "Adam",
+        "lr": 0.001,
         "steps": 100,
         "batch": -1,
         "update_grid": false,
@@ -96,13 +131,14 @@
         "scale_base_sigma": 1.0,
         "sb_trainable": true,
         "sp_trainable": true
-      }
+      },
+      "falhas": []
     },
     {
       "bloco": "grid",
-      "decisao": "mantido: nenhum candidato superou a referência",
-      "ks": 0.13944473852937733,
-      "ks_dp": 0.10398360020031716,
+      "decisao": "grid=7",
+      "ks": 0.5384423223741563,
+      "ks_dp": 0.024284120775709645,
       "config": {
         "hidden": [
           16,
@@ -110,12 +146,12 @@
         ],
         "mult_nodes": 0,
         "mult_arity": 2,
-        "grid": 3,
+        "grid": 7,
         "k": 3,
         "base_fun": "silu",
         "grid_eps": 0.02,
-        "opt": "adam",
-        "lr": 1e-05,
+        "opt": "Adam",
+        "lr": 0.001,
         "steps": 100,
         "batch": -1,
         "update_grid": false,
@@ -131,13 +167,14 @@
         "scale_base_sigma": 1.0,
         "sb_trainable": true,
         "sp_trainable": true
-      }
+      },
+      "falhas": []
     },
     {
       "bloco": "ordem k",
-      "decisao": "k=2",
-      "ks": 0.14291763408962663,
-      "ks_dp": 0.10881311255808475,
+      "decisao": "mantido: nenhum candidato superou a referência",
+      "ks": 0.5384423223741563,
+      "ks_dp": 0.025038291470932787,
       "config": {
         "hidden": [
           16,
@@ -145,12 +182,12 @@
         ],
         "mult_nodes": 0,
         "mult_arity": 2,
-        "grid": 3,
-        "k": 2,
+        "grid": 7,
+        "k": 3,
         "base_fun": "silu",
         "grid_eps": 0.02,
-        "opt": "adam",
-        "lr": 1e-05,
+        "opt": "Adam",
+        "lr": 0.001,
         "steps": 100,
         "batch": -1,
         "update_grid": false,
@@ -166,13 +203,14 @@
         "scale_base_sigma": 1.0,
         "sb_trainable": true,
         "sp_trainable": true
-      }
+      },
+      "falhas": []
     },
     {
       "bloco": "otimizador",
-      "decisao": "Adam",
-      "ks": 0.17710840552972845,
-      "ks_dp": 0.11291033497588804,
+      "decisao": "mantido: nenhum candidato superou a referência",
+      "ks": 0.5384423223741563,
+      "ks_dp": 0.024284120775709645,
       "config": {
         "hidden": [
           16,
@@ -180,12 +218,12 @@
         ],
         "mult_nodes": 0,
         "mult_arity": 2,
-        "grid": 3,
-        "k": 2,
+        "grid": 7,
+        "k": 3,
         "base_fun": "silu",
         "grid_eps": 0.02,
         "opt": "Adam",
-        "lr": 1e-05,
+        "lr": 0.001,
         "steps": 100,
         "batch": -1,
         "update_grid": false,
@@ -201,13 +239,14 @@
         "scale_base_sigma": 1.0,
         "sb_trainable": true,
         "sp_trainable": true
-      }
+      },
+      "falhas": []
     },
     {
       "bloco": "taxa de aprendizagem",
-      "decisao": "lr=0.3",
-      "ks": 0.4963975352770892,
-      "ks_dp": 0.13860223463830612,
+      "decisao": "mantido: nenhum candidato superou a referência",
+      "ks": 0.5384423223741563,
+      "ks_dp": 0.23025115447125682,
       "config": {
         "hidden": [
           16,
@@ -215,12 +254,12 @@
         ],
         "mult_nodes": 0,
         "mult_arity": 2,
-        "grid": 3,
-        "k": 2,
+        "grid": 7,
+        "k": 3,
         "base_fun": "silu",
         "grid_eps": 0.02,
         "opt": "Adam",
-        "lr": 0.3,
+        "lr": 0.001,
         "steps": 100,
         "batch": -1,
         "update_grid": false,
@@ -236,13 +275,14 @@
         "scale_base_sigma": 1.0,
         "sb_trainable": true,
         "sp_trainable": true
-      }
+      },
+      "falhas": []
     },
     {
       "bloco": "passos",
       "decisao": "150",
-      "ks": 0.49489041696584707,
-      "ks_dp": 0.13816285353422225,
+      "ks": 0.539033441824468,
+      "ks_dp": 0.024868093739320765,
       "config": {
         "hidden": [
           16,
@@ -250,12 +290,12 @@
         ],
         "mult_nodes": 0,
         "mult_arity": 2,
-        "grid": 3,
-        "k": 2,
+        "grid": 7,
+        "k": 3,
         "base_fun": "silu",
         "grid_eps": 0.02,
         "opt": "Adam",
-        "lr": 0.3,
+        "lr": 0.001,
         "steps": 150,
         "batch": -1,
         "update_grid": false,
@@ -271,13 +311,14 @@
         "scale_base_sigma": 1.0,
         "sb_trainable": true,
         "sp_trainable": true
-      }
+      },
+      "falhas": []
     },
     {
       "bloco": "lote",
-      "decisao": "mantido: nenhum candidato superou a referência",
-      "ks": 0.468802684151035,
-      "ks_dp": 0.23630958326665838,
+      "decisao": "512",
+      "ks": 0.5392061017091285,
+      "ks_dp": 0.02169767996143801,
       "config": {
         "hidden": [
           16,
@@ -285,14 +326,14 @@
         ],
         "mult_nodes": 0,
         "mult_arity": 2,
-        "grid": 3,
-        "k": 2,
+        "grid": 7,
+        "k": 3,
         "base_fun": "silu",
         "grid_eps": 0.02,
         "opt": "Adam",
-        "lr": 0.3,
+        "lr": 0.001,
         "steps": 150,
-        "batch": -1,
+        "batch": 512,
         "update_grid": false,
         "grid_update_num": 10,
         "start_grid_update_step": -1,
@@ -306,13 +347,14 @@
         "scale_base_sigma": 1.0,
         "sb_trainable": true,
         "sp_trainable": true
-      }
+      },
+      "falhas": []
     },
     {
       "bloco": "função base",
       "decisao": "identity",
-      "ks": 0.49969048579919184,
-      "ks_dp": 0.040289088081553896,
+      "ks": 0.5414674605212816,
+      "ks_dp": 0.024200814853809986,
       "config": {
         "hidden": [
           16,
@@ -320,14 +362,14 @@
         ],
         "mult_nodes": 0,
         "mult_arity": 2,
-        "grid": 3,
-        "k": 2,
+        "grid": 7,
+        "k": 3,
         "base_fun": "identity",
         "grid_eps": 0.02,
         "opt": "Adam",
-        "lr": 0.3,
+        "lr": 0.001,
         "steps": 150,
-        "batch": -1,
+        "batch": 512,
         "update_grid": false,
         "grid_update_num": 10,
         "start_grid_update_step": -1,
@@ -341,13 +383,14 @@
         "scale_base_sigma": 1.0,
         "sb_trainable": true,
         "sp_trainable": true
-      }
+      },
+      "falhas": []
     },
     {
       "bloco": "grid_eps",
-      "decisao": "0.5",
-      "ks": 0.507574742704801,
-      "ks_dp": 0.024080873634334244,
+      "decisao": "mantido: nenhum candidato superou a referência",
+      "ks": 0.5414674605212816,
+      "ks_dp": 0.024200814853809986,
       "config": {
         "hidden": [
           16,
@@ -355,14 +398,14 @@
         ],
         "mult_nodes": 0,
         "mult_arity": 2,
-        "grid": 3,
-        "k": 2,
+        "grid": 7,
+        "k": 3,
         "base_fun": "identity",
-        "grid_eps": 0.5,
+        "grid_eps": 0.02,
         "opt": "Adam",
-        "lr": 0.3,
+        "lr": 0.001,
         "steps": 150,
-        "batch": -1,
+        "batch": 512,
         "update_grid": false,
         "grid_update_num": 10,
         "start_grid_update_step": -1,
@@ -376,13 +419,14 @@
         "scale_base_sigma": 1.0,
         "sb_trainable": true,
         "sp_trainable": true
-      }
+      },
+      "falhas": []
     },
     {
       "bloco": "atualização da grade",
-      "decisao": "5 atualizações",
-      "ks": 0.5158728906685395,
-      "ks_dp": 0.030752731674107733,
+      "decisao": "mantido: nenhum candidato superou a referência",
+      "ks": 0.5414674605212816,
+      "ks_dp": 0.024200814853809986,
       "config": {
         "hidden": [
           16,
@@ -390,16 +434,16 @@
         ],
         "mult_nodes": 0,
         "mult_arity": 2,
-        "grid": 3,
-        "k": 2,
+        "grid": 7,
+        "k": 3,
         "base_fun": "identity",
-        "grid_eps": 0.5,
+        "grid_eps": 0.02,
         "opt": "Adam",
-        "lr": 0.3,
+        "lr": 0.001,
         "steps": 150,
-        "batch": -1,
+        "batch": 512,
         "update_grid": false,
-        "grid_update_num": 5,
+        "grid_update_num": 10,
         "start_grid_update_step": -1,
         "stop_grid_update_step": 50,
         "lamb": 0.0,
@@ -411,7 +455,8 @@
         "scale_base_sigma": 1.0,
         "sb_trainable": true,
         "sp_trainable": true
-      }
+      },
+      "falhas": []
     }
   ],
   "optuna_best_params": {
