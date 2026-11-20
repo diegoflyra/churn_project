@@ -1,0 +1,99 @@
+{
+  "config": {
+    "hidden": [
+      4
+    ],
+    "mult_nodes": 0,
+    "mult_arity": 2,
+    "grid": 5,
+    "k": 3,
+    "base_fun": "identity",
+    "grid_eps": 0.6906810095805904,
+    "opt": "Adam",
+    "lr": 0.0018146959172558265,
+    "steps": 150,
+    "batch": -1,
+    "update_grid": false,
+    "grid_update_num": 10,
+    "start_grid_update_step": -1,
+    "stop_grid_update_step": 50,
+    "lamb": 0.0001,
+    "lamb_l1": 1.0,
+    "lamb_entropy": 2.0,
+    "lamb_coef": 0.0,
+    "lamb_coefdiff": 0.001,
+    "scale_base_mu": 0.0,
+    "scale_base_sigma": 1.0,
+    "sb_trainable": true,
+    "sp_trainable": false
+  },
+  "features": [
+    "tenure_1",
+    "cliente_novo",
+    "delta_preco"
+  ],
+  "over": false,
+  "historico": [
+    {
+      "bloco": "lamb",
+      "decisao": "1e-4",
+      "ks_referencia": 0.556467259611773,
+      "ks_escolhido": 0.5565164387654024,
+      "falhas": []
+    },
+    {
+      "bloco": "lamb_l1",
+      "decisao": "mantido",
+      "ks_referencia": 0.5565164387654024,
+      "ks_escolhido": 0.5565164387654024,
+      "falhas": []
+    },
+    {
+      "bloco": "lamb_entropy",
+      "decisao": "mantido",
+      "ks_referencia": 0.5565164387654024,
+      "ks_escolhido": 0.5565164387654024,
+      "falhas": []
+    },
+    {
+      "bloco": "lamb_coef",
+      "decisao": "mantido",
+      "ks_referencia": 0.5565164387654024,
+      "ks_escolhido": 0.5565164387654024,
+      "falhas": []
+    },
+    {
+      "bloco": "lamb_coefdiff",
+      "decisao": "1e-3",
+      "ks_referencia": 0.5565164387654024,
+      "ks_escolhido": 0.5566219861389908,
+      "falhas": []
+    },
+    {
+      "bloco": "scale_base_mu",
+      "decisao": "mantido",
+      "falhas": []
+    },
+    {
+      "bloco": "scale_base_sigma",
+      "decisao": "mantido",
+      "falhas": []
+    },
+    {
+      "bloco": "sb_trainable",
+      "decisao": "mantido",
+      "falhas": []
+    },
+    {
+      "bloco": "sp_trainable",
+      "decisao": "fixa escala spline",
+      "falhas": []
+    },
+    {
+      "bloco": "nós de multiplicação",
+      "decisao": "mantido",
+      "falhas": []
+    }
+  ],
+  "modo_rapido": false
+}
