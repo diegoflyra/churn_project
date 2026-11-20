@@ -36,6 +36,8 @@
   "resultados": [
     {
       "variante": "sem oversampling",
+      "status": "ok",
+      "erro": "",
       "ks": 0.5431695134670517,
       "delta_ks": 0.0016472657962917229,
       "ganhou_dobras": 6,
@@ -50,6 +52,8 @@
     },
     {
       "variante": "oversampling parcial",
+      "status": "ok",
+      "erro": "",
       "ks": 0.5424070094706995,
       "delta_ks": -0.0007625039963521966,
       "ganhou_dobras": 6,
@@ -64,6 +68,8 @@
     },
     {
       "variante": "tenure_1",
+      "status": "ok",
+      "erro": "",
       "ks": 0.5513861096406865,
       "delta_ks": 0.008216596173634749,
       "ganhou_dobras": 10,
@@ -80,6 +86,8 @@
     },
     {
       "variante": "cliente_novo",
+      "status": "ok",
+      "erro": "",
       "ks": 0.5555703995653367,
       "delta_ks": 0.004184289924650186,
       "ganhou_dobras": 10,
@@ -99,6 +107,8 @@
     },
     {
       "variante": "delta_preco",
+      "status": "ok",
+      "erro": "",
       "ks": 0.556467259611773,
       "delta_ks": 0.0008968600464362912,
       "ganhou_dobras": 8,
