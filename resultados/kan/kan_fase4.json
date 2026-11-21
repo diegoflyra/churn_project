@@ -1,0 +1,73 @@
+{
+  "config": {
+    "hidden": [
+      4
+    ],
+    "mult_nodes": 0,
+    "mult_arity": 2,
+    "grid": 5,
+    "k": 3,
+    "base_fun": "identity",
+    "grid_eps": 0.6906810095805904,
+    "opt": "Adam",
+    "lr": 0.0018146959172558265,
+    "steps": 150,
+    "batch": -1,
+    "update_grid": false,
+    "grid_update_num": 10,
+    "start_grid_update_step": -1,
+    "stop_grid_update_step": 50,
+    "lamb": 0.0001,
+    "lamb_l1": 1.0,
+    "lamb_entropy": 2.0,
+    "lamb_coef": 0.0,
+    "lamb_coefdiff": 0.001,
+    "scale_base_mu": 0.0,
+    "scale_base_sigma": 1.0,
+    "sb_trainable": true,
+    "sp_trainable": false
+  },
+  "features": [
+    "tenure_1",
+    "cliente_novo",
+    "delta_preco"
+  ],
+  "over": false,
+  "confirmacao": {
+    "ks_kfold": 0.5503564047330787,
+    "ep": 0.005554985021479997,
+    "ks_dobras": [
+      0.5405217008474887,
+      0.573173863594673,
+      0.5436303387334316,
+      0.5794918998527246,
+      0.5198453608247423,
+      0.5356238764354111,
+      0.5680192244194152,
+      0.556259204712813,
+      0.5606774668630339,
+      0.536340206185567,
+      0.5470337894852698,
+      0.5724905528854973,
+      0.5612297496318115,
+      0.5008100147275405,
+      0.56019882179676
+    ],
+    "ks_oof": 0.5446273365001397,
+    "auc_oof": 0.845351357412827,
+    "mse_val": 0.13461271100379807,
+    "ce_val": 0.417391553595916,
+    "sementes": [
+      201,
+      202,
+      203
+    ],
+    "steps_mediana": 150
+  },
+  "sementes": [
+    201,
+    202,
+    203
+  ],
+  "modo_rapido": false
+}
