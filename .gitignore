@@ -29,3 +29,5 @@ Thumbs.db
 .idea/
 #analise de dados dos experimentos
 outputs/
+#coordenação de agentes
+handoff*

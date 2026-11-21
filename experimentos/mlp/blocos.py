@@ -40,6 +40,9 @@ CANDIDATAS = {
     "fibra_sem_protecao": lambda d: d.assign(fibra_sem_protecao=((d["InternetService_Fiber optic"] == 1) & (d[PROTECAO].sum(axis=1) == 0)).astype(int)),
     "atrito_pagamento": lambda d: d.assign(atrito_pagamento=((d["PaymentMethod_Electronic check"] == 1) & (d.PaperlessBilling == 1) & (d["Contract_Month-to-month"] == 1)).astype(int)),
     "sozinho": lambda d: d.assign(sozinho=((d.Partner == 0) & (d.Dependents == 0)).astype(int)),
+    # Fase 7: as que deram ganho no FT-Transformer (fases 6 e 7 do FT), com a mesma definicao de comum.FEATURES
+    **{n: (lambda n: lambda d: d.assign(**{n: comum.FEATURES[n](d)}))(n)
+       for n in ("cobranca_razao", "antigo", "caro_sem_backup")},
 }
 _cfg = dict(pasta=None, repeticoes=5, apos=None)
 

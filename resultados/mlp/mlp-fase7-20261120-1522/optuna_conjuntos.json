@@ -1,0 +1,17 @@
+{
+ "base": [
+  "cliente_novo",
+  "delta_preco",
+  "tenure_1"
+ ],
+ "p_cinco": [
+  "cliente_novo",
+  "delta_preco",
+  "tenure_1",
+  "cobranca_razao",
+  "antigo",
+  "caro_sem_backup",
+  "fibra_sem_protecao",
+  "atrito_pagamento"
+ ]
+}

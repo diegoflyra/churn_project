@@ -43,13 +43,13 @@ def _chave_cfg(c):
 
 # ---------------- medida no placar ----------------
 class _Preparos:
-    def __init__(self):
-        self.prep = {}
+    def __init__(self, D=None):
+        self.prep, self.D = {}, D
 
     def __call__(self, c, k):
         ch = (json.dumps([c["dados"], c["extras"]], sort_keys=True), k)
         if ch not in self.prep:
-            d = divs()[k]
+            d = (self.D or divs())[k]
             self.prep[ch] = F4._preparar(c, (d["treino"][d["ajuste"]], d["treino"][d["parada"]], d["validacao"]))
         return self.prep[ch]
 
@@ -73,9 +73,11 @@ def _semente(d, semente):
     return 42 + 1000 * d["semente"] + d["dobra"] + 100000 * semente
 
 
-def medir(configs, semente=0, n_jobs=1):
-    """Mede varias configuracoes no placar de uma vez (uma pilha so na GPU). Devolve comum.resumir_placar por config."""
-    prep, D = _Preparos(), divs()
+def medir(configs, semente=0, n_jobs=1, D=None):
+    """Mede varias configuracoes no placar de uma vez (uma pilha so na GPU). Devolve comum.resumir_placar por config.
+    D: outras divisoes do treino (a fase 7 mede a triagem e o Optuna nas sementes 201-203, nao nas do placar)."""
+    D = divs() if D is None else D
+    prep = _Preparos(D)
     ytr = np.asarray(_dados()[2])
     fase1 = []
     for c in configs:
