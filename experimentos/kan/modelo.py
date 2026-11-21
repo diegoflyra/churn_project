@@ -479,9 +479,9 @@ def avaliar_placar(hp, features=(), over=True, divs=None, path=comum.CAMINHO_CSV
     return medida
 
 
-def prever_teste(hp, features=(), over=True, steps=None, seed=42):
+def prever_teste(hp, features=(), over=True, steps=None, seed=42, path=comum.CAMINHO_CSV):
     """Treina a configuração congelada no treino oficial e só então prevê o teste."""
-    Xtr, Xtest, ytr, _ = comum.dividir(comum.carregar_df())
+    Xtr, Xtest, ytr, _ = comum.dividir(comum.carregar_df(path))
     Xfit, yfit, Xout = comum.preparar(Xtr, ytr, Xtest, features=features, over=over)
     config = refinar_hp(hp, steps=int(steps or hp["steps"]))
     model, _ = treinar(
