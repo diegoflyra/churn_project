@@ -1,7 +1,12 @@
 {
  "mlp": {
-  "rotulo": "s6_rmsprop_ks_p50",
-  "motivo": "Maior KS do placar entre as 59 versoes das fases 1-6 (0.5530); fase 6: parada pelo KS dos 20% internos, paciencia 50, sobre slides_otim_rmsprop. Contra a propria base empata (+0.0005); ganha do trial 0 (+0.0178)",
-  "data": "2026-11-16 21:03"
+  "rotulo": "m7_triagem",
+  "motivo": "Maior KS do placar entre as 61 versoes das fases 1-7 (0.5536); fase 7: o MLP adotado na fase 6 (s6_rmsprop_ks_p50) com as cinco features da analise de erro do FT (p_cinco). Contra s6_rmsprop_ks_p50 empata (-0.0007 no veredito pareado); ganha do trial 0 (+0.0171)",
+  "data": "2026-11-20 23:18"
+ },
+ "ft_transformer": {
+  "rotulo": "f7_triagem",
+  "motivo": "Maior KS do placar entre as versoes do FT nas fases 1-7 (0.5573); fase 7: o5_top3 com as cinco features da analise de erro (p_cinco). Contra o5_top3 e o5_top1_3redes empata. Exportado para o Hugging Face (5 sementes)",
+  "data": "2026-11-20 23:18"
  }
 }
